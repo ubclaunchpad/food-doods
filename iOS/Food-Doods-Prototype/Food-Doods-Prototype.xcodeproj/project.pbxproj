@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6C13013923558ED200BB7908 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C13013823558ED200BB7908 /* RootTabBarController.swift */; };
+		6C13013B23559D6000BB7908 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C13013A23559D6000BB7908 /* SceneDelegate.swift */; };
 		6C7796E02355871E00052EEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7796DF2355871E00052EEB /* AppDelegate.swift */; };
-		6C7796E22355871E00052EEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7796E12355871E00052EEB /* SceneDelegate.swift */; };
 		6C7796EA2355871F00052EEB /* Food_Doods_Prototype.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6C7796E82355871F00052EEB /* Food_Doods_Prototype.xcdatamodeld */; };
 		6C7796EC2355872200052EEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C7796EB2355872200052EEB /* Assets.xcassets */; };
 		6C7796EF2355872200052EEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C7796ED2355872200052EEB /* LaunchScreen.storyboard */; };
@@ -19,9 +19,9 @@
 
 /* Begin PBXFileReference section */
 		6C13013823558ED200BB7908 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
+		6C13013A23559D6000BB7908 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6C7796DC2355871E00052EEB /* Food-Doods-Prototype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food-Doods-Prototype.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C7796DF2355871E00052EEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6C7796E12355871E00052EEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6C7796E92355871F00052EEB /* Food_Doods_Prototype.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Food_Doods_Prototype.xcdatamodel; sourceTree = "<group>"; };
 		6C7796EB2355872200052EEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6C7796EE2355872200052EEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 			children = (
 				6C7796F82355887900052EEB /* ViewControllers */,
 				6C7796DF2355871E00052EEB /* AppDelegate.swift */,
-				6C7796E12355871E00052EEB /* SceneDelegate.swift */,
+				6C13013A23559D6000BB7908 /* SceneDelegate.swift */,
 				6C7796EB2355872200052EEB /* Assets.xcassets */,
 				6C7796ED2355872200052EEB /* LaunchScreen.storyboard */,
 				6C7796F02355872200052EEB /* Info.plist */,
@@ -156,7 +156,7 @@
 				6C7796F72355882200052EEB /* MainTableViewController.swift in Sources */,
 				6C7796E02355871E00052EEB /* AppDelegate.swift in Sources */,
 				6C7796EA2355871F00052EEB /* Food_Doods_Prototype.xcdatamodeld in Sources */,
-				6C7796E22355871E00052EEB /* SceneDelegate.swift in Sources */,
+				6C13013B23559D6000BB7908 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +295,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3Y9DB8JZGV;
 				INFOPLIST_FILE = "Food-Doods-Prototype/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -313,6 +314,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3Y9DB8JZGV;
 				INFOPLIST_FILE = "Food-Doods-Prototype/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
