@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FirstViewController.swift
 //  Food-Doods-Prototype
 //
 //  Created by Wren Liang on 2019-10-14.
@@ -8,15 +8,11 @@
 
 import UIKit
 
-class RootTabBarController: UIViewController {
-    
-    
+class MainTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
-
-
+    
 }
-
