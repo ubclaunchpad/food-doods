@@ -12,5 +12,9 @@ class SecondViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var newView = MainView()
+        self.view = newView
+        
+        
     }
 }
