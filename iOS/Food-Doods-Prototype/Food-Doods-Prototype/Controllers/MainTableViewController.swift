@@ -8,15 +8,13 @@
 
 import UIKit
 
-class MainTableViewController: UITableViewController {
+class PantryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
     }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Test Title"
-    }
+
     
 }
