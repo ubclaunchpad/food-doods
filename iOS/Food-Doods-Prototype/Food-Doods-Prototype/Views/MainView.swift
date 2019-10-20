@@ -11,7 +11,6 @@ import UIKit
 class MainView: UIView {
     lazy var text: UILabel = {
         let textLabel = UILabel()
-        //frame: CGRect(x: 0, y: 0, width: 200, height: 70)
         textLabel.textAlignment = .center
         textLabel.text = "Hello World"
         textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +31,6 @@ class MainView: UIView {
     }
     func setupView() {
         backgroundColor = .red
-        
         addSubview(text)
         setupConstraints()
     }

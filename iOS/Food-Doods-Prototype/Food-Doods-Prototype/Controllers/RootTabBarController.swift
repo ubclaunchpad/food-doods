@@ -13,7 +13,7 @@ class RootTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let firstViewController = NavigationController(rootViewController: MainTableViewController())
+        let firstViewController = NavigationController(rootViewController: PantryViewController())
         firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
         
         let secondViewController = SecondViewController()
@@ -22,6 +22,7 @@ class RootTabBarController: UITabBarController {
         let tabBarList = [firstViewController, secondViewController]
         viewControllers = tabBarList
 
+        let button = UIButton()
     }
 
 }

@@ -11,11 +11,6 @@ import UIKit
 
 class PantryView: UIView {
     //instance of tableView instantiated lazily
-    lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        
-        return tableView
-    }()
     
     lazy var segmentControl: UISegmentedControl = {
         let segments = ["All", "Pantry", "Fridge", "Dry"]
@@ -23,8 +18,14 @@ class PantryView: UIView {
         
         segmentControl.selectedSegmentIndex = 0
         segmentControl.addTarget(self, action: #selector(segmentSelected(sender:)), for: .valueChanged)
-
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentControl
+    }()
+    
+    lazy var tableView: UITableView = {
+        var table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
     }()
     
     //default false -> setting to true to allow contstraint based layout
@@ -40,13 +41,14 @@ class PantryView: UIView {
     
     //fallback if view doesn't initialize
     required init?(coder: NSCoder) {
+        super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
         setupView()
     }
     
     //custom view setup
     func setupView() {
-        
+        backgroundColor = .white
         addSubview(tableView)
         addSubview(segmentControl)
 
@@ -60,9 +62,13 @@ class PantryView: UIView {
     
     //MARK: Constraints Setup
     private func setupConstraints() {
-        segmentControl.topAnchor.constraint(equalTo: self.topAnchor, constant: CGFloat(20)).isActive = true
-        segmentControl.leftAnchor.constraint(equalTo: self.leftAnchor, constant: CGFloat(10)).isActive = true
-        segmentControl.rightAnchor.constraint(equalTo: self.leftAnchor, constant: CGFloat(10)).isActive = true
-        
+        segmentControl.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        segmentControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        segmentControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        segmentControl.heightAnchor.constraint(equalToConstant: 31).isActive = true
+        tableView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 }
