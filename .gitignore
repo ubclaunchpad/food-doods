@@ -3,3 +3,8 @@ iOS/Food-Doods-Prototype/Food-Doods-Prototype.xcodeproj/project.xcworkspace/xcus
 iOS/Food-Doods-Prototype/.DS_Store
 .DS_Store
 iOS/.DS_Store
+
+# General
+node_modules/
+dist/
+**/config/*.env

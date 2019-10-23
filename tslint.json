@@ -1,0 +1,23 @@
+{
+    "extends": ["tslint:recommended", "tslint-plugin-prettier", "tslint-config-prettier"],
+    "rules": {
+        "no-console": {
+            "severity": "off"
+        },
+        "no-default-export": true,
+        "no-var-requires": {
+            "severity": "off"
+        },
+        "max-line-length": {
+            "options": [120]
+        },
+        "max-file-line-count": [true, 350],
+        "object-literal-sort-keys": {
+            "severity": "off"
+        },
+        "prettier": true,
+        "quotemark": [true, "single", "avoid-escape", "avoid-template", "jsx-double"],
+        "semicolon": true,
+        "triple-equals": [true, "allow-null-check", "allow-undefined-check"]
+    }
+}
