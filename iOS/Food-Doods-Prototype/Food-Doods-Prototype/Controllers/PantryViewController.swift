@@ -12,11 +12,15 @@ class PantryViewController: UIViewController {
     var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        var newView = PantryView();
+        let newView = PantryView();
         tableView = newView.tableView
         self.view = newView
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Pantry"
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
+        tableView.separatorStyle = .none
         
     }
 
@@ -28,10 +32,19 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PantryCell", for: indexPath)
+        
+        guard let pantryCell = cell as? PantryTableViewCell else {
+            return cell
+        }
+        pantryCell.mainText.text = "THIS IS CARROT NUMBER \(indexPath.row+1)"
+        pantryCell.foodImage.image = UIImage(named: "carrot")
+        return pantryCell
     }
     
 }
