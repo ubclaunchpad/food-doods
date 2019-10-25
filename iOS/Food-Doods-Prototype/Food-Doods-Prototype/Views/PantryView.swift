@@ -24,7 +24,9 @@ class PantryView: UIView {
     
     lazy var tableView: UITableView = {
         var table = UITableView()
+        table.tableHeaderView = self.segmentControl
         table.translatesAutoresizingMaskIntoConstraints = false
+        
         return table
     }()
     
@@ -50,7 +52,7 @@ class PantryView: UIView {
     func setupView() {
         backgroundColor = .white
         addSubview(tableView)
-        addSubview(segmentControl)
+        //addSubview(segmentControl)
 
         setupConstraints()
     }
@@ -62,11 +64,13 @@ class PantryView: UIView {
     
     //MARK: Constraints Setup
     private func setupConstraints() {
-        segmentControl.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        
+        //segmentControl.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         segmentControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         segmentControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         segmentControl.heightAnchor.constraint(equalToConstant: 31).isActive = true
-        tableView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor).isActive = true
+        //tableView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
