@@ -1,9 +1,6 @@
 import { json, urlencoded } from 'body-parser';
-import * as dotenv from 'dotenv';
 import * as express from 'express';
 import { db } from './db';
-
-dotenv.config();
 
 const app = express();
 
