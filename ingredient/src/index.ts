@@ -7,6 +7,8 @@ dotenv.config();
 
 const app = express();
 
+const PORT = process.env.PORT || 9000;
+
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
@@ -20,6 +22,6 @@ app.get('/', (_, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server listening on port 3000');
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
 });
