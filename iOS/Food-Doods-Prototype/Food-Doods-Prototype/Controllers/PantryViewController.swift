@@ -47,4 +47,8 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         return pantryCell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.pushViewController(ItemViewController(), animated: true)
+    }
+    
 }
