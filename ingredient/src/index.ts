@@ -13,7 +13,7 @@ app.use(urlencoded({ extended: true }));
 app.get('/', (_, res) => {
     db.query('SELECT * from test', (error, results) => {
         if (error) {
-            res.status(500).send('Internal server error');
+            res.status(500).json(error);
         }
         res.status(200).json(results.rows);
     });
