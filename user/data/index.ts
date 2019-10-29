@@ -1,7 +1,7 @@
-import { MongoClient, Db } from "mongodb";
+import { MongoClient, Db } from 'mongodb';
 
 let _db: Db;
-const uri: string = process.env.MONGODB_URI || "mongodb://localhost:27017/test";
+const uri: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/test';
 
 function connect(collection: string, callback: (err?: any) => any): void {
     const client: MongoClient = new MongoClient(uri, { useUnifiedTopology: true });
@@ -20,7 +20,4 @@ function getDB(): Db {
     return _db;
 }
 
-export {
-    connect,
-    getDB
-};
+export { connect, getDB };
