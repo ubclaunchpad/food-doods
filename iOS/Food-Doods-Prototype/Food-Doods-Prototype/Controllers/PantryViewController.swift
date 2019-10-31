@@ -10,6 +10,8 @@ import UIKit
 
 class PantryViewController: UIViewController {
     var tableView: UITableView!
+    var itemArray: [Item] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let newView = PantryView();
@@ -22,6 +24,9 @@ class PantryViewController: UIViewController {
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
         tableView.separatorStyle = .none
         
+        itemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge))
+        itemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge))
+        itemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.pantry))
     }
 
 }
@@ -30,7 +35,7 @@ class PantryViewController: UIViewController {
 
 extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return itemArray.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -42,8 +47,10 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         guard let pantryCell = cell as? PantryTableViewCell else {
             return cell
         }
-        pantryCell.mainText.text = "THIS IS CARROT NUMBER \(indexPath.row+1)"
-        pantryCell.foodImage.image = UIImage(named: "carrot")
+        
+        let item = itemArray[indexPath.row]
+        pantryCell.mainText.text = item.name
+        pantryCell.foodImage.image = item.image
         return pantryCell
     }
     
