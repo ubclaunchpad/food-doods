@@ -59,7 +59,7 @@ class PantryView: UIView {
     
     @objc
     private func segmentSelected(sender: UISegmentedControl) {
-        print("a segment has been selected!")
+        print("\(sender.selectedSegmentIndex)segment has been selected!")
     }
     
     //MARK: Constraints Setup
