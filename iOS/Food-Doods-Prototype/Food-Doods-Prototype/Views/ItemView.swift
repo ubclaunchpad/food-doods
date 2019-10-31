@@ -64,7 +64,7 @@ class ItemView: UIView {
 
         
         itemIcon.topAnchor.constraint(equalTo: itemQuantity.bottomAnchor, constant: 0).isActive = true
-        itemIcon.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        itemIcon.heightAnchor.constraint(equalToConstant: 200).isActive = true
         itemIcon.leftAnchor.constraint(equalTo: leftAnchor, constant: 0).isActive = true
         itemIcon.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
         
