@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  gateway:
+    build: ./gateway
+    container_name: fooddood-gateway
+    command: npm run start:docker
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./gateway/:/usr/app/src
+      - ./config/:/usr/app/config
+  postgres:
+    image: postgres:11.5-alpine
+    container_name: fooddood-postgres
+    depends_on:
+      - "gateway"
+    environment:
+      POSTGRES_USER: fooddood
+      POSTGRES_PASSWORD: F00dd00D
+      POSTGRES_DB: db
+    ports: 
+      - "5432:5432"
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+      - ./db/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      
