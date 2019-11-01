@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import * as controllers from './user.controller';
 
-const router = Router();
+const userRouter = Router();
 
-router.post('/', controllers.addUser);
-router.delete('/', controllers.deleteUser);
+userRouter.post('/:userId', controllers.addUser);
+userRouter.delete('/:userId', controllers.deleteUser);
 
-export { router };
+export { userRouter };

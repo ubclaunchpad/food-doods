@@ -7,16 +7,10 @@ export const addIngredient = (req: Request, res: Response) => {
 
     return db
         .none(
-            `
-      insert into stored_ingredient
-      values ($1, $2);
-      `,
+            `insert into stored_ingredient
+        values ($1, $2)`,
             [userId, ingredientId]
         )
-        .then(() => {
-            res.status(201).end();
-        })
-        .catch((error) => {
-            res.status(500).json({ error });
-        });
+        .then(() => res.status(201).end())
+        .catch((error) => res.status(500).json({ error }));
 };

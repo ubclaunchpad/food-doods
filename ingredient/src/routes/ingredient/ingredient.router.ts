@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import * as controllers from './ingredient.controller';
 
-const router = Router();
+const ingredientRouter = Router();
 
-router.post('/:userId', controllers.addIngredient);
+ingredientRouter.post('/:userId', controllers.addIngredient);
 
-export { router };
+export { ingredientRouter };
