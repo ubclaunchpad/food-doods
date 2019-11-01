@@ -1,16 +1,18 @@
 import * as mongoose from 'mongoose';
 
 export interface IRecipes extends mongoose.Document {
-    user_id: string;
-    recipe_ids: array;
+    recipe_name: string;
+    description: string;
+    instructions: string[];
+    ingredients: string[];
 }
 
 export const Recipes = new mongoose.Schema({
-    name: {
+    recipe_name: {
         type: String,
     },
     description: {
-        type: Array,
+        type: String,
     },
     instructions: {
         type: Array,
