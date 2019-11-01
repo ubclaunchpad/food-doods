@@ -9,6 +9,18 @@ services:
     volumes:
       - ./gateway/:/usr/app/src
       - ./config/:/usr/app/config
+  ingredient:
+    build: ./ingredient
+    container_name: fooddood-ingredient
+    command: npm run start:docker
+    depends_on:
+      - "gateway"
+      - "postgres"
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./ingredient/:/usr/app/src
+      - ./config/:/usr/app/config
   postgres:
     image: postgres:11.5-alpine
     container_name: fooddood-postgres

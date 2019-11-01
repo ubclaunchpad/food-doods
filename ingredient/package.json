@@ -21,6 +21,7 @@
         "nodemon": "^1.19.4",
         "prettier": "^1.18.2",
         "ts-node": "^8.4.1",
+        "tsc-watch": "^4.0.0",
         "tslint": "^5.20.0",
         "tslint-config-prettier": "^1.18.0",
         "tslint-plugin-prettier": "^2.0.1",
@@ -31,7 +32,7 @@
         "lint": "tslint -c ../tslint.json ./src/**/*.ts",
         "start": "env-cmd -f ./config/dev.env node -r ts-node/register ./src/index.ts",
         "start:dev": "env-cmd -f ./config/dev.env nodemon",
-        "start:docker": "env-cmd -f ./config/dev.env node ./dist/index.js"
+        "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/index.js\""
     },
     "nodemonConfig": {
         "ignore": [
