@@ -1,6 +1,8 @@
 import { json, urlencoded } from 'body-parser';
 import * as express from 'express';
-import { db } from './db';
+
+import { ingredientRouter } from './routes/ingredient/ingredient.router';
+import { userRouter } from './routes/user/user.router';
 
 const app = express();
 
@@ -9,15 +11,8 @@ const PORT = process.env.PORT || 9000;
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-// test query
-app.get('/', (_, res) => {
-    db.query('SELECT * from ingredient', (error, results) => {
-        if (error) {
-            return res.status(500).json(error);
-        }
-        res.status(200).json(results.rows);
-    });
-});
+app.use('/ingredient/user', userRouter);
+app.use('/ingredient', ingredientRouter);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
