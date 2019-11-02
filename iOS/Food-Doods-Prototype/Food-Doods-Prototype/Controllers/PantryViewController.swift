@@ -106,7 +106,6 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         pantryCell.layer.borderColor = UIColor.black.cgColor
 
         
-        
         return pantryCell
     }
     
