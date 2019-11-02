@@ -1,19 +1,29 @@
 import express from 'express';
-import { connect, getDB } from '../data/index';
+import { IController } from './controllers/IController';
 
-const app: express.Application = express();
+class App {
+    private app: express.Application;
+    private port: string;
 
-const PORT: string = process.env.PORT || '8000';
+    constructor(port: string) {
+        this.app = express();
+        this.port = port;
 
-app.get('/', (req, res) => {
-    connect(
-        'test',
-        () => {
-            res.send('Connection successful!');
+        this.app.use(express.json());
+    }
+
+    public initializeControllers(controllers: Array<IController>): void {
+        for (const controller of controllers) {
+            controller.initializeRoutes();
+            this.app.use('/', controller.router);
         }
-    );
-});
+    }
 
-app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}!`);
-});
+    public listen(): void {
+        this.app.listen(this.port, () => {
+            console.log('This app is listening on the port ' + this.port + '!');
+        });
+    }
+}
+
+export { App };
