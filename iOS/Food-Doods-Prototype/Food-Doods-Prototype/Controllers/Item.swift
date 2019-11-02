@@ -13,11 +13,13 @@ struct Item {
     var name: String
     var image: UIImage?
     var location: FoodLocation
+    var amount: Int
     
-    init(name: String, image: UIImage?, location: FoodLocation) {
+    init(name: String, image: UIImage?, location: FoodLocation, amount: Int) {
         self.name = name
         self.image = image
         self.location = location
+        self.amount = amount
     }
 }
 

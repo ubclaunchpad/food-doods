@@ -9,13 +9,20 @@
 import UIKit
 
 class ItemViewController: UIViewController {
+    var item: Item?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let itemView = ItemView()
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Detailed Item View"
+        navigationItem.title = item?.name
+        itemView.itemIcon.image = item?.image
+        
+        if let amount = item?.amount {
+            itemView.itemQuantity.text = "Quantity: "  + "\(amount)g"
+        }
+        
         self.view = itemView
     }
     

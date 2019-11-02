@@ -13,7 +13,7 @@ class ItemView: UIView {
     lazy var itemQuantity: UILabel = {
         let title = UILabel()
 
-        title.text = "Item Quantity"
+        title.text = "Item Quantity: "
         title.translatesAutoresizingMaskIntoConstraints = false
         title.textAlignment = .center
         
@@ -48,7 +48,6 @@ class ItemView: UIView {
     
     private func setupView() {
         backgroundColor = .white
-        itemIcon.image = UIImage(named: "carrot")
         
         self.addSubview(itemQuantity)
         self.addSubview(itemIcon)
