@@ -23,6 +23,7 @@ struct Item {
 
 
 enum FoodLocation {
+    case all
     case pantry
     case fridge
     case dry

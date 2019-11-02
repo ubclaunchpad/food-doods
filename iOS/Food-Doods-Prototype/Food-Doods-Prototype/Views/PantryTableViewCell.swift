@@ -14,9 +14,7 @@ class PantryTableViewCell: UITableViewCell {
     lazy var foodImage: UIImageView = {
         let foodImage = UIImageView()
         foodImage.layer.masksToBounds = true
-        foodImage.layer.borderWidth = 3
-        foodImage.layer.borderColor = UIColor.red.cgColor
-        foodImage.layer.cornerRadius = 30
+        //foodImage.layer.cornerRadius = 30
         foodImage.contentMode = .scaleAspectFill
         foodImage.clipsToBounds = true
         foodImage.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +26,30 @@ class PantryTableViewCell: UITableViewCell {
         mainText.translatesAutoresizingMaskIntoConstraints = false
         return mainText
     }()
+    lazy var expiringText: UILabel = {
+        let mainText = UILabel()
+        mainText.font = UIFont(name: "Arial", size: 10)
+        mainText.textColor = .gray
+        mainText.text = "expiring in 2 days"
+        mainText.translatesAutoresizingMaskIntoConstraints = false
+        return mainText
+    }()
+    lazy var amountText: UILabel = {
+        let mainText = UILabel()
+        mainText.text = "300g"
+        mainText.font = UIFont(name: "Arial", size: 10)
+        mainText.textColor = .gray
+        mainText.translatesAutoresizingMaskIntoConstraints = false
+        return mainText
+    }()
+    lazy var sectionText: UILabel = {
+        let mainText = UILabel()
+        mainText.font = UIFont(name: "Arial", size: 10)
+        mainText.textColor = .gray
+        mainText.text = "location"
+        mainText.translatesAutoresizingMaskIntoConstraints = false
+        return mainText
+    }()
     override class var requiresConstraintBasedLayout: Bool {
         return true
     }
@@ -35,7 +57,10 @@ class PantryTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
     }
-    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+    }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
         setupView()
@@ -44,7 +69,15 @@ class PantryTableViewCell: UITableViewCell {
     func setupView() {
         addSubview(foodImage)
         addSubview(mainText)
+        addSubview(expiringText)
+        addSubview(amountText)
+        addSubview(sectionText)
         setupConstraints()
+        layer.cornerRadius = 50
+        layer.masksToBounds = false
+        clipsToBounds = true
+        layer.shadowColor = UIColor.gray.cgColor
+        layer.shadowOffset = CGSize(width: 2, height: 2)
     }
     
     func setupConstraints() {
@@ -53,9 +86,25 @@ class PantryTableViewCell: UITableViewCell {
         foodImage.heightAnchor.constraint(equalToConstant: 60).isActive = true
         foodImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         foodImage.widthAnchor.constraint(equalToConstant: 60).isActive = true
+    
         mainText.leftAnchor.constraint(equalTo: foodImage.rightAnchor, constant: 10).isActive = true
-        mainText.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        mainText.rightAnchor.constraint(equalTo: rightAnchor, constant: 10).isActive = true
-        mainText.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        mainText.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        mainText.rightAnchor.constraint(equalTo: rightAnchor, constant: -70).isActive = true
+        mainText.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        
+        amountText.leftAnchor.constraint(equalTo: mainText.rightAnchor, constant: 10).isActive = true
+        amountText.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        amountText.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        amountText.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        
+        sectionText.leftAnchor.constraint(equalTo: mainText.rightAnchor, constant: 10).isActive = true
+        sectionText.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        sectionText.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        sectionText.topAnchor.constraint(equalTo: amountText.bottomAnchor).isActive = true
+        
+        expiringText.leftAnchor.constraint(equalTo: foodImage.rightAnchor, constant: 10).isActive = true
+        expiringText.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        expiringText.rightAnchor.constraint(equalTo: rightAnchor, constant: -70).isActive = true
+        expiringText.topAnchor.constraint(equalTo: mainText.bottomAnchor).isActive = true
     }
 }

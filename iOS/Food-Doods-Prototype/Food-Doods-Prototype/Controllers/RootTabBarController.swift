@@ -31,17 +31,28 @@ class RootTabBarController: UITabBarController {
         firstViewController.tabBarItem = UITabBarItem()
         firstViewController.tabBarItem.title = "Pantry"
         firstViewController.tabBarItem.tag = 0
-        let secondViewController = SecondViewController()
+        
+        let secondViewController = NavigationController(rootViewController: RecipesViewController())
         secondViewController.tabBarItem = UITabBarItem()
         secondViewController.tabBarItem.title = "Recipes"
         secondViewController.tabBarItem.tag = 1
+        
+        let thirdViewController = NavigationController(rootViewController: ShoppingListViewController())
+        thirdViewController.tabBarItem = UITabBarItem()
+        thirdViewController.tabBarItem.title = "Shopping List"
+        thirdViewController.tabBarItem.tag = 2
+        
+        let fourthViewController = NavigationController(rootViewController: SettingsViewController())
+        fourthViewController.tabBarItem = UITabBarItem()
+        fourthViewController.tabBarItem.title = "Settings"
+        fourthViewController.tabBarItem.tag = 3
 
-        let tabBarList = [firstViewController, secondViewController]
+        let tabBarList = [firstViewController, secondViewController, thirdViewController, fourthViewController]
         viewControllers = tabBarList
 
         self.view.addSubview(button)
         //THIS NEEDS TO BE CHANGED LATER
-        button.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -70).isActive = true
+        button.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60).isActive = true
         button.heightAnchor.constraint(equalToConstant: 60).isActive = true
         button.widthAnchor.constraint(equalToConstant: 60).isActive = true
         button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true

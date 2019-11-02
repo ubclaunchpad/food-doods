@@ -10,12 +10,15 @@ import UIKit
 
 class PantryViewController: UIViewController {
     var tableView: UITableView!
+    var allItemArray: [Item] = []
     var itemArray: [Item] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let newView = PantryView();
         tableView = newView.tableView
+        newView.segmentControl.selectedSegmentIndex = 0
+        newView.segmentControl.addTarget(self, action: #selector(segmentSelected(sender:)), for: .valueChanged)
         self.view = newView
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Pantry"
@@ -24,9 +27,32 @@ class PantryViewController: UIViewController {
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
         tableView.separatorStyle = .none
         
-        itemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge))
-        itemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge))
-        itemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.pantry))
+        allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge))
+        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge))
+        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.pantry))
+        itemArray = allItemArray
+    }
+    
+    
+    
+    @objc
+    private func segmentSelected(sender: UISegmentedControl) {
+        var foodSection: FoodLocation?
+        switch(sender.selectedSegmentIndex) {
+        case 0: foodSection = .all
+        case 1: foodSection = .pantry
+        case 2: foodSection = .fridge
+        case 3: foodSection = .dry
+        default:
+            print("Fatal error")
+        }
+        itemArray = []
+        for item in allItemArray {
+            if item.location == foodSection || foodSection == .all {
+                itemArray.append(item)
+            }
+        }
+        self.tableView.reloadData()
     }
 
 }
@@ -47,7 +73,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         guard let pantryCell = cell as? PantryTableViewCell else {
             return cell
         }
-        
+
         let item = itemArray[indexPath.row]
         pantryCell.mainText.text = item.name
         pantryCell.foodImage.image = item.image
