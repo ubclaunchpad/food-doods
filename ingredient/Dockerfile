@@ -10,13 +10,7 @@ COPY package*.json ./
 # Install npm packages
 RUN npm install
 
-# Copy the remaining code (see .dockerignore if something is not showing up)
-ADD . /usr/app/src
-
-# Compile the server code
-RUN npm run build
-
 EXPOSE 9000
 
 # Run the server
-CMD ["npm", "run", "start"]
+CMD ["bin/sh", "npm", "run", "start:docker"]

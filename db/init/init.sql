@@ -1,11 +1,3 @@
-drop table ingredient;
-
-drop table id_map;
-
-drop table stored_ingredient;
-
-commit;
-
 create table ingredient
 (
   ingredient_id serial primary key,
