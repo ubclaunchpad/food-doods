@@ -27,9 +27,9 @@ class PantryViewController: UIViewController {
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
         tableView.separatorStyle = .none
         
-        allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge))
-        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge))
-        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.pantry))
+        allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge, amount: 300, expires: 5, shelfLife: 8))
+        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 3))
+        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.pantry, amount: 300, expires: 3, shelfLife: 23))
         itemArray = allItemArray
     }
     
@@ -77,11 +77,52 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         let item = itemArray[indexPath.row]
         pantryCell.mainText.text = item.name
         pantryCell.foodImage.image = item.image
+        pantryCell.expiringText.text = "expiring in \(item.expiresIn) days"
+        
+        
+        var percentage: Float = 1.0
+        if item.expiresIn < 6 {
+             let expires = Float (item.expiresIn)
+             percentage = expires / 7.0
+         }
+        
+        let color = calcColor(expiryPercentage: percentage, item: item)
+        
+        pantryCell.expiryBar.setProgress(percentage, animated: true)
+        pantryCell.expiryBar.tintColor = color
+        
         return pantryCell
     }
     
+    private func calcColor(expiryPercentage: Float, item: Item) -> UIColor {
+        var percentage = expiryPercentage
+        if item.expiresIn < 6 {
+            let expires = Float (item.expiresIn)
+            percentage = expires / 7.0
+        }
+        
+        
+        var red: CGFloat
+        var green: CGFloat
+        var blue: CGFloat = 0.0
+        
+        if percentage > 0.5 {
+            green = 1.0
+            red = CGFloat(percentage - 0.5)
+        } else {
+            green = CGFloat(percentage)
+            red = 1.0
+        }
+        
+        return UIColor(red: red, green: green, blue: blue, alpha: 0.5)
+    }
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(ItemViewController(), animated: true)
+        let pushVC = ItemViewController()
+        pushVC.item = itemArray[indexPath.row]
+        
+        navigationController?.pushViewController(pushVC, animated: true)
     }
     
 }
