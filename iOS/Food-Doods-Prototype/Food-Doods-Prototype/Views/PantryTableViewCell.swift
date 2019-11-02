@@ -50,6 +50,17 @@ class PantryTableViewCell: UITableViewCell {
         mainText.translatesAutoresizingMaskIntoConstraints = false
         return mainText
     }()
+    
+    lazy var expiryBar: UIProgressView = {
+        let bar = UIProgressView()
+        bar.setProgress(1.0, animated: true)
+        bar.tintColor = UIColor.green
+        
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        return bar
+    }()
+    
+    
     override class var requiresConstraintBasedLayout: Bool {
         return true
     }
@@ -72,6 +83,7 @@ class PantryTableViewCell: UITableViewCell {
         addSubview(expiringText)
         addSubview(amountText)
         addSubview(sectionText)
+        addSubview(expiryBar)
         setupConstraints()
         layer.cornerRadius = 50
         layer.masksToBounds = false
@@ -106,5 +118,10 @@ class PantryTableViewCell: UITableViewCell {
         expiringText.heightAnchor.constraint(equalToConstant: 20).isActive = true
         expiringText.rightAnchor.constraint(equalTo: rightAnchor, constant: -70).isActive = true
         expiringText.topAnchor.constraint(equalTo: mainText.bottomAnchor).isActive = true
+        
+        expiryBar.leftAnchor.constraint(equalTo: mainText.leftAnchor).isActive = true
+        expiryBar.rightAnchor.constraint(equalTo: sectionText.leftAnchor).isActive = true
+        expiryBar.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        expiryBar.topAnchor.constraint(equalTo: expiringText.bottomAnchor).isActive = true
     }
 }
