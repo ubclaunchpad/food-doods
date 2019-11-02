@@ -85,7 +85,7 @@ class PantryTableViewCell: UITableViewCell {
         addSubview(sectionText)
         addSubview(expiryBar)
         setupConstraints()
-        layer.cornerRadius = 50
+        layer.cornerRadius = 30
         layer.masksToBounds = false
         clipsToBounds = true
         layer.shadowColor = UIColor.gray.cgColor

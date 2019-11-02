@@ -60,8 +60,18 @@ class PantryViewController: UIViewController {
 
 
 extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return itemArray.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 5))
+        
+        return headerView
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -74,11 +84,11 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
 
-        let item = itemArray[indexPath.row]
+        //MARK: - Cell Population
+        let item = itemArray[indexPath.section]
         pantryCell.mainText.text = item.name
         pantryCell.foodImage.image = item.image
         pantryCell.expiringText.text = "expiring in \(item.expiresIn) days"
-        
         
         var percentage: Float = 1.0
         if item.expiresIn < 6 {
@@ -87,9 +97,15 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
          }
         
         let color = calcColor(expiryPercentage: percentage, item: item)
-        
         pantryCell.expiryBar.setProgress(percentage, animated: true)
         pantryCell.expiryBar.tintColor = color
+        
+
+        //MARK: - Layer Setup
+        pantryCell.layer.borderWidth = 1
+        pantryCell.layer.borderColor = UIColor.black.cgColor
+
+        
         
         return pantryCell
     }
