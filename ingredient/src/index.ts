@@ -11,9 +11,9 @@ app.use(urlencoded({ extended: true }));
 
 // test query
 app.get('/', (_, res) => {
-    db.query('SELECT * from test', (error, results) => {
+    db.query('SELECT * from ingredient', (error, results) => {
         if (error) {
-            res.status(500).json(error);
+            return res.status(500).json(error);
         }
         res.status(200).json(results.rows);
     });
