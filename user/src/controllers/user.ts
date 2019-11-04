@@ -1,11 +1,10 @@
 import { Request, Response, Router } from 'express';
 import { body, ValidationChain, validationResult } from 'express-validator';
 import { User } from '../models/User';
-import { UserManager } from '../models/UserManager';
+import { findUser, loginWithToken, registerUser, verifyUser } from '../models/userManager';
 
 const router: Router = Router();
 
-const userManager: UserManager = new UserManager();
 const userValidator: ValidationChain[] = [
     body('email')
         .not()
@@ -45,8 +44,7 @@ const postUser = async (req: Request, res: Response): Promise<Response> => {
     const user: any = { email, username, password, fullName, dateOfBirth, location: { city, province, country } };
 
     const newUser: User = new User(user);
-    return userManager
-        .registerUser(newUser)
+    return registerUser(newUser)
         .then((token: string) => {
             return res
                 .status(201)
@@ -62,8 +60,7 @@ const postUserLogin = async (req: Request, res: Response): Promise<Response> => 
     const { username, password } = req.body;
     const token: any = req.header('token');
 
-    return userManager
-        .verifyUser(username, password, token)
+    return verifyUser(username, password, token)
         .then((newToken: string | false) => {
             if (newToken) {
                 return res
@@ -84,8 +81,7 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
     const token: any = req.header('token');
 
     if (token) {
-        return userManager
-            .loginWithToken(token)
+        return loginWithToken(token)
             .then((newToken: string | false) => {
                 if (newToken) {
                     return res
@@ -100,7 +96,7 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
                 return res.status(422).json({ err });
             });
     } else {
-        const user: User = userManager.findUser(username);
+        const user: User = findUser(username);
         const { requestedFields } = req.body;
 
         const results: any = {};
