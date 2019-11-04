@@ -1,19 +1,14 @@
 import 'dotenv/config';
-import express from 'express';
-import { IController } from './controllers/IController';
-import { UserController } from './controllers/UserController';
+import express, { Application } from 'express';
+import { router as userRouter } from './controllers/user';
 
 const PORT: string = process.env.PORT || '8000';
 
-const app: express.Application = express();
+const app: Application = express();
 app.use(express.json());
 
-/* initialize controllers and routes */
-const userController: IController = new UserController('/user');
-userController.initializeRoutes();
-
 /* connect routers */
-app.use('/', userController.router);
+app.use('/', userRouter);
 
 app.listen(PORT, () => {
     console.log('This app is listening on the port ' + PORT + '!');
