@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { Document, model, Model, Schema } from 'mongoose';
-import { Location } from './Location';
+import { Document, model, Model, Schema, Types } from 'mongoose';
+import { createLocation, getLocationID, locationIsValid } from './location';
 
 class User {
     public static model: Model<Document> = model(
@@ -20,7 +20,6 @@ class User {
     private static readonly SALT_ROUNDS = 10;
 
     private user: Document;
-    private location: Location | undefined;
 
     public constructor(user: any) {
         const { email, username, password, fullName, dateOfBirth, location } = user;
@@ -34,9 +33,17 @@ class User {
             token: null,
         });
 
-        if (this.locationIsValid(location)) {
-            this.location = new Location(location);
-            this.user.set('location', this.location.getObjectID());
+        if (locationIsValid(location)) {
+            createLocation(location)
+                .then(() => {
+                    return getLocationID(location);
+                })
+                .then((locationId: Types.ObjectId) => {
+                    this.user.set('location', locationId);
+                })
+                .catch((err: any) => {
+                    throw err;
+                });
         }
     }
 
@@ -91,10 +98,6 @@ class User {
 
     private hashPassword(password: string): string {
         return bcrypt.hashSync(password, User.SALT_ROUNDS);
-    }
-
-    private locationIsValid(location: any): boolean {
-        return location.city !== undefined && location.province !== undefined && location.country !== undefined;
     }
 }
 
