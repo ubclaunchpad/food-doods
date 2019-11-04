@@ -9,7 +9,7 @@
     "scripts": {
         "build": "tsc",
         "lint": "tslint -c ../tslint.json ./src/**/*.ts",
-        "start": "node build/server.js",
+        "start": "node build/app.js",
         "start:dev": "nodemon -x \"npm run lint && npm run build && npm run start\""
     },
     "dependencies": {

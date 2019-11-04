@@ -1,29 +1,20 @@
+import 'dotenv/config';
 import express from 'express';
 import { IController } from './controllers/IController';
+import { UserController } from './controllers/UserController';
 
-class App {
-    private app: express.Application;
-    private port: string;
+const PORT: string = process.env.PORT || '8000';
 
-    constructor(port: string) {
-        this.app = express();
-        this.port = port;
+const app: express.Application = express();
+app.use(express.json());
 
-        this.app.use(express.json());
-    }
+/* initialize controllers and routes */
+const userController: IController = new UserController('/user');
+userController.initializeRoutes();
 
-    public initializeControllers(controllers: Array<IController>): void {
-        for (const controller of controllers) {
-            controller.initializeRoutes();
-            this.app.use('/', controller.router);
-        }
-    }
+/* connect routers */
+app.use('/', userController.router);
 
-    public listen(): void {
-        this.app.listen(this.port, () => {
-            console.log('This app is listening on the port ' + this.port + '!');
-        });
-    }
-}
-
-export { App };
+app.listen(PORT, () => {
+    console.log('This app is listening on the port ' + PORT + '!');
+});
