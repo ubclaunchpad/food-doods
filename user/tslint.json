@@ -1,0 +1,6 @@
+{
+    "extends": "../tslint.json",
+    "rules": {
+        "semicolon": [true, "always", "ignore-bound-class-methods"]
+    }
+}
