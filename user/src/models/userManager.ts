@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken';
+import { Document } from 'mongoose';
 import { connect } from '.';
-import { User } from './User';
+import { assignNewToken, passwordsMatch } from './user';
 
-const listOfUsers: User[] = [];
+const listOfUsers: Document[] = [];
 
-function findUser(username: string): User {
-    const user: User | undefined = listOfUsers.find((u: User) => {
-        return u.getUsername() === username;
+function findUser(username: string): Document {
+    const user: Document | undefined = listOfUsers.find((u: Document) => {
+        return u.get('username') === username;
     });
 
     if (user) {
@@ -16,13 +17,13 @@ function findUser(username: string): User {
     }
 }
 
-async function registerUser(user: User): Promise<string> {
+async function registerUser(user: Document): Promise<string> {
     const callback = async (err: any): Promise<string> => {
         if (err) {
             throw err;
         }
 
-        const token: string = user.assignNewToken();
+        const token: string = assignNewToken(user);
 
         listOfUsers.push(user);
         return user
@@ -38,21 +39,21 @@ async function registerUser(user: User): Promise<string> {
 }
 
 async function verifyUser(username: string, password: string, token: string): Promise<string | false> {
-    const user: User = findUser(username);
-    const passwordsMatch: boolean = await user.passwordsMatch(password);
+    const user: Document = findUser(username);
+    const match: boolean = await passwordsMatch(user, password);
     const secretKey: any = process.env.JWT_SECRET_KEY;
 
     if (secretKey) {
         try {
             const decoded: any = jwt.verify(token, secretKey, { maxAge: '168h' });
-            if (decoded.username === username && passwordsMatch) {
-                return user.assignNewToken();
+            if (decoded.username === username && match) {
+                return assignNewToken(user);
             }
         } catch (err) {
             switch (err.name) {
                 case 'TokenExpiredError':
-                    if (passwordsMatch) {
-                        return user.assignNewToken();
+                    if (match) {
+                        return assignNewToken(user);
                     }
                 default:
                     throw err;
@@ -69,9 +70,9 @@ async function loginWithToken(token: string) {
     const decoded: any = jwt.verify(token, secretKey, { maxAge: '168h' });
 
     if (decoded) {
-        const user = findUser(decoded);
-        if (decoded.username === user.getUsername()) {
-            return user.assignNewToken();
+        const user: Document = findUser(decoded);
+        if (user && decoded.username === user.get('username')) {
+            return assignNewToken(user);
         }
     }
     return false;
