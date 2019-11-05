@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { connect } from '.';
-import { assignNewToken, passwordsMatch } from './user';
+import { passwordsMatch } from './password';
+import { assignNewToken } from './user';
 
 const listOfUsers: Document[] = [];
 

@@ -1,9 +1,7 @@
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Document, model, Model, Schema, Types } from 'mongoose';
 import { createLocation, getLocationID, locationIsValid } from './location';
-
-const SALT_ROUNDS: number = 10;
+import { hashPassword } from './password';
 
 const UserModel: Model<Document> = model(
     'User',
@@ -53,14 +51,6 @@ async function createUser(user: any): Promise<Document> {
     });
 }
 
-function hashPassword(password: string): string {
-    return bcrypt.hashSync(password, SALT_ROUNDS);
-}
-
-async function passwordsMatch(user: Document, password: string): Promise<boolean> {
-    return bcrypt.compare(password, user.get('password'));
-}
-
 function assignNewToken(user: Document): string {
     const newToken: string = generateToken(user);
     user.set('token', newToken);
@@ -82,4 +72,4 @@ function generateToken(user: Document): string {
     return token;
 }
 
-export { createUser, hashPassword, passwordsMatch, assignNewToken };
+export { createUser, assignNewToken };
