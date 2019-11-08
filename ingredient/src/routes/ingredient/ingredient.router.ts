@@ -3,6 +3,10 @@ import * as controllers from './ingredient.controller';
 
 const ingredientRouter = Router();
 
-ingredientRouter.post('/:userId', controllers.addIngredient);
+ingredientRouter
+    .route('/:userId')
+    .post(controllers.addIngredient)
+    .put(controllers.updateIngredient)
+    .delete(controllers.deleteIngredient);
 
 export { ingredientRouter };

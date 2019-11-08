@@ -16,6 +16,8 @@ create table stored_ingredient
 (
   user_id int,
   ingredient_id int,
+  quantity int,
+  unit string,
   primary key (user_id, ingredient_id),
   foreign key (user_id) references id_map(internal_id) on delete cascade,
   foreign key (ingredient_id) references ingredient(ingredient_id) on delete cascade
