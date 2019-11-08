@@ -50,4 +50,4 @@ async function createUser(user: any): Promise<Document> {
     });
 }
 
-export { createUser };
+export { createUser, UserModel };

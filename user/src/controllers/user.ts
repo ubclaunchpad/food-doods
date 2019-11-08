@@ -100,7 +100,7 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
             });
     } else {
         const { requestedFields } = req.body;
-        const user: Document = findUser(username);
+        const user: Document = await findUser(username);
 
         const results: any = {};
         for (const field of requestedFields) {

@@ -3,10 +3,10 @@ import { Document } from 'mongoose';
 import { connect } from '.';
 import { passwordsMatch } from './password';
 import { assignNewToken } from './token';
+import { UserModel } from './user';
 
-const listOfUsers: Document[] = [];
-
-function findUser(username: string): Document {
+async function findUser(username: string): Promise<Document> {
+    const listOfUsers: Document[] = await retrieveUsers();
     const user: Document | undefined = listOfUsers.find((u: Document) => {
         return u.get('username') === username;
     });
@@ -18,29 +18,38 @@ function findUser(username: string): Document {
     }
 }
 
+async function retrieveUsers(): Promise<Document[]> {
+    return new Promise((resolve: any, reject: any) => {
+        UserModel.find({}, (error: any, users: Document[]) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(users);
+            }
+        });
+    });
+}
+
 async function registerUser(user: Document): Promise<string> {
-    const callback = async (err: any): Promise<string> => {
-        if (err) {
-            throw err;
+    const callback = async (error: any): Promise<string> => {
+        if (error) {
+            throw error;
         }
-
         const token: string = assignNewToken(user);
-
-        listOfUsers.push(user);
         return user
             .save()
             .then(() => {
                 return token;
             })
-            .catch((error: any) => {
-                throw error;
+            .catch((err: any) => {
+                throw err;
             });
     };
     return await connect(callback);
 }
 
 async function verifyUser(username: string, password: string, token: string): Promise<string | false> {
-    const user: Document = findUser(username);
+    const user: Document = await findUser(username);
     const match: boolean = await passwordsMatch(user, password);
     const secretKey: any = process.env.JWT_SECRET_KEY;
 
@@ -66,12 +75,12 @@ async function verifyUser(username: string, password: string, token: string): Pr
     }
 }
 
-async function loginWithToken(token: string) {
+async function loginWithToken(token: string): Promise<string | false> {
     const secretKey: any = process.env.JWT_SECRET_KEY;
     const decoded: any = jwt.verify(token, secretKey, { maxAge: '168h' });
 
     if (decoded) {
-        const user: Document = findUser(decoded);
+        const user: Document = await findUser(decoded);
         if (user && decoded.username === user.get('username')) {
             return assignNewToken(user);
         }
