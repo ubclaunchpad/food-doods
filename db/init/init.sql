@@ -69,30 +69,14 @@ values
 
 insert into unit
 values
-  (1, 'teaspoon (tsp)');
+  (1, 'ml');
 
 insert into unit
 values
-  (2, 'tablespoon (tbsp)');
+  (2, 'g');
 
 insert into unit
 values
-  (3, 'cup');
-
-insert into unit
-values
-  (4, 'ml');
-
-insert into unit
-values
-  (5, 'lb');
-
-insert into unit
-values
-  (6, 'g');
-
-insert into unit
-values
-  (7, 'item');
+  (3, 'item');
 
 commit;
