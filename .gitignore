@@ -8,3 +8,7 @@ iOS/.DS_Store
 node_modules/
 dist/
 **/config/*.env
+
+# Docker
+db/data
+db_m/
