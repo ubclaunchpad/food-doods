@@ -135,7 +135,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let pushVC = ItemViewController()
-        pushVC.item = itemArray[indexPath.row]
+        pushVC.item = itemArray[indexPath.section]
         
         navigationController?.pushViewController(pushVC, animated: true)
     }

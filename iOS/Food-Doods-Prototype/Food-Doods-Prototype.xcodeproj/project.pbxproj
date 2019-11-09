@@ -128,10 +128,10 @@
 				25288EAC236E0C72001BA957 /* RecipesViewController.swift */,
 				6C13013823558ED200BB7908 /* RootTabBarController.swift */,
 				6C7796F62355882200052EEB /* PantryViewController.swift */,
+				6C6BCA342363BDF400C61748 /* ItemViewController.swift */,
 				25288EAE236E1235001BA957 /* ShoppingListViewController.swift */,
 				25288EB0236E1244001BA957 /* SettingsViewController.swift */,
 				6C7796F92355891100052EEB /* SecondViewController.swift */,
-				6C6BCA342363BDF400C61748 /* ItemViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

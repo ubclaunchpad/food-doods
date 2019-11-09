@@ -16,12 +16,20 @@ class ItemViewController: UIViewController {
         
         let itemView = ItemView()
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = item?.name
+        navigationItem.title = "Item View"
         itemView.itemIcon.image = item?.image
         
+        itemView.itemName.text = item?.name
+        
         if let amount = item?.amount {
-            itemView.itemQuantity.text = "Quantity: "  + "\(amount)g"
+            itemView.itemQuantity.text = "\(amount)g"
         }
+        
+        if let expiry = item?.expiresIn {
+            itemView.expiryDate.text = "\(expiry) days"
+        }
+        
+
         
         self.view = itemView
     }
