@@ -15,9 +15,6 @@ class PantryView: UIView {
     lazy var segmentControl: UISegmentedControl = {
         let segments = ["All", "Pantry", "Fridge", "Dry"]
         let segmentControl = UISegmentedControl(items: segments)
-        
-        segmentControl.selectedSegmentIndex = 0
-        segmentControl.addTarget(self, action: #selector(segmentSelected(sender:)), for: .valueChanged)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentControl
     }()
@@ -55,11 +52,6 @@ class PantryView: UIView {
         //addSubview(segmentControl)
 
         setupConstraints()
-    }
-    
-    @objc
-    private func segmentSelected(sender: UISegmentedControl) {
-        print("\(sender.selectedSegmentIndex)segment has been selected!")
     }
     
     //MARK: Constraints Setup
