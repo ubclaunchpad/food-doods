@@ -30,6 +30,7 @@ class PantryViewController: UIViewController {
         allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge, amount: 300, expires: 5, shelfLife: 8))
         allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 3))
         allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.pantry, amount: 300, expires: 3, shelfLife: 23))
+        allItemArray.append(Item(name: "Chocolate", image: UIImage(named: "chocolate"), location: FoodLocation.pantry, amount: 50, expires: 30, shelfLife: 31))
         itemArray = allItemArray
     }
     
@@ -110,24 +111,32 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func calcColor(expiryPercentage: Float, item: Item) -> UIColor {
-        var percentage = expiryPercentage
-        if item.expiresIn < 6 {
-            let expires = Float (item.expiresIn)
-            percentage = expires / 7.0
-        }
-        
-        
         var red: CGFloat
         var green: CGFloat
         var blue: CGFloat = 0.0
         
-        if percentage > 0.5 {
-            green = 1.0
-            red = CGFloat(percentage - 0.5)
+        var percentage = expiryPercentage
+        
+        if item.expiresIn < 6 {
+            let expires = Float (item.expiresIn)
+            percentage = expires / 7.0
+            
+            if percentage > 0.5 {
+                green = 1.0
+                red = CGFloat(percentage - 0.5)
+            } else {
+                green = CGFloat(percentage)
+                red = 1.0
+            }
         } else {
-            green = CGFloat(percentage)
-            red = 1.0
+            green = 1.0
+            red = 0.0
         }
+        
+        
+        
+        
+        
         
         return UIColor(red: red, green: green, blue: blue, alpha: 0.5)
     }
