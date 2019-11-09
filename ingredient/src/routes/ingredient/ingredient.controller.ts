@@ -3,10 +3,10 @@ import { db } from '../../db';
 
 export const addIngredient = (req: Request, res: Response) => {
     const { userId } = req.params;
-    const { id } = req.body;
+    const { id, quantity, unit } = req.body;
 
     return db
-        .none('insert into stored_ingredient values ($1, $2, $3, $4)', [userId, id])
+        .none('insert into stored_ingredient values ($1, $2, $3, $4)', [userId, id, quantity, unit])
         .then(() => res.status(201).end())
         .catch((error) => res.status(500).json({ error }));
 };
@@ -39,5 +39,5 @@ export const deleteIngredient = (req: Request, res: Response) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-const getInternalId = (externalId) =>
+const getInternalId = (externalId: string) =>
     db.one('select internal_id from id_map where external_id = $1', [externalId], (data) => data.internal_id);
