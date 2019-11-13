@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { connect } from '.';
+import { addUserIngredient } from '../util/ingredient';
+import { addUserRecipe } from '../util/recipe';
 import { passwordsMatch } from './password';
 import { assignNewToken } from './token';
 import { UserModel } from './user';
@@ -38,6 +40,10 @@ async function registerUser(user: Document): Promise<string> {
         const token: string = assignNewToken(user);
         return user
             .save()
+            .then(() => {
+                const username: string = user.get('username');
+                return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
+            })
             .then(() => {
                 return token;
             })
