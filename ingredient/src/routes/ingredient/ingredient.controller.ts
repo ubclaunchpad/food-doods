@@ -1,5 +1,13 @@
 import { Request, Response } from 'express';
 import { db } from '../../db';
+import { search } from '../../util/api';
+
+export const searchIngredient = (req: Request, res: Response) => {
+    const query = req.query.q;
+    return search(query)
+        .then((data) => res.status(200).json(data))
+        .catch((error) => res.status(500).json({ error }));
+};
 
 export const addIngredient = (req: Request, res: Response) => {
     const { userId } = req.params;
