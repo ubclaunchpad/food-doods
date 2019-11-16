@@ -84,7 +84,6 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         guard let pantryCell = cell as? PantryTableViewCell else {
             return cell
         }
-
         //MARK: - Cell Population
         let item = itemArray[indexPath.section]
         pantryCell.mainText.text = item.name
@@ -100,11 +99,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         let color = calcColor(expiryPercentage: percentage, item: item)
         pantryCell.expiryBar.setProgress(percentage, animated: true)
         pantryCell.expiryBar.tintColor = color
-        
 
-        //MARK: - Layer Setup
-        pantryCell.layer.borderWidth = 1
-        pantryCell.layer.borderColor = UIColor.black.cgColor
 
         
         return pantryCell
@@ -143,6 +138,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let pushVC = ItemViewController()
         pushVC.item = itemArray[indexPath.section]
         
