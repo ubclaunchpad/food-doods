@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { db } from '../../db/connection';
+import { insertIntoIngredient } from '../../db/queries';
 import { search } from '../../util/api';
 import { parseResults } from '../../util/parser';
 

@@ -32,8 +32,8 @@
     "scripts": {
         "build": "tsc",
         "lint": "tslint -c ../tslint.json ./src/**/*.ts",
-        "start": "env-cmd -f ./config/dev.env node -r ts-node/register ./src/index.ts",
-        "start:dev": "env-cmd -f ./config/dev.env nodemon",
+        "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/index.ts",
+        "start:dev": "env-cmd -f ../config/dev.env nodemon",
         "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/index.js\""
     },
     "nodemonConfig": {
