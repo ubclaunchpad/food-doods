@@ -38,7 +38,8 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout, UICollectio
         guard let collectionCell = cell as? RecipeCollectionViewCell else {
             return cell
         }
-        collectionCell.backgroundColor = .red
+        collectionCell.recipeImage.image = UIImage(named: "carrot")
+        
         return collectionCell
     }
     
