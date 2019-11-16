@@ -10,6 +10,7 @@ import UIKit
 
 class EditItemViewController: UIViewController {
     var item: Item?
+    var itemIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -10,6 +10,7 @@ import UIKit
 
 class ItemViewController: UIViewController {
     var item: Item?
+    var itemIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,7 @@ class ItemViewController: UIViewController {
     private func editButtonPressed(sender: UIBarButtonItem) {
         let pushVC = EditItemViewController()
         pushVC.item = self.item
+        pushVC.itemIndex = self.itemIndex
         
         //can turn off animation to "pretend" we're on the same view, but different
         //bottom half of screen

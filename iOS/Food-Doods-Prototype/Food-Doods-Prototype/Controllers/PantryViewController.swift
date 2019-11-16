@@ -5,13 +5,18 @@
 //  Created by Wren Liang on 2019-10-14.
 //  Copyright © 2019 Wren Liang. All rights reserved.
 //
-
+ 
 import UIKit
+
+//MARK: Temporary Global Variables for Demo
+var allItemArray: [Item] = []
+var itemArray: [Item] = []
+
+
 
 class PantryViewController: UIViewController {
     var tableView: UITableView!
-    var allItemArray: [Item] = []
-    var itemArray: [Item] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,17 +26,29 @@ class PantryViewController: UIViewController {
         newView.segmentControl.addTarget(self, action: #selector(segmentSelected(sender:)), for: .valueChanged)
         self.view = newView
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Pantry"
+        navigationItem.title = "Ingredients"
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
         tableView.separatorStyle = .none
         
+        //Array Population
+        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 500, expires: 2, shelfLife: 3))
         allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge, amount: 300, expires: 5, shelfLife: 8))
-        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 3))
-        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.pantry, amount: 300, expires: 3, shelfLife: 23))
-        allItemArray.append(Item(name: "Chocolate", image: UIImage(named: "chocolate"), location: FoodLocation.pantry, amount: 50, expires: 30, shelfLife: 31))
+        allItemArray.append(Item(name: "Broccoli", image: UIImage(named: "broccoli"), location: FoodLocation.fridge, amount: 150, expires: 4, shelfLife: 7))
+        allItemArray.append(Item(name: "Chicken Breast", image: UIImage(named: "chickenbreast"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 5))
+        
+
+        //Pantry
+        allItemArray.append(Item(name: "Chocolate", image: UIImage(named: "chocolate"), location: FoodLocation.pantry, amount: 50, expires: 20, shelfLife: 31))
+        allItemArray.append(Item(name: "Peanut Butter", image: UIImage(named: "peanutbutter"), location: FoodLocation.pantry, amount: 350, expires: 80, shelfLife: 100))
+        
+        //Dry
+        allItemArray.append(Item(name: "Rice", image: UIImage(named: "rice"), location: FoodLocation.dry, amount: 1000, expires: 365, shelfLife: 500))
+        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.dry, amount: 300, expires: 60, shelfLife: 90))
+        
         itemArray = allItemArray
+        
     }
     
     
@@ -145,6 +162,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let pushVC = ItemViewController()
         pushVC.item = itemArray[indexPath.section]
+        pushVC.itemIndex = indexPath.section
         
         navigationController?.pushViewController(pushVC, animated: true)
     }

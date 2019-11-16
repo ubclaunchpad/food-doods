@@ -113,6 +113,7 @@ class EditItemView: UIView {
         if let inputText = nameInput.text {
             if (!inputText.isEmpty) {
                 itemName.text = inputText
+                
             }
             
         }

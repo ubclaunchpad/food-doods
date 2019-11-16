@@ -49,7 +49,6 @@ class PantryView: UIView {
     func setupView() {
         backgroundColor = .white
         addSubview(tableView)
-        //addSubview(segmentControl)
 
         setupConstraints()
     }

@@ -89,10 +89,10 @@
 				6C91D24D235BCA3B003F9DB2 /* PantryView.swift */,
 				6C91D24F235BCA49003F9DB2 /* RecipeView.swift */,
 				6C91D251235BCA52003F9DB2 /* ItemView.swift */,
+				6C370402237767A30049F004 /* EditItemView.swift */,
 				25178B12235C06DF00808C62 /* PantryTableViewCell.swift */,
 				25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */,
 				6C5726742376923C006BE5E5 /* ShoppingListView.swift */,
-				6C370402237767A30049F004 /* EditItemView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
