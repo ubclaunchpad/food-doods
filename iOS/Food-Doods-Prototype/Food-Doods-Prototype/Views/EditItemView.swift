@@ -103,26 +103,17 @@ class EditItemView: UIView {
         button.backgroundColor = UIColor.black
         button.setTitleColor(UIColor.white, for: .normal)
         
-        button.addTarget(self, action: #selector(savePressed(sender:)), for: .touchUpInside)
+        
         
         return button
     }()
-    
-    @objc
-    private func savePressed(sender: UIButton) {
-        if let inputText = nameInput.text {
-            if (!inputText.isEmpty) {
-                itemName.text = inputText
-                
-            }
-            
-        }
-    }
+
     
 
     override class var requiresConstraintBasedLayout: Bool {
       return true
     }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -132,6 +123,7 @@ class EditItemView: UIView {
         fatalError("init(coder:) has not been implemented")
         setupView()
     }
+    
     func setupView() {
         self.backgroundColor = .white
         

@@ -31,6 +31,16 @@ class EditItemViewController: UIViewController {
             itemView.expiryDate.text = "\(expiry) days"
         }
         
+        itemView.saveButton.addTarget(self, action: #selector(savePressed(sender:)), for: .touchUpInside)
+        
         self.view = itemView
     }
+    
+    @objc
+    private func savePressed(sender: UIButton) {
+        
+    }
+    
+    
+    
 }
