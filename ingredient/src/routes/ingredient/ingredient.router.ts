@@ -9,4 +9,6 @@ ingredientRouter
     .put(controllers.updateIngredient)
     .delete(controllers.deleteIngredient);
 
+ingredientRouter.route('/search').get(controllers.searchIngredient);
+
 export { ingredientRouter };

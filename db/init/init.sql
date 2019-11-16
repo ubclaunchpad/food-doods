@@ -1,6 +1,6 @@
 create table ingredient
 (
-  ingredient_id serial primary key,
+  ingredient_id text primary key,
   name text,
   category text
 );

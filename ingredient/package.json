@@ -7,6 +7,7 @@
     "author": "Narendra Syahrasyad",
     "license": "MIT",
     "dependencies": {
+        "axios": "^0.19.0",
         "body-parser": "^1.19.0",
         "express": "^4.17.1",
         "pg": "^7.12.1",
@@ -31,8 +32,8 @@
     "scripts": {
         "build": "tsc",
         "lint": "tslint -c ../tslint.json ./src/**/*.ts",
-        "start": "env-cmd -f ./config/dev.env node -r ts-node/register ./src/index.ts",
-        "start:dev": "env-cmd -f ./config/dev.env nodemon",
+        "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/index.ts",
+        "start:dev": "env-cmd -f ../config/dev.env nodemon",
         "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/index.js\""
     },
     "nodemonConfig": {
