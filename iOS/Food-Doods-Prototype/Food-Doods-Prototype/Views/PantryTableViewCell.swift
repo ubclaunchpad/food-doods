@@ -91,9 +91,9 @@ class PantryTableViewCell: UITableViewCell {
         contentView.layer.masksToBounds = false
         contentView.clipsToBounds = false
         contentView.layer.shadowColor = UIColor.gray.cgColor
-        contentView.layer.shadowOpacity = 1
+        contentView.layer.shadowOpacity = 0.2
         contentView.layer.shadowOffset = .zero
-        contentView.layer.shadowRadius = 4
+        contentView.layer.shadowRadius = 7
         contentView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-20, height: 103), cornerRadius: 30).cgPath
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
