@@ -78,21 +78,17 @@ class PantryViewController: UIViewController {
 
 
 extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return itemArray.count
-    }
-    
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 5))
-        
+        var headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 10))
         return headerView
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return itemArray.count
+
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 120
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,7 +98,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         //MARK: - Cell Population
-        let item = itemArray[indexPath.section]
+        let item = itemArray[indexPath.row]
         pantryCell.mainText.text = item.name
         pantryCell.foodImage.image = item.image
         pantryCell.expiringText.text = "expiring in \(item.expiresIn) days"
@@ -157,8 +153,8 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let pushVC = ItemViewController()
-        pushVC.item = itemArray[indexPath.section]
-        pushVC.itemIndex = indexPath.section
+        pushVC.item = itemArray[indexPath.row]
+        pushVC.itemIndex = indexPath.row
         
         navigationController?.pushViewController(pushVC, animated: true)
     }

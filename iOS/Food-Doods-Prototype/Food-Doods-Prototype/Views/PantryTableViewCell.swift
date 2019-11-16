@@ -72,7 +72,7 @@ class PantryTableViewCell: UITableViewCell {
     }
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10));
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10));
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -94,7 +94,7 @@ class PantryTableViewCell: UITableViewCell {
         contentView.layer.shadowOpacity = 1
         contentView.layer.shadowOffset = .zero
         contentView.layer.shadowRadius = 4
-        contentView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-20, height: 93), cornerRadius: 30).cgPath
+        contentView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-20, height: 103), cornerRadius: 30).cgPath
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
     }
@@ -104,7 +104,7 @@ class PantryTableViewCell: UITableViewCell {
         
         foodImage.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
         foodImage.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        foodImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        foodImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         foodImage.widthAnchor.constraint(equalToConstant: 60).isActive = true
     
         mainText.leftAnchor.constraint(equalTo: foodImage.rightAnchor, constant: 10).isActive = true
