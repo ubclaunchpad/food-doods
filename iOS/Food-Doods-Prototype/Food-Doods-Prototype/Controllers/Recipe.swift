@@ -12,12 +12,18 @@ import UIKit
 struct Recipe {
     var name: String
     var image: UIImage?
-    var ingredients: [Item]
+    var ingredientsNeeded: [Item]
+    var ingredientsOwned: [Item]
+    var time: Double
+    var difficulty: String
     
-    init(name: String, image: UIImage?, ingredients: [Item]) {
+    init(name: String, image: UIImage?, ingredientsNeeded: [Item], ingredientsOwned: [Item], time: Double, difficulty: String) {
         self.name = name
         self.image = image
-        self.ingredients = ingredients
+        self.ingredientsNeeded = ingredientsNeeded
+        self.ingredientsOwned = ingredientsOwned
+        self.time = time
+        self.difficulty = difficulty
     }
 }
 

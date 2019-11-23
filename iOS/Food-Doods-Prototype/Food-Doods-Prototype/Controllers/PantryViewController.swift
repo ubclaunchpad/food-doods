@@ -97,12 +97,13 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         guard let pantryCell = cell as? PantryTableViewCell else {
             return cell
         }
+        pantryCell.selectionStyle = .none
         //MARK: - Cell Population
         let item = itemArray[indexPath.row]
         pantryCell.mainText.text = item.name
         pantryCell.foodImage.image = item.image
         pantryCell.expiringText.text = "expiring in \(item.expiresIn) days"
-        
+        pantryCell.sectionText.text = "\(item.location)"
         var percentage: Float = 1.0
         if item.expiresIn < 6 {
              let expires = Float (item.expiresIn)

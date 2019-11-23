@@ -62,8 +62,8 @@ class RecipeView: UIView {
         
         
         collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
         

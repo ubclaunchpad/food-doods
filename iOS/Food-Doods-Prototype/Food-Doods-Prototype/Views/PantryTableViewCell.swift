@@ -112,12 +112,12 @@ class PantryTableViewCell: UITableViewCell {
         mainText.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -70).isActive = true
         mainText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30).isActive = true
         
-        amountText.leftAnchor.constraint(equalTo: mainText.rightAnchor, constant: 10).isActive = true
+        amountText.leftAnchor.constraint(equalTo: mainText.rightAnchor, constant: 25).isActive = true
         amountText.heightAnchor.constraint(equalToConstant: 20).isActive = true
         amountText.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
         amountText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30).isActive = true
         
-        sectionText.leftAnchor.constraint(equalTo: mainText.rightAnchor, constant: 10).isActive = true
+        sectionText.leftAnchor.constraint(equalTo: mainText.rightAnchor, constant: 25).isActive = true
         sectionText.heightAnchor.constraint(equalToConstant: 20).isActive = true
         sectionText.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
         sectionText.topAnchor.constraint(equalTo: amountText.bottomAnchor).isActive = true
@@ -128,7 +128,7 @@ class PantryTableViewCell: UITableViewCell {
         expiringText.topAnchor.constraint(equalTo: mainText.bottomAnchor).isActive = true
         
         expiryBar.leftAnchor.constraint(equalTo: mainText.leftAnchor).isActive = true
-        expiryBar.rightAnchor.constraint(equalTo: sectionText.leftAnchor).isActive = true
+        expiryBar.rightAnchor.constraint(equalTo: sectionText.leftAnchor, constant: -20).isActive = true
         expiryBar.heightAnchor.constraint(equalToConstant: 5).isActive = true
         expiryBar.topAnchor.constraint(equalTo: expiringText.bottomAnchor).isActive = true
     }
