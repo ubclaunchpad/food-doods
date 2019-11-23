@@ -9,6 +9,8 @@
 import UIKit
 
 class EditItemView: UIView {
+    var itemIndex: Int?
+    
     lazy var itemName: UILabel = {
         let label = UILabel()
         
@@ -103,10 +105,23 @@ class EditItemView: UIView {
         button.backgroundColor = UIColor.black
         button.setTitleColor(UIColor.white, for: .normal)
         
-        
+        button.addTarget(self, action: #selector(savePressed(sender:)), for: .touchUpInside)
         
         return button
     }()
+    
+    
+    @objc
+    private func savePressed(sender: UIButton) {
+        if let inputText = nameInput.text, let index = itemIndex {
+            if (!inputText.isEmpty) {
+                allItemArray[index].name = inputText
+                itemName.text = inputText
+            }
+        }
+        
+   }
+       
 
     
 

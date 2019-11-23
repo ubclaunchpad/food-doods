@@ -20,8 +20,8 @@ class EditItemViewController: UIViewController {
         navigationItem.title = "Edit Item"
         
         itemView.itemIcon.image = item?.image
-        
         itemView.itemName.text = item?.name
+        itemView.itemIndex = self.itemIndex
         
         if let amount = item?.amount {
             itemView.itemQuantity.text = "\(amount)g"
@@ -31,16 +31,12 @@ class EditItemViewController: UIViewController {
             itemView.expiryDate.text = "\(expiry) days"
         }
         
-        itemView.saveButton.addTarget(self, action: #selector(savePressed(sender:)), for: .touchUpInside)
+        
         
         self.view = itemView
     }
     
-    @objc
-    private func savePressed(sender: UIButton) {
-        
-    }
-    
+   
     
     
 }
