@@ -76,7 +76,6 @@ class RecipeCollectionViewCell: UICollectionViewCell {
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-        setupView()
     }
     
     func setupView() {

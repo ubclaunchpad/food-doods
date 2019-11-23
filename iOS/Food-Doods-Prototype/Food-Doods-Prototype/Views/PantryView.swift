@@ -42,7 +42,6 @@ class PantryView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
-        setupView()
     }
     
     //custom view setup
