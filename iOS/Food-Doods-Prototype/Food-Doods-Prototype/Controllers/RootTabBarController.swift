@@ -12,16 +12,20 @@ class RootTabBarController: UITabBarController {
 
     lazy var button: UIButton = {
         let button = UIButton()
-        button.layer.masksToBounds = true
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.gray.cgColor
+        button.clipsToBounds = true
+        button.layer.masksToBounds = false
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 30
-        button.backgroundColor = .black
+        button.backgroundColor = .white
         button.layer.shadowColor = UIColor.gray.cgColor
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        button.setTitle("Add", for: .normal)
-        button.clipsToBounds = true
+        button.layer.shadowOffset = .zero
+        button.layer.shadowOpacity = 1
+        button.layer.shadowRadius = 7
+        button.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 60, height: 60), cornerRadius: 30).cgPath
+        button.layer.shouldRasterize = true
+        button.layer.rasterizationScale = UIScreen.main.scale
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        
         return button
     }()
     override func viewDidLoad() {
@@ -31,21 +35,28 @@ class RootTabBarController: UITabBarController {
         firstViewController.tabBarItem = UITabBarItem()
         firstViewController.tabBarItem.title = "Pantry"
         firstViewController.tabBarItem.tag = 0
+        firstViewController.tabBarItem.image = UIImage(systemName: "tray.2")
         
         let secondViewController = NavigationController(rootViewController: RecipesViewController())
         secondViewController.tabBarItem = UITabBarItem()
         secondViewController.tabBarItem.title = "Recipes"
         secondViewController.tabBarItem.tag = 1
+        secondViewController.tabBarItem.image = UIImage(systemName: "book")
+
         
         let thirdViewController = NavigationController(rootViewController: ShoppingListViewController())
         thirdViewController.tabBarItem = UITabBarItem()
         thirdViewController.tabBarItem.title = "Shopping List"
         thirdViewController.tabBarItem.tag = 2
+        thirdViewController.tabBarItem.image = UIImage(systemName: "list.dash")
+
         
         let fourthViewController = NavigationController(rootViewController: SettingsViewController())
         fourthViewController.tabBarItem = UITabBarItem()
         fourthViewController.tabBarItem.title = "Settings"
         fourthViewController.tabBarItem.tag = 3
+        fourthViewController.tabBarItem.image = UIImage(systemName: "gear")
+
 
         let tabBarList = [firstViewController, secondViewController, thirdViewController, fourthViewController]
         viewControllers = tabBarList
