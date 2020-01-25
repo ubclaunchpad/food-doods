@@ -1,14 +1,16 @@
 //
-//  ItemView.swift
+//  EditItemView.swift
 //  Food-Doods-Prototype
 //
-//  Created by Wren Liang on 2019-10-19.
+//  Created by Wren Liang on 2019-11-09.
 //  Copyright © 2019 Wren Liang. All rights reserved.
 //
 
 import UIKit
 
-class ItemView: UIView {
+class EditItemView: UIView {
+    var itemIndex: Int?
+    
     lazy var itemName: UILabel = {
         let label = UILabel()
         
@@ -77,25 +79,67 @@ class ItemView: UIView {
         
         return image
     }()
- 
     
     
+    lazy var nameInput: UITextField = {
+        let textField = UITextField()
+        
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "Input Name"
+        textField.text = ""
+        
+        textField.borderStyle = UITextField.BorderStyle.bezel
+
+        
+        textField.textAlignment = .center
+        
+        return textField
+    }()
     
+    
+    lazy var saveButton: UIButton = {
+        let button = UIButton(type: .system)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Save!", for: .normal)
+        button.backgroundColor = UIColor.black
+        button.setTitleColor(UIColor.white, for: .normal)
+        
+        button.addTarget(self, action: #selector(savePressed(sender:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    
+    @objc
+    private func savePressed(sender: UIButton) {
+        if let inputText = nameInput.text, let index = itemIndex {
+            if (!inputText.isEmpty) {
+                allItemArray[index].name = inputText
+                itemName.text = inputText
+            }
+        }
+        
+   }
+       
+
+    
+
+    override class var requiresConstraintBasedLayout: Bool {
+      return true
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupView()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    private func setupView() {
-        backgroundColor = .white
+    func setupView() {
+        self.backgroundColor = .white
         
         self.addSubview(itemName)
         self.addSubview(amountText)
@@ -106,12 +150,13 @@ class ItemView: UIView {
         
         self.addSubview(itemIcon)
         
-        
+        self.addSubview(nameInput)
+        self.addSubview(saveButton)
         
         setupConstraints()
     }
     
-    //MARK: - Constraints Setup
+    //MARK: Constraints Setup
     private func setupConstraints() {
         //--- itemName Constraints ---//
         itemName.leftAnchor.constraint(equalTo: itemIcon.rightAnchor, constant: 21).isActive = true
@@ -138,9 +183,18 @@ class ItemView: UIView {
         itemIcon.leftAnchor.constraint(equalTo: leftAnchor, constant: 21).isActive = true
         itemIcon.widthAnchor.constraint(equalToConstant: 150).isActive = true
         itemIcon.heightAnchor.constraint(equalToConstant: 150).isActive = true
-
         
+        
+        //--- nameInput Constraints ---//
+        nameInput.topAnchor.constraint(equalTo: itemIcon.bottomAnchor, constant: 100).isActive = true
+        nameInput.leftAnchor.constraint(equalTo: leftAnchor, constant: 50).isActive = true
+        nameInput.rightAnchor.constraint(equalTo: rightAnchor, constant: -50).isActive = true
+        
+        //--- saveButton Constraints ---//
+        saveButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
+        saveButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        saveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        saveButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+
     }
-    
-    
 }

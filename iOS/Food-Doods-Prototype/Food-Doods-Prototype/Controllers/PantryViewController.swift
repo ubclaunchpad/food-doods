@@ -5,13 +5,18 @@
 //  Created by Wren Liang on 2019-10-14.
 //  Copyright © 2019 Wren Liang. All rights reserved.
 //
-
+ 
 import UIKit
+
+//MARK: Temporary Global Variables for Demo
+var allItemArray: [Item] = []
+var itemArray: [Item] = []
+
+
 
 class PantryViewController: UIViewController {
     var tableView: UITableView!
-    var allItemArray: [Item] = []
-    var itemArray: [Item] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,17 +26,29 @@ class PantryViewController: UIViewController {
         newView.segmentControl.addTarget(self, action: #selector(segmentSelected(sender:)), for: .valueChanged)
         self.view = newView
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Pantry"
+        navigationItem.title = "Ingredients"
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
         tableView.separatorStyle = .none
         
+        //Array Population
+        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 500, expires: 2, shelfLife: 3))
         allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge, amount: 300, expires: 5, shelfLife: 8))
-        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 3))
-        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.pantry, amount: 300, expires: 3, shelfLife: 23))
-        allItemArray.append(Item(name: "Chocolate", image: UIImage(named: "chocolate"), location: FoodLocation.pantry, amount: 50, expires: 30, shelfLife: 31))
+        allItemArray.append(Item(name: "Broccoli", image: UIImage(named: "broccoli"), location: FoodLocation.fridge, amount: 150, expires: 4, shelfLife: 7))
+        allItemArray.append(Item(name: "Chicken Breast", image: UIImage(named: "chickenbreast"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 5))
+        
+
+        //Pantry
+        allItemArray.append(Item(name: "Chocolate", image: UIImage(named: "chocolate"), location: FoodLocation.pantry, amount: 50, expires: 20, shelfLife: 31))
+        allItemArray.append(Item(name: "Peanut Butter", image: UIImage(named: "peanutbutter"), location: FoodLocation.pantry, amount: 350, expires: 80, shelfLife: 100))
+        
+        //Dry
+        allItemArray.append(Item(name: "Rice", image: UIImage(named: "rice"), location: FoodLocation.dry, amount: 1000, expires: 365, shelfLife: 500))
+        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.dry, amount: 300, expires: 60, shelfLife: 90))
+        
         itemArray = allItemArray
+        
     }
     
     
@@ -61,21 +78,17 @@ class PantryViewController: UIViewController {
 
 
 extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return itemArray.count
-    }
-    
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 5))
-        
+        var headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 10))
         return headerView
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return itemArray.count
+
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 120
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -84,13 +97,13 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         guard let pantryCell = cell as? PantryTableViewCell else {
             return cell
         }
-
+        pantryCell.selectionStyle = .none
         //MARK: - Cell Population
-        let item = itemArray[indexPath.section]
+        let item = itemArray[indexPath.row]
         pantryCell.mainText.text = item.name
         pantryCell.foodImage.image = item.image
         pantryCell.expiringText.text = "expiring in \(item.expiresIn) days"
-        
+        pantryCell.sectionText.text = "\(item.location)"
         var percentage: Float = 1.0
         if item.expiresIn < 6 {
              let expires = Float (item.expiresIn)
@@ -100,11 +113,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         let color = calcColor(expiryPercentage: percentage, item: item)
         pantryCell.expiryBar.setProgress(percentage, animated: true)
         pantryCell.expiryBar.tintColor = color
-        
 
-        //MARK: - Layer Setup
-        pantryCell.layer.borderWidth = 1
-        pantryCell.layer.borderColor = UIColor.black.cgColor
 
         
         return pantryCell
@@ -143,8 +152,10 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let pushVC = ItemViewController()
-        pushVC.item = itemArray[indexPath.section]
+        pushVC.item = itemArray[indexPath.row]
+        pushVC.itemIndex = indexPath.row
         
         navigationController?.pushViewController(pushVC, animated: true)
     }

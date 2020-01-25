@@ -10,6 +10,7 @@ import UIKit
 
 class ItemViewController: UIViewController {
     var item: Item?
+    var itemIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,6 +18,7 @@ class ItemViewController: UIViewController {
         let itemView = ItemView()
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Item View"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonPressed(sender:)))
         itemView.itemIcon.image = item?.image
         
         itemView.itemName.text = item?.name
@@ -29,9 +31,19 @@ class ItemViewController: UIViewController {
             itemView.expiryDate.text = "\(expiry) days"
         }
         
-
-        
         self.view = itemView
+    }
+    
+    @objc
+    private func editButtonPressed(sender: UIBarButtonItem) {
+        let pushVC = EditItemViewController()
+        pushVC.item = self.item
+        pushVC.itemIndex = self.itemIndex
+        
+        //can turn off animation to "pretend" we're on the same view, but different
+        //bottom half of screen
+        //OR, we can just do a proper segue to the new VC and have a new UI
+        navigationController?.pushViewController(pushVC, animated: false)
     }
     
 }
