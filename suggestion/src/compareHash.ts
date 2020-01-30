@@ -16,6 +16,12 @@ function compareHash(recipeHash: number, ingredientsHash: number): number {
     return Number((numIngredientsMatched / numIngredientsInRecipe).toFixed(5));
 }
 
+/**
+ * Counts the number of set bits (1s) in the given bit string.
+ *
+ * @param bitString - A hexadecimal or binary number
+ * @returns - The number of 1s in the given bit string.
+ */
 function _countOnes(bitString: number): number {
     let count: number = 0;
     while (bitString) {
