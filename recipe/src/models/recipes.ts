@@ -20,6 +20,9 @@ export const Recipes = new mongoose.Schema({
     ingredients: {
         type: Array,
     },
+    hash: {
+        type: String,
+    },
 });
 
 export const RecipesModel = mongoose.model<IRecipes>('Recipes', Recipes);

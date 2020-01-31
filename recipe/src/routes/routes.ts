@@ -19,6 +19,22 @@ export const initializeRecipeRoutes = (app: Application) => {
         }
     });
 
+    /* get all recipes - limit and skip can be sent through params */
+    recipeRouter.get('/', async (req, res) => {
+        try {
+            const recipes = RecipesModel.find()
+                .skip(Number(req.params.skip))
+                .limit(Number(req.params.limit));
+            if (recipes === null) {
+                throw new Error('No recipes found');
+            }
+            await res.json(recipes);
+        } catch (e) {
+            console.error(e);
+            res.status(500).send(e);
+        }
+    });
+
     /* get all the recipes of the user with user_id */
     recipeRouter.get('/user/:user_id', async (req, res) => {
         try {
