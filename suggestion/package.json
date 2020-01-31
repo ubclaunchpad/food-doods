@@ -18,6 +18,7 @@
     },
     "dependencies": {
         "express": "^4.17.1",
+        "mongoose": "^5.8.10",
         "request": "^2.88.0"
     },
     "devDependencies": {
