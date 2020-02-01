@@ -1,4 +1,7 @@
-import hashes from '../mocks/recipes'; // Change this data source to an API call
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+
+const hashes = readFileSync(resolve('mocks/hashes.json')).toJSON().data;
 
 /**
  * Randomly fetches a list of recipe hashes starting from `startIndex`
