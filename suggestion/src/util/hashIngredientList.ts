@@ -9,7 +9,7 @@
  */
 function hashIngredientList(ingredientList: number[]): string {
     const recipeLength: number = Math.max(...ingredientList);
-    const tempArr: number[] = Array(recipeLength + 1).fill(0);
+    const tempArr = Array(recipeLength + 1).fill(0);
 
     for (const ingredient of ingredientList) {
         tempArr[recipeLength - ingredient] = 1;

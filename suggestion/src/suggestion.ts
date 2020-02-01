@@ -27,6 +27,7 @@ suggestionService.get('/withIngredients', (req, res) => {
     }
 
     const recipeHashes = suggestRecipes(IDs, testThreshold);
+    console.log('returned from suggestRecipes');
 
     res.status(200).send('Result: ' + recipeHashes);
 });
@@ -70,25 +71,25 @@ suggestionService.listen(PORT, () => {
 ============ Sample POST request ============= 
 
 curl --header "Content-Type: application/json" \
-  --request POST \
+  --request GET \
   --data '{
     "userID": "123456789",
     "queryIngredients": [
         {
             "commonName": "broccoli",
-            "databaseID": "0xAC13FD"
+            "databaseID": 1
         },
         {
             "commonName": "beef",
-            "databaseID": "0xBEEF50"
+            "databaseID": 5
         },
         {
             "commonName": "garlic",
-            "databaseID": "0x30AXBB"
+            "databaseID": 13
         },
         {
             "commonName": "brown rice",
-            "databaseID": "0x00193E"
+            "databaseID": 7
         }
     ]
 }' \http://localhost:6000/withIngredients
