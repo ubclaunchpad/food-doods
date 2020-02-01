@@ -1,23 +1,23 @@
 import * as express from 'express';
 
-const gateway = express();
+const suggestionService = express();
 const PORT = 6000;
 
-gateway.use(express.json());
+suggestionService.use(express.json());
 
-gateway.get('/', (req, res) => {
+suggestionService.get('/', (req, res) => {
     res.status(200).send('Suggestion service endpoint');
 });
 
-gateway.get('/withIngredients', (req, res) => {
+suggestionService.get('/withIngredients', (req, res) => {
     res.status(200).send('Test API endpoint');
 });
 
-gateway.post('/', (req, res) => {
+suggestionService.post('/', (req, res) => {
     res.status(200).send('Received HTPP POST at URL: ' + req.url);
 });
 
-gateway.post('/withIngredients', (req, res) => {
+suggestionService.post('/withIngredients', (req, res) => {
     // const httpBody = JSON.parse(req.body);
     const httpBody = req.body;
     const numIngredients = httpBody.queryIngredients.length;
@@ -34,15 +34,15 @@ gateway.post('/withIngredients', (req, res) => {
     res.status(200).send(responseText);
 });
 
-gateway.put('/', (req, res) => {
+suggestionService.put('/', (req, res) => {
     res.status(200).send('Received HTTP PUT at URL: ' + req.url);
 });
 
-gateway.delete('/', (req, res) => {
+suggestionService.delete('/', (req, res) => {
     res.status(200).send('Received HTTP DELETE at URL: ' + req.url);
 });
 
-gateway.listen(PORT, () => {
+suggestionService.listen(PORT, () => {
     console.log(`[Suggestion] running on port ${PORT}`);
 });
 
