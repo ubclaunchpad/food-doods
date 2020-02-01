@@ -18,6 +18,7 @@
         "prettier": true,
         "quotemark": [true, "single", "avoid-escape", "avoid-template", "jsx-double"],
         "semicolon": [true, "always", "strict-bound-class-methods"],
-        "triple-equals": [true, "allow-null-check", "allow-undefined-check"]
+        "triple-equals": [true, "allow-null-check", "allow-undefined-check"],
+        "no-bitwise": false
     }
 }
