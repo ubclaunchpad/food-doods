@@ -1,3 +1,6 @@
+import * as fs from 'fs';
+import * as path from 'path';
+
 /**
  * Randomly generates `size` binary numbers with each binary number having `hashLength` bits.
  * @param size - Number of hashes generated
@@ -19,5 +22,6 @@ function getRandomBoolean() {
     return Math.random() > 0.5;
 }
 
-// Exports 50 random hashes by default
-export default generateRecipeHashes(50);
+// Save hashes as a list of binary strings
+const hashes = generateRecipeHashes(50).map((num) => num.toString(2));
+fs.writeFileSync(path.resolve('mocks/hashes.json'), JSON.stringify(hashes));
