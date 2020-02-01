@@ -16,29 +16,26 @@ const PER_PAGE = 25;
  */
 
 export const suggestRecipes = async (ingredientIds: number[], threshold: number) => {
-    const hashIngredients = Number(hashIngredientList(ingredientIds));
+    const hashIngredients = parseInt(hashIngredientList(ingredientIds), 2);
     const retRecipes = [];
     let pageCount = 0;
-    try {
-        while (retRecipes.length < NUM_OF_RECIPES) {
-            const recipes = await fetchRecipes(PER_PAGE, PER_PAGE * pageCount);
-            if (recipes === null) {
-                break;
-            }
-
-            for (const recipe of recipes) {
-                if (compareHash(Number(recipe), hashIngredients) >= threshold) {
-                    // TODO return recipes instead of Hashes
-                    retRecipes.push(recipe);
-                }
-                if (retRecipes.length === NUM_OF_RECIPES) {
-                    return retRecipes;
-                }
-            }
-            pageCount++;
+    while (retRecipes.length < NUM_OF_RECIPES) {
+        const recipes = fetchRecipes(PER_PAGE, PER_PAGE * pageCount);
+        if (recipes === null) {
+            break;
         }
-        return retRecipes;
-    } catch (err) {
-        throw new Error(err);
+
+        for (const recipe of recipes) {
+            if (compareHash(recipe, hashIngredients) >= threshold) {
+                retRecipes.push(recipe);
+            }
+            if (retRecipes.length === NUM_OF_RECIPES) {
+                // TODO return recipes instead of Hashes
+                return retRecipes;
+            }
+        }
+        pageCount++;
     }
+    // TODO return recipes instead of Hashes
+    return retRecipes;
 };
