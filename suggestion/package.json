@@ -9,6 +9,7 @@
     },
     "scripts": {
         "build": "tsc",
+        "generate-hash": "ts-node ./src/scripts/generateRecipeHashes.ts",
         "lint": "tslint -c ../tslint.json ./src/**/*.ts",
         "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/suggestion.ts",
         "start:dev": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/suggestion.js\"",
