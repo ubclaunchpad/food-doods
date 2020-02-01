@@ -1,4 +1,6 @@
+import { suggestRecipes } from './controller/suggestRecipe';
 import * as express from 'express';
+
 
 const suggestionService = express();
 const PORT = 6000;
@@ -10,7 +12,23 @@ suggestionService.get('/', (req, res) => {
 });
 
 suggestionService.get('/withIngredients', (req, res) => {
-    res.status(200).send('Test API endpoint');
+    // res.status(200).send('Test API endpoint');
+
+    const httpBody = req.body;
+    const numIngredients = httpBody.queryIngredients.length;
+
+    const testThreshold = 5;
+    console.log('Using test threshold: ' + testThreshold);
+
+    const IDs = [];
+
+    for (let i = 0; i < numIngredients; i++) {
+        IDs.push(httpBody.queryIngredients[i].databaseID);
+    }
+
+    const recipeHashes = suggestRecipes(IDs, testThreshold);
+
+    res.status(200).send('Result: ' + recipeHashes);
 });
 
 suggestionService.post('/', (req, res) => {
@@ -18,7 +36,6 @@ suggestionService.post('/', (req, res) => {
 });
 
 suggestionService.post('/withIngredients', (req, res) => {
-    // const httpBody = JSON.parse(req.body);
     const httpBody = req.body;
     const numIngredients = httpBody.queryIngredients.length;
     console.log('DEBUG: numIngredients = ' + numIngredients);

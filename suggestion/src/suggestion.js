@@ -1,20 +1,30 @@
 "use strict";
 exports.__esModule = true;
+var suggestRecipe_1 = require("./controller/suggestRecipe");
 var express = require("express");
-var gateway = express();
+var suggestionService = express();
 var PORT = 6000;
-gateway.use(express.json());
-gateway.get('/', function (req, res) {
+suggestionService.use(express.json());
+suggestionService.get('/', function (req, res) {
     res.status(200).send('Suggestion service endpoint');
 });
-gateway.get('/withIngredients', function (req, res) {
-    res.status(200).send('Test API endpoint');
+suggestionService.get('/withIngredients', function (req, res) {
+    // res.status(200).send('Test API endpoint');
+    var httpBody = req.body;
+    var numIngredients = httpBody.queryIngredients.length;
+    var testThreshold = 5;
+    console.log('Using test threshold: ' + testThreshold);
+    var IDs = [];
+    for (var i = 0; i < numIngredients; i++) {
+        IDs.push(httpBody.queryIngredients[i].databaseID);
+    }
+    var recipeHashes = suggestRecipe_1.suggestRecipes(IDs, testThreshold);
+    res.status(200).send('Result: ' + recipeHashes);
 });
-gateway.post('/', function (req, res) {
+suggestionService.post('/', function (req, res) {
     res.status(200).send('Received HTPP POST at URL: ' + req.url);
 });
-gateway.post('/withIngredients', function (req, res) {
-    // const httpBody = JSON.parse(req.body);
+suggestionService.post('/withIngredients', function (req, res) {
     var httpBody = req.body;
     var numIngredients = httpBody.queryIngredients.length;
     console.log('DEBUG: numIngredients = ' + numIngredients);
@@ -27,12 +37,40 @@ gateway.post('/withIngredients', function (req, res) {
     }
     res.status(200).send(responseText);
 });
-gateway.put('/', function (req, res) {
+suggestionService.put('/', function (req, res) {
     res.status(200).send('Received HTTP PUT at URL: ' + req.url);
 });
-gateway["delete"]('/', function (req, res) {
+suggestionService["delete"]('/', function (req, res) {
     res.status(200).send('Received HTTP DELETE at URL: ' + req.url);
 });
-gateway.listen(PORT, function () {
+suggestionService.listen(PORT, function () {
     console.log("[Suggestion] running on port " + PORT);
 });
+/*
+============ Sample POST request =============
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{
+    "userID": "123456789",
+    "queryIngredients": [
+        {
+            "commonName": "broccoli",
+            "databaseID": "0xAC13FD"
+        },
+        {
+            "commonName": "beef",
+            "databaseID": "0xBEEF50"
+        },
+        {
+            "commonName": "garlic",
+            "databaseID": "0x30AXBB"
+        },
+        {
+            "commonName": "brown rice",
+            "databaseID": "0x00193E"
+        }
+    ]
+}' \http://localhost:6000/withIngredients
+  
+*/
