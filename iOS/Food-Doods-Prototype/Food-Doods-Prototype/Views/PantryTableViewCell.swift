@@ -11,7 +11,7 @@ import UIKit
 
 class PantryTableViewCell: UITableViewCell {
     
-    lazy var foodImage: UIImageView = {
+    var foodImage: UIImageView = {
         let foodImage = UIImageView()
         foodImage.layer.masksToBounds = true
         //foodImage.layer.cornerRadius = 30
@@ -20,13 +20,13 @@ class PantryTableViewCell: UITableViewCell {
         foodImage.translatesAutoresizingMaskIntoConstraints = false
         return foodImage
     }()
-    lazy var mainText: UILabel = {
+    var mainText: UILabel = {
         let mainText = UILabel()
         mainText.text = "Cell"
         mainText.translatesAutoresizingMaskIntoConstraints = false
         return mainText
     }()
-    lazy var expiringText: UILabel = {
+    var expiringText: UILabel = {
         let mainText = UILabel()
         mainText.font = UIFont(name: "Arial", size: 10)
         mainText.textColor = .gray
@@ -34,7 +34,7 @@ class PantryTableViewCell: UITableViewCell {
         mainText.translatesAutoresizingMaskIntoConstraints = false
         return mainText
     }()
-    lazy var amountText: UILabel = {
+    var amountText: UILabel = {
         let mainText = UILabel()
         mainText.text = "300g"
         mainText.font = UIFont(name: "Arial", size: 10)
@@ -42,7 +42,7 @@ class PantryTableViewCell: UITableViewCell {
         mainText.translatesAutoresizingMaskIntoConstraints = false
         return mainText
     }()
-    lazy var sectionText: UILabel = {
+    var sectionText: UILabel = {
         let mainText = UILabel()
         mainText.font = UIFont(name: "Arial", size: 10)
         mainText.textColor = .gray
@@ -50,8 +50,7 @@ class PantryTableViewCell: UITableViewCell {
         mainText.translatesAutoresizingMaskIntoConstraints = false
         return mainText
     }()
-    
-    lazy var expiryBar: UIProgressView = {
+    var expiryBar: UIProgressView = {
         let bar = UIProgressView()
         bar.setProgress(1.0, animated: true)
         bar.tintColor = UIColor.green
@@ -59,7 +58,6 @@ class PantryTableViewCell: UITableViewCell {
         bar.translatesAutoresizingMaskIntoConstraints = false
         return bar
     }()
-    
     
     override class var requiresConstraintBasedLayout: Bool {
         return true

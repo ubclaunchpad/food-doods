@@ -9,7 +9,7 @@
 import UIKit
 
 class MainView: UIView {
-    lazy var text: UILabel = {
+    var text: UILabel = {
         let textLabel = UILabel()
         textLabel.textAlignment = .center
         textLabel.text = "Hello World"
