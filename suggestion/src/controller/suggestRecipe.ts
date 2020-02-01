@@ -21,7 +21,7 @@ export const suggestRecipes = async (ingredientIds: number[], threshold: number)
     let pageCount = 0;
     while (retRecipes.length < NUM_OF_RECIPES) {
         const recipes = fetchRecipes(PER_PAGE, PER_PAGE * pageCount);
-        if (recipes === null) {
+        if (recipes.length === 0) {
             break;
         }
 
