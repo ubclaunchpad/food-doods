@@ -1,19 +1,15 @@
-import express from 'express';
-import { connect, getDB } from '../data/index';
-
-const app: express.Application = express();
+import 'dotenv/config';
+import express, { Application } from 'express';
+import { router as userRouter } from './controllers/user';
 
 const PORT: string = process.env.PORT || '8000';
 
-app.get('/', (req, res) => {
-    connect(
-        'test',
-        () => {
-            res.send('Connection successful!');
-        }
-    );
-});
+const app: Application = express();
+app.use(express.json());
+
+/* connect routers */
+app.use('/', userRouter);
 
 app.listen(PORT, () => {
-    console.log(`Example app listening on port ${PORT}!`);
+    console.log('This app is listening on the port ' + PORT + '!');
 });

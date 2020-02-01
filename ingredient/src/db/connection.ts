@@ -6,6 +6,6 @@ const connection = {
     database: process.env.POSTGRES_DB || 'fooddoodsingredient',
     password: process.env.POSTGRES_PASS || 'password',
     port: Number(process.env.POSTGRES_PORT) || 5432,
-});
+};
 
 export const db = pgp()(connection);
