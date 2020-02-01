@@ -25,6 +25,7 @@ function compareHash(recipeHash: number, ingredientsHash: number): number {
 function _countOnes(bitString: number): number {
     let count: number = 0;
     while (bitString) {
+        // tslint:disable-next-line:no-bitwise
         bitString &= bitString - 1;
         count++;
     }
