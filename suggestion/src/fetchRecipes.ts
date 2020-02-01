@@ -7,7 +7,7 @@ const hashes = readFileSync(resolve('mocks/hashes.json')).toJSON().data;
  * Randomly fetches a list of recipe hashes starting from `startIndex`
  * up to a total of `limit` recipes.
  * @param limit - The maximum number of recipes returned.
- * @param startIndex - The index to start the search. Guarantees that the index of all hashes returned is greater than this index.
+ * @param startIndex - The index to start the search.
  * @returns A list of recipe hashes, the length of which is guaranteed to be <= `limit`.
  */
 function fetchRecipes(limit: number, startIndex: number = 0) {

@@ -7,8 +7,8 @@ import * as path from 'path';
  * @param hashLength - Number of bits of each hash
  */
 function generateRecipeHashes(size: number, hashLength: number = 16) {
-    const hashes = Array.from({ length: size }).fill(-1);
-    return hashes.map(() => {
+    const result = Array.from({ length: size }).fill(-1);
+    return result.map(() => {
         let hash = '';
         while (hash.length < hashLength) {
             const nextBit = getRandomBoolean() ? '1' : '0';
