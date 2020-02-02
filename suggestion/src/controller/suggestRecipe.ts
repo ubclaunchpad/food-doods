@@ -15,7 +15,7 @@ const PER_PAGE = 25;
  * @returns - First 5 recipes (or less than 5 recipes) from the DB that exceeds the threshold
  */
 
-export const suggestRecipes = async (ingredientIds: number[], threshold: number) => {
+export const suggestRecipes = (ingredientIds: number[], threshold: number) => {
     const hashIngredients = parseInt(hashIngredientList(ingredientIds), 2);
     const retRecipes = [];
     let pageCount = 0;

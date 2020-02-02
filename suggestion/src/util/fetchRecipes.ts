@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
-const hashes = readFileSync(resolve('mocks/hashes.json')).toJSON().data;
+const hashes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString());
 
 /**
  * Randomly fetches a list of recipe hashes starting from `startIndex`
