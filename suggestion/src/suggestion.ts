@@ -1,6 +1,5 @@
-import { suggestRecipes } from './controller/suggestRecipe';
 import * as express from 'express';
-
+import { suggestRecipes } from './controller/suggestRecipe';
 
 const suggestionService = express();
 const PORT = 6000;
