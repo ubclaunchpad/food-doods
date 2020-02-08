@@ -8,11 +8,14 @@
  * @returns - A bit string representing the ingredients needed for a recipe
  */
 function hashIngredientList(ingredientList: number[]): string {
-    const recipeLength: number = Math.max(...ingredientList);
+    const recipeLength: number = ingredientList.length ? Math.max(...ingredientList) : 0;
+    if (recipeLength == 0) { return '' }
     const tempArr = Array(recipeLength + 1).fill(0);
 
     for (const ingredient of ingredientList) {
-        tempArr[recipeLength - ingredient] = 1;
+        if (ingredient >= 0) {
+            tempArr[recipeLength - ingredient] = 1;
+        }
     }
 
     return tempArr.join('');
