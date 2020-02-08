@@ -1,5 +1,4 @@
 import * as express from 'express';
-import { suggestRecipes } from './controller/suggestRecipe';
 import * as suggestionRouter from './routes/suggestion';
 
 const suggestionService = express();

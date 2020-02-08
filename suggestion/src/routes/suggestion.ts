@@ -1,9 +1,10 @@
 import * as express from 'express';
+import { suggestRecipes } from '../controller/suggestRecipe';
 
 const router = express.Router();
 
-// GET /suggestion?ingredients=xyz
-router.get('/', (req, res) => {
+// POST /suggestion?ingredients=xyz
+router.post('/', (req, res) => {
     // res.status(200).send('Test API endpoint');
 
     const httpBody = req.body;
