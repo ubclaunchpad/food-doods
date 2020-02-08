@@ -6,7 +6,6 @@ export const initializeRecipeRoutes = (app: Application) => {
     const recipeRouter = Router();
     app.use('/recipe', recipeRouter);
 
-
     /* create a recipe */
     recipeRouter.post('/', async (req, res) => {
         const recipe = new RecipesModel(req.body);
@@ -68,5 +67,16 @@ export const initializeRecipeRoutes = (app: Application) => {
             res.status(500);
             res.json('Could not delete the user');
         }
+    });
+
+    /* TODO */
+    recipeRouter.get('/recipe/:recipe_id', async (req, res) => {
+        res.send('Test RR1');
+    });
+
+    /* TODO */
+    // GET /recipe?count=x$index=y
+    recipeRouter.get('/recipe', async (req, res) => {
+        res.send('Test RR2');
     });
 };
