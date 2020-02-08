@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
-const hashes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString());
+const hashes = readFileSync(resolve('mocks/hashes.json')).toJSON().data;
 
 /**
  * Randomly fetches a list of recipe hashes starting from `startIndex`
@@ -11,22 +11,21 @@ const hashes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString())
  * @returns A list of recipe hashes, the length of which is guaranteed to be <= `limit`.
  */
 function fetchRecipes(limit: number, startIndex: number = 0) {
-    const recipes = new Set();
+    const recipes = [];
+    const seen = new Set();
 
-    if (limit >= hashes.length) {
-        return hashes;
-    }
-
-    if (startIndex >= hashes.length) {
-        return [];
-    }
-
-    while (recipes.size < limit) {
+    while (recipes.length < limit && seen.size <= hashes.length) {
         const index = getRandomIndex(startIndex, hashes.length - 1);
-        recipes.add(hashes[index]);
+        let nextHash = hashes[index];
+        while (seen.has(nextHash) && seen.size <= hashes.length) {
+            const nextIndex = getRandomIndex(startIndex, hashes.length - 1);
+            nextHash = hashes[nextIndex];
+        }
+        recipes.push(nextHash);
+        seen.add(nextHash);
     }
 
-    return Array.from(recipes);
+    return recipes;
 }
 
 function getRandomIndex(min: number, max: number) {
