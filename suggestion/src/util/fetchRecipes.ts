@@ -10,8 +10,8 @@ const hashes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString())
  * @param startIndex - The index to start the search.
  * @returns A list of recipe hashes, the length of which is guaranteed to be <= `limit`.
  */
-function fetchRecipes(limit: number, startIndex: number = 0) {
-    const recipes = new Set();
+function fetchRecipes(limit: number, startIndex: number = 0): string[] {
+    const recipes = new Set<string>();
 
     if (limit >= hashes.length) {
         return hashes;
