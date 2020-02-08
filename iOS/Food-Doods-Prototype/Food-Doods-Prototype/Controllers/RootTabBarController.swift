@@ -26,8 +26,17 @@ class RootTabBarController: UITabBarController {
         button.layer.rasterizationScale = UIScreen.main.scale
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         
+        //MARK: TEMPORARY TEST ACTION
+        #warning("TEMPORARY BUTTON ACTION")
+        button.addTarget(self, action: #selector(network), for: .touchUpInside)
+        
         return button
     }()
+    
+    @objc func network() {
+        LocalHostTest.shared.testCall()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
