@@ -10,13 +10,13 @@ import UIKit
 
 
 class RecipeView: UIView {
-    lazy var searchBar: UISearchBar = {
+    var searchBar: UISearchBar = {
         let search = UISearchBar()
         search.translatesAutoresizingMaskIntoConstraints = false
         search.backgroundColor = .yellow
         return search
     }()
-    lazy var text: UILabel = {
+    var text: UILabel = {
         let textLabel = UILabel()
         textLabel.textAlignment = .center
         textLabel.text = "Hello World"
@@ -24,7 +24,7 @@ class RecipeView: UIView {
         return textLabel
     }()
     
-    lazy var collectionView: UICollectionView = {
+    var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)

@@ -13,9 +13,12 @@
 		25288EB1236E1244001BA957 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB0236E1244001BA957 /* SettingsViewController.swift */; };
 		25288EB3236E1329001BA957 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB2236E1329001BA957 /* Recipe.swift */; };
 		25288EB5236E2B92001BA957 /* RecipeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */; };
+		258C052723E6270A004209E2 /* ShoppingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */; };
 		25C236F9235A49DA0092EDE8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C236F8235A49DA0092EDE8 /* MainView.swift */; };
 		6C13013923558ED200BB7908 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C13013823558ED200BB7908 /* RootTabBarController.swift */; };
 		6C13013B23559D6000BB7908 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C13013A23559D6000BB7908 /* SceneDelegate.swift */; };
+		6C2E77D923EF62C800BC35EB /* NetworkUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2E77D823EF62C800BC35EB /* NetworkUtil.swift */; };
+		6C2E77DB23EF63D000BC35EB /* LocalHostTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2E77DA23EF63D000BC35EB /* LocalHostTest.swift */; };
 		6C370403237767A30049F004 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C370402237767A30049F004 /* EditItemView.swift */; };
 		6C37040523776B340049F004 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C37040423776B340049F004 /* EditItemViewController.swift */; };
 		6C5726752376923C006BE5E5 /* ShoppingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5726742376923C006BE5E5 /* ShoppingListView.swift */; };
@@ -40,9 +43,12 @@
 		25288EB0236E1244001BA957 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		25288EB2236E1329001BA957 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Recipe.swift; path = "Food-Doods-Prototype/Controllers/Recipe.swift"; sourceTree = SOURCE_ROOT; };
 		25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCollectionViewCell.swift; sourceTree = "<group>"; };
+		258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListTableViewCell.swift; sourceTree = "<group>"; };
 		25C236F8235A49DA0092EDE8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		6C13013823558ED200BB7908 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		6C13013A23559D6000BB7908 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		6C2E77D823EF62C800BC35EB /* NetworkUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUtil.swift; sourceTree = "<group>"; };
+		6C2E77DA23EF63D000BC35EB /* LocalHostTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalHostTest.swift; sourceTree = "<group>"; };
 		6C370402237767A30049F004 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
 		6C37040423776B340049F004 /* EditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
 		6C5726742376923C006BE5E5 /* ShoppingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListView.swift; sourceTree = "<group>"; };
@@ -91,10 +97,20 @@
 				6C91D251235BCA52003F9DB2 /* ItemView.swift */,
 				6C370402237767A30049F004 /* EditItemView.swift */,
 				25178B12235C06DF00808C62 /* PantryTableViewCell.swift */,
+				258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */,
 				25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */,
 				6C5726742376923C006BE5E5 /* ShoppingListView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		6C2E77D723EF62A800BC35EB /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				6C2E77D823EF62C800BC35EB /* NetworkUtil.swift */,
+				6C2E77DA23EF63D000BC35EB /* LocalHostTest.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		6C7796D32355871E00052EEB = {
@@ -116,6 +132,7 @@
 		6C7796DE2355871E00052EEB /* Food-Doods-Prototype */ = {
 			isa = PBXGroup;
 			children = (
+				6C2E77D723EF62A800BC35EB /* Util */,
 				25C236F7235A46980092EDE8 /* Views */,
 				25C236F6235A468F0092EDE8 /* Models */,
 				6C7796F82355887900052EEB /* Controllers */,
@@ -222,6 +239,7 @@
 				6C5726752376923C006BE5E5 /* ShoppingListView.swift in Sources */,
 				6C836498236B859A00ADDCFE /* Item.swift in Sources */,
 				6C7796F72355882200052EEB /* PantryViewController.swift in Sources */,
+				6C2E77DB23EF63D000BC35EB /* LocalHostTest.swift in Sources */,
 				6C91D250235BCA49003F9DB2 /* RecipeView.swift in Sources */,
 				25178B13235C06DF00808C62 /* PantryTableViewCell.swift in Sources */,
 				6C91D252235BCA52003F9DB2 /* ItemView.swift in Sources */,
@@ -232,8 +250,10 @@
 				25288EB1236E1244001BA957 /* SettingsViewController.swift in Sources */,
 				6C37040523776B340049F004 /* EditItemViewController.swift in Sources */,
 				25288EAF236E1235001BA957 /* ShoppingListViewController.swift in Sources */,
+				258C052723E6270A004209E2 /* ShoppingListTableViewCell.swift in Sources */,
 				6CDE9DEE2356396300142FCC /* NavigationController.swift in Sources */,
 				25288EB3236E1329001BA957 /* Recipe.swift in Sources */,
+				6C2E77D923EF62C800BC35EB /* NetworkUtil.swift in Sources */,
 				25288EAD236E0C72001BA957 /* RecipesViewController.swift in Sources */,
 				6C13013B23559D6000BB7908 /* SceneDelegate.swift in Sources */,
 				6C370403237767A30049F004 /* EditItemView.swift in Sources */,
@@ -373,7 +393,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3Y9DB8JZGV;
+				DEVELOPMENT_TEAM = 8VU5ULQ45F;
 				INFOPLIST_FILE = "Food-Doods-Prototype/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -392,7 +412,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3Y9DB8JZGV;
+				DEVELOPMENT_TEAM = 8VU5ULQ45F;
 				INFOPLIST_FILE = "Food-Doods-Prototype/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
