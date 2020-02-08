@@ -23,7 +23,7 @@
         "request": "^2.88.0"
     },
     "devDependencies": {
-        "@types/jest": "^24.9.1",
+        "@types/jest": "^24.0.23",
         "@types/node": "^12.7.4",
         "env-cmd": "^10.0.1",
         "jest": "^24.9.0",
