@@ -60,7 +60,7 @@ class RecipesViewController: UIViewController {
 
 extension RecipesViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/2.08, height: 250)
+        return CGSize(width: collectionView.frame.width, height: 310)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allRecipes.count
