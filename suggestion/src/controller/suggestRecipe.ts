@@ -16,15 +16,11 @@ const PER_PAGE = 25;
  */
 
 const suggestRecipes = (ingredientIds: number[], threshold: number): number[] => {
-    console.log('hello');
     const hashIngredients = parseInt(hashIngredientList(ingredientIds), 2);
-    console.log('finished hashList');
     const retRecipes = [];
     let pageCount = 0;
     while (retRecipes.length < NUM_OF_RECIPES) {
-        console.log('starting fetch');
-        const recipes = fetchRecipes(PER_PAGE, PER_PAGE * pageCount);
-        console.log('exited fetch');
+        const recipes = fetchRecipes(PER_PAGE, PER_PAGE * pageCount).map((str) => parseInt(str, 2));
         if (recipes.length === 0) {
             break;
         }
@@ -39,7 +35,6 @@ const suggestRecipes = (ingredientIds: number[], threshold: number): number[] =>
             }
         }
         pageCount++;
-        console.log(pageCount);
     }
     // TODO return recipes instead of Hashes
     return retRecipes;

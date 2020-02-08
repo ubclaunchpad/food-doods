@@ -10,8 +10,7 @@ router.post('/', (req, res) => {
     const httpBody = req.body;
     const numIngredients = httpBody.queryIngredients.length;
 
-    const testThreshold = 5;
-    console.log('Using test threshold: ' + testThreshold);
+    const testThreshold = 0.5;
 
     const IDs = [];
 
@@ -20,8 +19,6 @@ router.post('/', (req, res) => {
     }
 
     const recipeHashes = suggestRecipes(IDs, testThreshold);
-    console.log('returned from suggestRecipes');
-
     res.status(200).send('Result: ' + recipeHashes);
 });
 
