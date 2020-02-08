@@ -13,7 +13,7 @@
 function compareHash(recipeHash: number, ingredientsHash: number): number {
     const numIngredientsInRecipe: number = _countOnes(recipeHash);
     const numIngredientsMatched: number = _countOnes(recipeHash & ingredientsHash);
-    return Number((numIngredientsMatched / numIngredientsInRecipe).toFixed(5));
+    return numIngredientsInRecipe === 0 ? 0 : Number((numIngredientsMatched / numIngredientsInRecipe).toFixed(5));
 }
 
 /**
