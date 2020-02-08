@@ -7,8 +7,8 @@ import * as path from 'path';
  * @param hashLength - Number of bits of each hash
  */
 function generateRecipeHashes(size: number, hashLength: number = 16) {
-    const hashes = Array.from({ length: size }).fill(-1);
-    return hashes.map(() => {
+    const result = Array.from({ length: size }).fill(-1);
+    return result.map(() => {
         let hash = '';
         while (hash.length < hashLength) {
             const nextBit = getRandomBoolean() ? '1' : '0';
@@ -23,5 +23,5 @@ function getRandomBoolean() {
 }
 
 // Save hashes as a list of binary strings
-const hashes = generateRecipeHashes(50).map((num) => num.toString(2));
+const hashes = generateRecipeHashes(1000).map((num) => num.toString(2));
 fs.writeFileSync(path.resolve('mocks/hashes.json'), JSON.stringify(hashes));

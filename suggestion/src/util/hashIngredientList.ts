@@ -7,13 +7,15 @@
  * @param ingredientList - An array of numbers each representing an ingredient id
  * @returns - A bit string representing the ingredients needed for a recipe
  */
-function hashIngredientList(recipeHash: number[]): string {
-    const recipeLength: number = Math.max(...recipeHash);
-    const tempArr: number[] = Array(recipeLength + 1).fill(0);
+function hashIngredientList(ingredientList: number[]): string {
+    const recipeLength: number = ingredientList.length ? Math.max(...ingredientList) : 0;
+    if (recipeLength == 0) { return '' }
+    const tempArr = Array(recipeLength + 1).fill(0);
 
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < recipeHash.length; i++) {
-        tempArr[recipeLength - recipeHash[i]] = 1;
+    for (const ingredient of ingredientList) {
+        if (ingredient >= 0) {
+            tempArr[recipeLength - ingredient] = 1;
+        }
     }
 
     return tempArr.join('');
