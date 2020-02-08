@@ -9,7 +9,7 @@
 import UIKit
 
 class RecipeCollectionViewCell: UICollectionViewCell {
-    var recipeImage: UIImageView = {
+    lazy var recipeImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "carrot")
@@ -19,14 +19,14 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    var nameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Poutine"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
     }()
-    var timeLabel: UILabel = {
+    lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.text = "30 Minutes"
         label.font = UIFont.systemFont(ofSize: 11)
@@ -34,7 +34,7 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
-    var difficultyLabel: UILabel = {
+    lazy var difficultyLabel: UILabel = {
         let label = UILabel()
         label.text = "Easy"
         label.font = UIFont.systemFont(ofSize: 11)
@@ -42,7 +42,7 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
-    var ingredientLabel: UILabel = {
+    lazy var ingredientLabel: UILabel = {
         let label = UILabel()
         label.text = "4/15 Ingredients"
         label.font = UIFont.systemFont(ofSize: 11)

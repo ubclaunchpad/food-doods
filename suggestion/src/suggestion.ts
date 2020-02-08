@@ -7,7 +7,6 @@ const PORT = 8585;
 suggestionService.use(express.json());
 
 suggestionService.get('/', (req, res) => {
-    console.log('got request');
     res.status(200).send('Suggestion service endpoint');
 });
 

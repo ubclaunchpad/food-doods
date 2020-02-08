@@ -12,7 +12,7 @@ import UIKit
 class PantryView: UIView {
     //instance of tableView instantiated lazily
     
-    var segmentControl: UISegmentedControl = {
+    lazy var segmentControl: UISegmentedControl = {
         let segments = ["All", "Pantry", "Fridge", "Dry"]
         let segmentControl = UISegmentedControl(items: segments)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false

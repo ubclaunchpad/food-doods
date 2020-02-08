@@ -80,7 +80,7 @@ class PantryViewController: UIViewController {
 extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 10))
+        var headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 10))
         return headerView
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -122,7 +122,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     private func calcColor(expiryPercentage: Float, item: Item) -> UIColor {
         var red: CGFloat
         var green: CGFloat
-        let blue: CGFloat = 0.0
+        var blue: CGFloat = 0.0
         
         var percentage = expiryPercentage
         

@@ -10,7 +10,7 @@ import UIKit
 
 class ShoppingListView: UIView {
     
-    var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         
