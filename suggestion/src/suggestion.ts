@@ -21,7 +21,7 @@ suggestionService.listen(PORT, () => {
 ============ Sample POST request ============= 
 
 curl --header "Content-Type: application/json" \
-  --request GET \
+  --request POST \
   --data '{
     "userID": "123456789",
     "queryIngredients": [
@@ -42,6 +42,6 @@ curl --header "Content-Type: application/json" \
             "databaseID": 7
         }
     ]
-}' \http://localhost:6000/withIngredients
+}' \http://localhost:8585/suggestion
   
 */
