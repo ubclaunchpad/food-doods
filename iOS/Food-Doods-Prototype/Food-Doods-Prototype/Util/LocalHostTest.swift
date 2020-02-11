@@ -30,9 +30,32 @@ class LocalHostTest {
         
         let dataTask = URLSession.shared.dataTask(with: request) {
             (data, response, error) in
-            print(response)
-            if let responseData = data {
-                print(responseData)
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            if let response = response {
+                print("--- Response ---")
+                print(response)
+            }
+            
+            if let data = data {
+                print ("--- Data ---")
+                
+                let decodedData = try? JSONDecoder().decode(ResponseHashes.self, from: data)
+                
+                guard let data = decodedData else {
+                    print("Could not decode data")
+                    return
+                }
+                
+                for i in 0..<data.hashes.count {
+                    print("Hash #\(i): \(data.hashes[i])")
+                }
+                
+                //MARK: Deal with hashes here
+                //ie dispatch queue to update UI
             }
         }
         
