@@ -8,13 +8,24 @@
 
 import Foundation
 
-// MARK: - Response
+// MARK: - REQUEST DATA STRUCTURES
+
+//MARK: TestQuery
 struct TestQuery: Codable {
     let userID: String
     let queryIngredients: [QueryIngredient]
 }
 
-// MARK: - QueryIngredient
+// MARK: QueryIngredient
 struct QueryIngredient: Codable {
     let commonName, databaseID: String
 }
+
+
+
+
+// MARK: - RESPONSE DATA STRUCTURES
+struct ResponseHashes: Codable {
+    let hashes: [Int]
+}
+
