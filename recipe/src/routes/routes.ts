@@ -69,14 +69,15 @@ export const initializeRecipeRoutes = (app: Application) => {
         }
     });
 
-    /* TODO */
-    recipeRouter.get('/recipe/:recipe_id', async (req, res) => {
-        res.send('Test RR1');
-    });
+    // /* TODO */
+    // recipeRouter.get('/recipe/:recipe_id', async (req, res) => {
+    //     res.send('Test RR1');
+    // });
 
-    /* TODO */
-    // GET /recipe?count=x$index=y
-    recipeRouter.get('/recipe', async (req, res) => {
-        res.send('Test RR2');
-    });
+    // /* TODO */
+    // // GET /recipe?count=x$index=y
+    // recipeRouter.get('/recipe', async (req, res) => {
+    //     console.log("Hello")
+    //     res.send('Test RR2');
+    // });
 };
