@@ -40,4 +40,20 @@ const suggestRecipes = (ingredientIds: number[], threshold: number): number[] =>
     return retRecipes;
 };
 
-export { suggestRecipes };
+const suggestRecipeController = (req, res) => {
+    const httpBody = req.body;
+    const numIngredients = httpBody.queryIngredients.length;
+
+    const testThreshold = 0.5;
+
+    const IDs = [];
+
+    for (let i = 0; i < numIngredients; i++) {
+        IDs.push(httpBody.queryIngredients[i].databaseID);
+    }
+
+    const recipeHashes = suggestRecipes(IDs, testThreshold);
+    res.status(200).send('Result: ' + recipeHashes);
+};
+
+export { suggestRecipeController };
