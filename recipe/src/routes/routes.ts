@@ -69,15 +69,38 @@ export const initializeRecipeRoutes = (app: Application) => {
         }
     });
 
-    // /* TODO */
-    // recipeRouter.get('/recipe/:recipe_id', async (req, res) => {
-    //     res.send('Test RR1');
-    // });
+    /* gets a recipe associated to an id*/
+    recipeRouter.get('/recipe/:recipe_id', async (req, res) => {
+        try {
+            const recipe = await RecipesModel.findById(req.params.recipe_id);
+            if (recipe === null) {
+                throw new Error(`No recipe exists with id ${req.params.recipe_id}`);
+            }
+            else {
+                res.status(200);
+                await res.json(recipe);
+            }
+        } catch (e) {
+            res.status(500).send(`Could not get the recipe with id ${req.params.id} for ${e.message}`);
+        }
+    });
 
-    // /* TODO */
-    // // GET /recipe?count=x$index=y
-    // recipeRouter.get('/recipe', async (req, res) => {
-    //     console.log("Hello")
-    //     res.send('Test RR2');
-    // });
+    /* gets 'count' number of recipes starting at position 'index'*/
+    recipeRouter.get('/recipe', async (req, res) => {
+        try {
+            let { count, index } = req.query;
+            count = parseInt(count)
+            index = parseInt(index) - 1
+            const recipes = await RecipesModel.find().skip(index).limit(count);
+            if (recipes === null || recipes.length === 0) {
+                res.status(404).send(`No such recipes found with query ${req.query}`);
+            }
+            else {
+                res.status(200);
+                await res.json(recipes);
+            }
+        } catch (e) {
+            res.status(500).send(`Could not get the recipes with query ${req.query} for ${e.message}`);
+        }
+    });
 };
