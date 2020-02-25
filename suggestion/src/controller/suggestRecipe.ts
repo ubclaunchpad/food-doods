@@ -1,6 +1,10 @@
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { compareHash } from '../util/compareHash';
 import { fetchRecipes } from '../util/fetchRecipes';
 import { hashIngredientList } from '../util/hashIngredientList';
+
+const hashes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString());
 
 const NUM_OF_RECIPES = 5;
 const PER_PAGE = 25;
@@ -12,15 +16,16 @@ const PER_PAGE = 25;
  * Repeats the above process until it finds 5 recipes above the threshold
  * @param ingredientIds - An array of ingredientIds of the user
  * @param threshold - A threshold that determines which recipes to return
+ * @param source - Search space to look for recipes, defaults to hashes.json
  * @returns - First 5 recipes (or less than 5 recipes) from the DB that exceeds the threshold
  */
 
-const suggestRecipes = (ingredientIds: number[], threshold: number): number[] => {
+const suggestRecipes = (ingredientIds: number[], threshold: number, source: string[] = hashes): number[] => {
     const hashIngredients = parseInt(hashIngredientList(ingredientIds), 2);
     const retRecipes = [];
     let pageCount = 0;
     while (retRecipes.length < NUM_OF_RECIPES) {
-        const recipes = fetchRecipes(PER_PAGE, PER_PAGE * pageCount).map((str) => parseInt(str, 2));
+        const recipes = fetchRecipes(source, PER_PAGE, PER_PAGE * pageCount).map((str) => parseInt(str, 2));
         if (recipes.length === 0) {
             break;
         }
@@ -40,20 +45,4 @@ const suggestRecipes = (ingredientIds: number[], threshold: number): number[] =>
     return retRecipes;
 };
 
-const suggestRecipeController = (req, res) => {
-    const httpBody = req.body;
-    const numIngredients = httpBody.queryIngredients.length;
-
-    const testThreshold = 0.5;
-
-    const IDs = [];
-
-    for (let i = 0; i < numIngredients; i++) {
-        IDs.push(httpBody.queryIngredients[i].databaseID);
-    }
-
-    const recipeHashes = suggestRecipes(IDs, testThreshold);
-    res.status(200).send('Result: ' + recipeHashes);
-};
-
-export { suggestRecipeController };
+export { suggestRecipes };

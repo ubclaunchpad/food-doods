@@ -1,29 +1,25 @@
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
-
-const hashes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString());
-
 /**
  * Randomly fetches a list of recipe hashes starting from `startIndex`
  * up to a total of `limit` recipes.
+ * @param source - The search space
  * @param limit - The maximum number of recipes returned.
  * @param startIndex - The index to start the search.
  * @returns A list of recipe hashes, the length of which is guaranteed to be <= `limit`.
  */
-function fetchRecipes(limit: number, startIndex: number = 0): string[] {
+function fetchRecipes(source: string[], limit: number, startIndex: number = 0): string[] {
     const recipes = new Set<string>();
 
-    if (limit >= hashes.length) {
-        return hashes;
+    if (limit >= source.length) {
+        return source;
     }
 
-    if (startIndex >= hashes.length) {
+    if (startIndex >= source.length) {
         return [];
     }
 
     while (recipes.size < limit) {
-        const index = getRandomIndex(startIndex, hashes.length - 1);
-        recipes.add(hashes[index]);
+        const index = getRandomIndex(startIndex, source.length - 1);
+        recipes.add(source[index]);
     }
 
     return Array.from(recipes);
