@@ -74,7 +74,7 @@ export const initializeRecipeRoutes = (app: Application) => {
         try {
             const recipe = await RecipesModel.findById(req.params.recipe_id);
             if (recipe === null) {
-                res.status(404).send(`No such recipes found with query ${req.query}`);
+                res.status(404).send(`No such recipe found with query ${req.query}`);
             }
             else {
                 res.status(200);
