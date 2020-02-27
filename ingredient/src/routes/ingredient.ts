@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as controllers from '../controllers/ingredient';
+import * as controller from '../controllers/ingredient';
 
 /*
  * Responsible for managing general ingredient data within the application
@@ -13,7 +13,7 @@ const ingredientRouter = Router();
  *
  * TODO: migrate to user route
  */
-ingredientRouter.post('/:userId', controllers.addIngredient);
+ingredientRouter.post('/:userId', controller.addIngredient);
 
 /*
  * PUT /ingredient/:userId
@@ -22,7 +22,7 @@ ingredientRouter.post('/:userId', controllers.addIngredient);
  *
  * TODO: mirate to user route
  */
-ingredientRouter.put('/:userId', controllers.updateIngredient);
+ingredientRouter.put('/:userId', controller.updateIngredient);
 
 /*
  * DELETE /ingredient/:userId
@@ -31,13 +31,13 @@ ingredientRouter.put('/:userId', controllers.updateIngredient);
  *
  * TODO: migrate to user route
  */
-ingredientRouter.delete('/:userId', controllers.deleteIngredient);
+ingredientRouter.delete('/:userId', controller.deleteIngredient);
 
 /*
  * GET /ingredient/search
  *
  * Performs an Edamam API ingredient search
  */
-ingredientRouter.route('/search').get(controllers.searchIngredient);
+ingredientRouter.route('/search').get(controller.searchIngredient);
 
 export { ingredientRouter };

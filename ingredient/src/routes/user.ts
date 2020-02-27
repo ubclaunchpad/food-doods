@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as controllers from '../controllers/user';
+import * as controller from '../controllers/user';
 
 /*
  * Responsible for handling user-owned ingredient lists within the application
@@ -18,13 +18,13 @@ const userRouter = Router();
  *
  * generates a new user within the service database
  */
-userRouter.post('/:userId', controllers.addUser);
+userRouter.post('/:userId', controller.addUser);
 
 /*
  * DELETE /user/:id
  *
  * delete a user and their ingredient inventory from the service database
  */
-userRouter.delete('/:userId', controllers.deleteUser);
+userRouter.delete('/:userId', controller.deleteUser);
 
 export { userRouter };
