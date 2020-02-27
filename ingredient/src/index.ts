@@ -15,5 +15,5 @@ app.use('/ingredient/user', userRouter);
 app.use('/ingredient', ingredientRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+    console.log(`[Ingredient] listening on port ${PORT}`);
 });
