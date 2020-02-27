@@ -1,4 +1,4 @@
-import { IIngredient, ISearchResult, ISearchResultItem } from '../types/_master';
+import { IIngredient, ISearchResult, ISearchResultItem } from '../types/_master-types';
 
 export const parseResults = (searchResult: ISearchResult): IIngredient[] => {
     const { parsed, hints } = searchResult;
