@@ -1,20 +1,6 @@
-import { IIngredient } from '../types';
+import { IIngredient, ISearchResult, ISearchResultItem } from '../types/_master';
 
-interface ISearchResults {
-    text: string;
-    parsed: ISearchResultItem[];
-    hints: ISearchResultItem[];
-}
-
-interface ISearchResultItem {
-    food: {
-        foodId: string;
-        label: string;
-        category: string;
-    };
-}
-
-export const parseResults = (searchResult: ISearchResults): IIngredient[] => {
+export const parseResults = (searchResult: ISearchResult): IIngredient[] => {
     const { parsed, hints } = searchResult;
     const topResults = parsed.filter(isFood).map(parseIntoIngredient);
     const hintResults = hints.filter(isFood).map(parseIntoIngredient);
