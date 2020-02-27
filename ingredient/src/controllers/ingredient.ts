@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { db } from '../../db/connection';
-import { insertIntoIngredient } from '../../db/queries';
-import { search } from '../../util/api';
-import { parseResults } from '../../util/parser';
+import { db } from '../db/connection';
+import { insertIntoIngredient } from '../db/queries';
+import { search } from '../util/api';
+import { parseResults } from '../util/parser';
 
 export const searchIngredient = (req: Request, res: Response) => {
     const query = req.query.q;
