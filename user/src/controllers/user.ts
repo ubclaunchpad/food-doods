@@ -3,6 +3,7 @@ import { body, ValidationChain, validationResult } from 'express-validator';
 import { Document } from 'mongoose';
 import { createUser } from '../models/user';
 import { findUser, loginWithToken, registerUser, verifyUser } from '../models/userManager';
+import { getUserSuggestion } from '../util/suggestion';
 
 const router: Router = Router();
 
@@ -119,8 +120,21 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
+const postUserSuggestion = async (req: Request, res: Response): Promise<Response> => {
+    const { username } = req.body;
+
+    return getUserSuggestion(username)
+        .then((recipes: object[]) => {
+            return res.status(200).json({ recipes });
+        })
+        .catch((error: any) => {
+            return res.status(404).json({ error });
+        });
+};
+
 router.get('/user', getUser);
 router.post('/user', userValidator, postUser);
 router.post('/user/login', postUserLogin);
+router.post('/suggestion', postUserSuggestion);
 
 export { router };
