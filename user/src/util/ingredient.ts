@@ -20,4 +20,14 @@ const deleteUserIngredient = async (username: string): Promise<any> => {
         });
 };
 
-export { addUserIngredient, deleteUserIngredient };
+const getUserIngredients = async (username: string): Promise<any> => {
+    return fetch(INGREDIENT_URL + '/user/' + username, { method: 'GET' })
+        .then((res: any) => {
+            return res;
+        })
+        .catch((error: any) => {
+            return error;
+        });
+};
+
+export { addUserIngredient, deleteUserIngredient, getUserIngredients };
