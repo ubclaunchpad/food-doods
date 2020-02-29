@@ -15,7 +15,7 @@ class TestViewController: UIViewController {
         var testButton = UIButton()
         testButton.translatesAutoresizingMaskIntoConstraints = false
         testButton.layer.cornerRadius = 100
-        testButton.backgroundColor = .green
+        testButton.backgroundColor = .blue
         testButton.setTitle("Test", for: .normal)
         
         self.view.addSubview(testButton)
@@ -28,7 +28,7 @@ class TestViewController: UIViewController {
     }
     
     @objc func testAPIButton() {
-        //MARK: TODO: Wren testing API
+        LocalHostTest.shared.testCall()
     }
 }
 
