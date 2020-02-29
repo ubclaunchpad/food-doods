@@ -24,9 +24,17 @@ class LocalHostTest {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        request.httpBody = assembleJSON()
-        
         //MARK: ATTACH LIST OF INGREDIENTS TO JSON BODY
+        let testIngredients: [QueryIngredient] = [
+            QueryIngredient(commonName: "broccoli", databaseID: "1"),
+            QueryIngredient(commonName: "beef", databaseID: "5"),
+            QueryIngredient(commonName: "brown rice", databaseID: "7"),
+            QueryIngredient(commonName: "garlic", databaseID: "13")
+        ]
+        
+        request.httpBody = assembleJSON(testIngredients)
+        
+        
         
         let dataTask = URLSession.shared.dataTask(with: request) {
             (data, response, error) in
@@ -62,15 +70,10 @@ class LocalHostTest {
         dataTask.resume()
     }
     
-    private func assembleJSON() -> Data? {
-        let testIngredients: [QueryIngredient] = [
-            QueryIngredient(commonName: "broccoli", databaseID: "1"),
-            QueryIngredient(commonName: "beef", databaseID: "5"),
-            QueryIngredient(commonName: "brown rice", databaseID: "7"),
-            QueryIngredient(commonName: "garlic", databaseID: "13")
-        ]
+    private func assembleJSON(_ ingredients: [QueryIngredient]) -> Data? {
         
-        let query = TestQuery(userID: "wrennyboy", queryIngredients: testIngredients)
+        
+        let query = TestQuery(userID: "wrennyboy", queryIngredients: ingredients)
         
         let packagedQuery = try? JSONEncoder().encode(query)
         
