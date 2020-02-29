@@ -2,9 +2,9 @@
     "name": "food-doods-ingredient",
     "version": "0.0.1",
     "description": "The ingredient service for the Food Doods app.",
-    "main": "index.js",
+    "main": "server.js",
     "repository": "https://github.com/ubclaunchpad/food-doods",
-    "author": "Narendra Syahrasyad",
+    "author": "Narendra Syahrasyad, Connor Fong, UBC LaunchPad",
     "license": "MIT",
     "dependencies": {
         "axios": "^0.19.0",
@@ -32,9 +32,9 @@
     "scripts": {
         "build": "tsc",
         "lint": "tslint -c ../tslint.json ./src/**/*.ts",
-        "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/index.ts",
+        "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/server.ts",
         "start:dev": "env-cmd -f ../config/dev.env nodemon",
-        "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/index.js\""
+        "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/server.js\""
     },
     "nodemonConfig": {
         "ignore": [
