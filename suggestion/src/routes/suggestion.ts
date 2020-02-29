@@ -5,8 +5,6 @@ const router = express.Router();
 
 // POST /suggestion?ingredients=xyz
 router.post('/', (req, res) => {
-    // res.status(200).send('Test API endpoint');
-
     const httpBody = req.body;
     const numIngredients = httpBody.queryIngredients.length;
 
@@ -19,7 +17,9 @@ router.post('/', (req, res) => {
     }
 
     const recipeHashes = suggestRecipes(IDs, testThreshold);
-    res.status(200).send('Result: ' + recipeHashes);
+
+    // return as a json object with key "hashes"
+    res.status(200).json({ hashes: recipeHashes });
 });
 
 module.exports = router;
