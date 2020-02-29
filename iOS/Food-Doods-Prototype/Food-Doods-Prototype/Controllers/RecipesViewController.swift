@@ -20,9 +20,16 @@ class RecipesViewController: UIViewController {
         newView.collectionView.register(RecipeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         self.view = newView
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(openFilter))
+        navigationController?.navigationBar.backgroundColor = UIColor(named: "menuColor")
         navigationItem.title = "Recipes"
         
         setupMockData()
+    }
+    @objc func openFilter() {
+        //MARK: TODO
+        let newVC =  FilterViewController()
+        navigationController?.pushViewController(newVC, animated: true)
     }
     func setupMockData()  {
         var mockIngredients: [Item] = []
@@ -78,6 +85,12 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout, UICollectio
         collectionCell.difficultyLabel.text = allRecipes[indexPath.item].difficulty
         
         return collectionCell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newVC = RecipeDetailedViewController()
+        
+        newVC.model = allRecipes[indexPath.item]
+        navigationController?.pushViewController(newVC, animated: true)
     }
     
     

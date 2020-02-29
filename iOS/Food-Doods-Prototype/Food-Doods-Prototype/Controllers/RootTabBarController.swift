@@ -65,9 +65,15 @@ class RootTabBarController: UITabBarController {
         fourthViewController.tabBarItem.title = "Settings"
         fourthViewController.tabBarItem.tag = 3
         fourthViewController.tabBarItem.image = UIImage(systemName: "gear")
+        
+        let fifthVC = TestViewController()
+        fifthVC.tabBarItem = UITabBarItem()
+        fifthVC.tabBarItem.title = "TESTING"
+        fifthVC.tabBarItem.tag = 3
+        fifthVC.tabBarItem.image = UIImage(systemName: "pencil-slash")
 
 
-        let tabBarList = [firstViewController, secondViewController, thirdViewController, fourthViewController]
+        let tabBarList = [firstViewController, secondViewController, thirdViewController, fourthViewController, fifthVC]
         viewControllers = tabBarList
 
         self.view.addSubview(button)
