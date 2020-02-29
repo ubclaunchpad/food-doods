@@ -17,8 +17,7 @@ class ShoppingListViewController: UIViewController {
         tableView = newView.tableView
         tableView.dataSource = self
         tableView.delegate = self
-        //TODO: Change
-        tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "ShoppingCell")
+        tableView.register(ShoppingListTableViewCell.self, forCellReuseIdentifier: "ShoppingCell")
         tableView.separatorStyle = .none
         
         
@@ -37,7 +36,7 @@ extension ShoppingListViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 80
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -1,3 +1,5 @@
+"use strict";
+exports.__esModule = true;
 /**
  * Given an array of numbers each representing an ingredient id,
  * this function maps and returns a bitstring representation of the array
@@ -7,18 +9,13 @@
  * @param ingredientList - An array of numbers each representing an ingredient id
  * @returns - A bit string representing the ingredients needed for a recipe
  */
-function hashIngredientList(ingredientList: number[]): string {
-    const recipeLength: number = ingredientList.length ? Math.max(...ingredientList) : 0;
-    if (recipeLength == 0) { return '' }
-    const tempArr = Array(recipeLength + 1).fill(0);
-
-    for (const ingredient of ingredientList) {
-        if (ingredient >= 0) {
-            tempArr[recipeLength - ingredient] = 1;
-        }
+function hashIngredientList(ingredientList) {
+    var recipeLength = Math.max.apply(Math, ingredientList);
+    var tempArr = Array(recipeLength + 1).fill(0);
+    for (var _i = 0, ingredientList_1 = ingredientList; _i < ingredientList_1.length; _i++) {
+        var ingredient = ingredientList_1[_i];
+        tempArr[recipeLength - ingredient] = 1;
     }
-
     return tempArr.join('');
 }
-
-export { hashIngredientList };
+exports.hashIngredientList = hashIngredientList;

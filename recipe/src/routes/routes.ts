@@ -6,7 +6,6 @@ export const initializeRecipeRoutes = (app: Application) => {
     const recipeRouter = Router();
     app.use('/recipe', recipeRouter);
 
-
     /* create a recipe */
     recipeRouter.post('/', async (req, res) => {
         const recipe = new RecipesModel(req.body);
@@ -67,6 +66,41 @@ export const initializeRecipeRoutes = (app: Application) => {
             console.error(e);
             res.status(500);
             res.json('Could not delete the user');
+        }
+    });
+
+    /* gets a recipe associated to an id*/
+    recipeRouter.get('/recipe/:recipe_id', async (req, res) => {
+        try {
+            const recipe = await RecipesModel.findById(req.params.recipe_id);
+            if (recipe === null) {
+                res.status(404).send(`No such recipe found with query ${req.query}`);
+            }
+            else {
+                res.status(200);
+                await res.json(recipe);
+            }
+        } catch (e) {
+            res.status(500).send(`Could not get the recipe with id ${req.params.id} for ${e.message}`);
+        }
+    });
+
+    /* gets 'count' number of recipes starting at position 'index'*/
+    recipeRouter.get('/recipe', async (req, res) => {
+        try {
+            let { count, index } = req.query;
+            count = parseInt(count)
+            index = parseInt(index) - 1
+            const recipes = await RecipesModel.find().skip(index).limit(count);
+            if (recipes === null || recipes.length === 0) {
+                res.status(404).send(`No such recipes found with query ${req.query}`);
+            }
+            else {
+                res.status(200);
+                await res.json(recipes);
+            }
+        } catch (e) {
+            res.status(500).send(`Could not get the recipes with query ${req.query} for ${e.message}`);
         }
     });
 };

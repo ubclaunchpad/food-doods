@@ -9,24 +9,25 @@
 import UIKit
 
 class RecipeCollectionViewCell: UICollectionViewCell {
-    lazy var recipeImage: UIImageView = {
+    var recipeImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "carrot")
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerRadius = 5
+        imageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    lazy var nameLabel: UILabel = {
+    var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Poutine"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 13)
         return label
     }()
-    lazy var timeLabel: UILabel = {
+    var timeLabel: UILabel = {
         let label = UILabel()
         label.text = "30 Minutes"
         label.font = UIFont.systemFont(ofSize: 11)
@@ -34,7 +35,7 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
-    lazy var difficultyLabel: UILabel = {
+    var difficultyLabel: UILabel = {
         let label = UILabel()
         label.text = "Easy"
         label.font = UIFont.systemFont(ofSize: 11)
@@ -42,7 +43,7 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
-    lazy var ingredientLabel: UILabel = {
+    var ingredientLabel: UILabel = {
         let label = UILabel()
         label.text = "4/15 Ingredients"
         label.font = UIFont.systemFont(ofSize: 11)
@@ -50,24 +51,21 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
+    var roundedView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.layer.masksToBounds = true
+        view.clipsToBounds = true
+        view.backgroundColor = .red
+        return view
+    }()
     override class var requiresConstraintBasedLayout: Bool {
         return true
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        frame = frame.inset(by: UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 5))
-        clipsToBounds = true
-        layer.masksToBounds = false
-        layer.cornerRadius = 20
-        layer.shadowColor = UIColor.gray.cgColor
-        layer.shadowOpacity = 1
-        layer.shadowOffset = .zero
-        layer.shadowRadius = 4
-        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 20).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-        
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10))
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,43 +77,62 @@ class RecipeCollectionViewCell: UICollectionViewCell {
     }
     
     func setupView() {
-        addSubview(recipeImage)
-        addSubview(nameLabel)
-        addSubview(timeLabel)
-        addSubview(difficultyLabel)
-        addSubview(ingredientLabel)
-
-        
+        contentView.addSubview(recipeImage)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(timeLabel)
+        contentView.addSubview(difficultyLabel)
+        contentView.addSubview(ingredientLabel)
+        contentView.addSubview(roundedView)
         
         setupConstraints()
+        contentView.layer.cornerRadius = 8
+        contentView.backgroundColor = .white
+        contentView.layer.masksToBounds = false
+        contentView.clipsToBounds = false
+        contentView.layer.shadowColor = UIColor.gray.cgColor
+        contentView.layer.shadowOpacity = 0.2
+        contentView.layer.shadowOffset = .zero
+        contentView.layer.shadowRadius = 2
+        contentView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-30, height: 310), cornerRadius: 8).cgPath
+        contentView.layer.shouldRasterize = true
+        contentView.layer.rasterizationScale = UIScreen.main.scale
     }
     
     func setupConstraints() {
-        recipeImage.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        recipeImage.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        recipeImage.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        recipeImage.heightAnchor.constraint(equalToConstant: 160).isActive = true
+        roundedView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        roundedView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        roundedView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        roundedView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+
+        
+        recipeImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        recipeImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        recipeImage.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        recipeImage.heightAnchor.constraint(equalToConstant: 220).isActive = true
         
         
         nameLabel.topAnchor.constraint(equalTo: recipeImage.bottomAnchor, constant: 10).isActive = true
-        nameLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        nameLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
+        nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
         
         timeLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
-        timeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        timeLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
+        timeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         timeLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
         difficultyLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor).isActive = true
-        difficultyLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        difficultyLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        difficultyLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
+        difficultyLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         difficultyLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
         ingredientLabel.topAnchor.constraint(equalTo: difficultyLabel.bottomAnchor).isActive = true
-        ingredientLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        ingredientLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        ingredientLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
+        ingredientLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         ingredientLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        
+        
+        
         
     }
     

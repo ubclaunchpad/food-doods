@@ -9,7 +9,7 @@
 import UIKit
 
 class ItemView: UIView {
-    lazy var itemName: UILabel = {
+    var itemName: UILabel = {
         let label = UILabel()
         
         label.text = "Name"
@@ -21,7 +21,7 @@ class ItemView: UIView {
         return label
     }()
     
-    lazy var amountText: UILabel = {
+    var amountText: UILabel = {
         let label = UILabel()
         
         label.text = "Amount"
@@ -32,7 +32,7 @@ class ItemView: UIView {
         return label
     }()
     
-    lazy var itemQuantity: UILabel = {
+    var itemQuantity: UILabel = {
         let label = UILabel()
 
         label.text = "#"
@@ -43,7 +43,7 @@ class ItemView: UIView {
         return label
     }()
     
-    lazy var expiringText: UILabel = {
+    var expiringText: UILabel = {
         let label = UILabel()
         
         label.text = "Expiring in"
@@ -54,7 +54,7 @@ class ItemView: UIView {
         return label
     }()
     
-    lazy var expiryDate: UILabel = {
+    var expiryDate: UILabel = {
         let label = UILabel()
 
         label.text = "# days"
@@ -65,7 +65,7 @@ class ItemView: UIView {
         return label
     }()
     
-    lazy var itemIcon: UIImageView = {
+    var itemIcon: UIImageView = {
         let image = UIImageView()
         image.layer.masksToBounds = true
         image.layer.borderWidth = 2.0

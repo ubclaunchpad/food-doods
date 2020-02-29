@@ -11,7 +11,7 @@ import UIKit
 class EditItemView: UIView {
     var itemIndex: Int?
     
-    lazy var itemName: UILabel = {
+    var itemName: UILabel = {
         let label = UILabel()
         
         label.text = "Name"
@@ -23,7 +23,7 @@ class EditItemView: UIView {
         return label
     }()
     
-    lazy var amountText: UILabel = {
+    var amountText: UILabel = {
         let label = UILabel()
         
         label.text = "Amount"
@@ -34,7 +34,7 @@ class EditItemView: UIView {
         return label
     }()
     
-    lazy var itemQuantity: UILabel = {
+    var itemQuantity: UILabel = {
         let label = UILabel()
 
         label.text = "#"
@@ -45,7 +45,7 @@ class EditItemView: UIView {
         return label
     }()
     
-    lazy var expiringText: UILabel = {
+    var expiringText: UILabel = {
         let label = UILabel()
         
         label.text = "Expiring in"
@@ -56,7 +56,7 @@ class EditItemView: UIView {
         return label
     }()
     
-    lazy var expiryDate: UILabel = {
+    var expiryDate: UILabel = {
         let label = UILabel()
 
         label.text = "# days"
@@ -67,7 +67,7 @@ class EditItemView: UIView {
         return label
     }()
     
-    lazy var itemIcon: UIImageView = {
+    var itemIcon: UIImageView = {
         let image = UIImageView()
         image.layer.masksToBounds = true
         image.layer.borderWidth = 2.0
@@ -80,8 +80,7 @@ class EditItemView: UIView {
         return image
     }()
     
-    
-    lazy var nameInput: UITextField = {
+    var nameInput: UITextField = {
         let textField = UITextField()
         
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -96,8 +95,7 @@ class EditItemView: UIView {
         return textField
     }()
     
-    
-    lazy var saveButton: UIButton = {
+    var saveButton: UIButton = {
         let button = UIButton(type: .system)
         
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +108,6 @@ class EditItemView: UIView {
         return button
     }()
     
-    
     @objc
     private func savePressed(sender: UIButton) {
         if let inputText = nameInput.text, let index = itemIndex {
@@ -122,9 +119,6 @@ class EditItemView: UIView {
         
    }
        
-
-    
-
     override class var requiresConstraintBasedLayout: Bool {
       return true
     }
@@ -195,6 +189,5 @@ class EditItemView: UIView {
         saveButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         saveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         saveButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-
     }
 }

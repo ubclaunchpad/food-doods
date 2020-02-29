@@ -4,7 +4,7 @@ import { suggestRecipes } from '../controller/suggestRecipe';
 const router = express.Router();
 
 // POST /suggestion?ingredients=xyz
-router.post('/', (req: express.Request, res: express.Response) => {
+router.post('/', (req, res) => {
     const httpBody = req.body;
     const numIngredients = httpBody.queryIngredients.length;
 
@@ -17,7 +17,9 @@ router.post('/', (req: express.Request, res: express.Response) => {
     }
 
     const recipeHashes = suggestRecipes(IDs, testThreshold);
-    res.status(200).send('Result: ' + recipeHashes);
+
+    // return as a json object with key "hashes"
+    res.status(200).json({ hashes: recipeHashes });
 });
 
 module.exports = router;
