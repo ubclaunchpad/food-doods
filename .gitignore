@@ -12,3 +12,6 @@ dist/
 # Docker
 db/data
 db_m/
+
+# Testing
+coverage/
