@@ -19,9 +19,11 @@
         "@types/node": "^12.11.7",
         "@types/pg": "^7.11.2",
         "env-cmd": "^10.0.1",
-        "jest": "^24.9.0",
+        "jest": "^25.1.0",
         "nodemon": "^1.19.4",
         "prettier": "^1.18.2",
+        "supertest": "^4.0.2",
+        "ts-jest": "^25.2.1",
         "ts-node": "^8.4.1",
         "tsc-watch": "^4.0.0",
         "tslint": "^5.20.0",
@@ -34,7 +36,8 @@
         "lint": "tslint -c ../tslint.json ./src/**/*.ts",
         "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/server.ts",
         "start:dev": "env-cmd -f ../config/dev.env nodemon",
-        "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/server.js\""
+        "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/server.js\"",
+        "test": "env-cmd -f ../config/dev.env jest --runInBand --coverage"
     },
     "nodemonConfig": {
         "ignore": [
