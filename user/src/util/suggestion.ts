@@ -2,7 +2,7 @@ const INGREDIENT_URL: string | undefined = process.env.INGREDIENT_URL || '';
 const SUGGESTION_URL: string | undefined = process.env.SUGGESTION_URL || '';
 
 const getUserSuggestion = async (username: string): Promise<any> => {
-    fetch(INGREDIENT_URL + 'user/' + username, { method: 'GET' })
+    fetch(`${INGREDIENT_URL}user/` + username, { method: 'GET' })
         .then((res: any) => {
             // assuming that each ingredient is in the format: { id: string, quantity: number, unit: string }
             const ingredientIds = res.map(({ id }: { id: string }) => id);

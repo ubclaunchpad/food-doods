@@ -21,7 +21,7 @@ const deleteUserIngredient = async (username: string): Promise<any> => {
 };
 
 const getUserIngredients = async (username: string): Promise<any> => {
-    return fetch(INGREDIENT_URL + '/user/' + username, { method: 'GET' })
+    return fetch(`${INGREDIENT_URL}user/` + username, { method: 'GET' })
         .then((res: any) => {
             return res;
         })
