@@ -28,5 +28,3 @@ try {
     console.error(e);
     throw e;
 }
-
-
