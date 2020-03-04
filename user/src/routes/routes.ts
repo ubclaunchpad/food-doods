@@ -1,5 +1,6 @@
 import { Application, Router } from 'express';
 import { postUserLogin } from '../controllers/login';
+import { getUser, postUser } from '../controllers/user'
 
 export const initializeUserRoutes = (app: Application) => {
     const userRouter = Router();
@@ -12,7 +13,11 @@ export const initializeUserRoutes = (app: Application) => {
 
     /* posts a user */
     userRouter.post('/', async (req, res) => {
-        res.status(200).send('Working user post route');
+        try {
+            postUser(req, res)
+        } catch (e) {
+            res.status(400).send(e.message);
+        }
     });
 
     /* deletes a user */
