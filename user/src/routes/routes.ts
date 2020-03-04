@@ -7,8 +7,12 @@ export const initializeUserRoutes = (app: Application) => {
     app.use('/user', userRouter);
 
     /* gets a user */
-    userRouter.get('/', async (req, res) => {
-        res.status(200).send('Working user get route');
+    userRouter.get('/:username', async (req, res) => {
+        try {
+            getUser(req, res)
+        } catch (e) {
+            res.status(400).send(e.message);
+        }
     });
 
     /* posts a user */
