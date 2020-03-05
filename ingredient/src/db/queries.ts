@@ -1,4 +1,4 @@
-import { IIngredient } from '../types';
+import { IIngredient } from '../types/_master-types';
 import { db } from './connection';
 
 export const insertIntoIngredient = (ingredient: IIngredient) => {

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { db } from '../../db/connection';
+import { db } from '../db/connection';
 
 let internalId = 0;
 
