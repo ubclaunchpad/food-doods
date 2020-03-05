@@ -29,7 +29,7 @@ const postUser = async (req: Request, res: Response): Promise<Response> => {
 };
 
 const getUser = async (req: Request, res: Response): Promise<Response> => {
-    const { username } = req.body;
+    const username = req.params.username;
     const token: any = req.header('token');
 
     if (token) {
@@ -48,7 +48,9 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
                 return res.status(422).json({ error });
             });
     } else {
-        const { requestedFields } = req.body;
+        // TODO: change requestedFields into a static array instead of retrieving from request
+        // const { requestedFields } = req.body;
+        const requestedFields = ['fullName', 'username'];
         const user: Document = await findUser(username);
 
         const results: any = {};
@@ -60,7 +62,6 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
         }
 
         if (Object.keys(results).length > 0) {
-            results[username] = username;
             return res.status(200).send({ attributes: results });
         } else {
             return res.status(404).json({ error: 'Requested attributes could not be found.' });
