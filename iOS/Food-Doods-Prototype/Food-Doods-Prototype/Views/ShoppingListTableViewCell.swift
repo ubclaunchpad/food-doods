@@ -12,6 +12,7 @@ class ShoppingListTableViewCell: UITableViewCell {
     
     var foodImage: UIImageView = {
         let foodImage = UIImageView()
+        foodImage.image = UIImage(named: "carrot")
         foodImage.layer.masksToBounds = true
         //foodImage.layer.cornerRadius = 30
         foodImage.contentMode = .scaleAspectFill
@@ -19,19 +20,41 @@ class ShoppingListTableViewCell: UITableViewCell {
         foodImage.translatesAutoresizingMaskIntoConstraints = false
         return foodImage
     }()
-    var mainText: UILabel = {
-        let mainText = UILabel()
-        mainText.text = "Cell"
-        mainText.translatesAutoresizingMaskIntoConstraints = false
-        return mainText
+    
+    var nameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Grocery List Item"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
-    var amountText: UILabel = {
-        let mainText = UILabel()
-        mainText.text = "300g"
-        mainText.font = UIFont(name: "Arial", size: 10)
-        mainText.textColor = .gray
-        mainText.translatesAutoresizingMaskIntoConstraints = false
-        return mainText
+    
+    var amountLabel: UILabel = {
+        let label = UILabel()
+        label.text = "300g"
+        label.font = UIFont(name: "Arial", size: 15)
+        label.textColor = .gray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var priceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "$5.99"
+        label.font = UIFont(name: "Arial", size: 15)
+        label.textColor = .gray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    var selectedIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .green
+        imageView.layer.cornerRadius = 20
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
     }()
     
     override class var requiresConstraintBasedLayout: Bool {
@@ -53,8 +76,10 @@ class ShoppingListTableViewCell: UITableViewCell {
     
     func setupView() {
         contentView.addSubview(foodImage)
-        contentView.addSubview(mainText)
-        contentView.addSubview(amountText)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(amountLabel)
+        contentView.addSubview(selectedIcon)
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = false
         contentView.clipsToBounds = false
@@ -62,7 +87,7 @@ class ShoppingListTableViewCell: UITableViewCell {
         contentView.layer.shadowOpacity = 0.2
         contentView.layer.shadowOffset = .zero
         contentView.layer.shadowRadius = 7
-        contentView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-20, height: 60), cornerRadius: 10).cgPath
+        contentView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-20, height: 80), cornerRadius: 10).cgPath
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
         
@@ -75,14 +100,24 @@ class ShoppingListTableViewCell: UITableViewCell {
         foodImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         foodImage.widthAnchor.constraint(equalToConstant: 60).isActive = true
     
-        mainText.leftAnchor.constraint(equalTo: foodImage.rightAnchor, constant: 10).isActive = true
-        mainText.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        mainText.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
-        mainText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: foodImage.rightAnchor, constant: 10).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
         
-        amountText.leftAnchor.constraint(equalTo: foodImage.rightAnchor, constant: 10).isActive = true
-        amountText.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        amountText.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
-        amountText.topAnchor.constraint(equalTo: mainText.bottomAnchor, constant: 0).isActive = true
+        amountLabel.leftAnchor.constraint(equalTo: foodImage.rightAnchor, constant: 10).isActive = true
+        amountLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
+        amountLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 0).isActive = true
+        amountLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        priceLabel.leftAnchor.constraint(equalTo: foodImage.rightAnchor, constant: 10).isActive = true
+        priceLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        priceLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
+        priceLabel.topAnchor.constraint(equalTo: amountLabel.bottomAnchor, constant: 0).isActive = true
+        
+        selectedIcon.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
+        selectedIcon.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        selectedIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0).isActive = true
+        selectedIcon.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }
