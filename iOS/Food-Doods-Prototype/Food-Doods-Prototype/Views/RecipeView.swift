@@ -7,23 +7,80 @@
 //
 
 import UIKit
+class SearchBarView: UIView {
+    var backView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        return view
+    }()
+    var searchField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Search for recipes, ingredients, cuisine"
+        textField.font = UIFont.systemFont(ofSize: 13)
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .words
+        return textField
+    }()
+    var searchButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 20
+        button.clipsToBounds = true
+        button.backgroundColor = UIColor(hex: 0x23E103)
+        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        return button
+    }()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+        backgroundColor = UIColor(named: "menuColor")
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
 
+    }
+    override class var requiresConstraintBasedLayout: Bool {
+        return true
+    }
+    func setupView() {
+        addSubview(backView)
+        backView.addSubview(searchField)
+        backView.addSubview(searchButton)
+        setupConstraints()
+    }
+    
+    func setupConstraints() {
+        backView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        backView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        backView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        backView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
+        searchButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        searchButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        searchButton.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        searchButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
+        searchField.rightAnchor.constraint(equalTo: searchButton.leftAnchor, constant: -10).isActive = true
+        searchField.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        searchField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
+        searchField.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+
+    }
+}
 
 class RecipeView: UIView {
-    var searchBar: UISearchBar = {
-        let search = UISearchBar()
-        search.translatesAutoresizingMaskIntoConstraints = false
-        search.backgroundColor = .yellow
-        return search
+    var searchBar = SearchBarView()
+    var segmentControl: UISegmentedControl = {
+        let segments = ["Favorites", "Suggested"]
+        let segmentControl = UISegmentedControl(items: segments)
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
+        return segmentControl
     }()
-    var text: UILabel = {
-        let textLabel = UILabel()
-        textLabel.textAlignment = .center
-        textLabel.text = "Hello World"
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        return textLabel
-    }()
-    
     var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -49,26 +106,36 @@ class RecipeView: UIView {
     }
     func setupView() {
         addSubview(searchBar)
-        addSubview(text)
+        addSubview(segmentControl)
         addSubview(collectionView)
         setupConstraints()
     }
     func setupConstraints() {
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        searchBar.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        searchBar.rightAnchor.constraint(equalTo: leftAnchor).isActive = true
-        searchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        searchBar.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        searchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
+        segmentControl.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10).isActive = true
+        segmentControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        segmentControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        segmentControl.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
-        collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
-        collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 5).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
-        
-        text.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        text.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        text.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        text.heightAnchor.constraint(equalToConstant: 70).isActive = true
+    }
+}
+
+extension UIColor {
+    
+    /**
+        Constructor allowing for hex values of type "0xFFFFFF"
+     */
+    public convenience init(hex: Int, alpha: Double? = 1.0) {
+        self.init(red: CGFloat((hex >> 16) & 0xFF) / 255, green: CGFloat((hex >> 8) & 0xFF) / 255, blue: CGFloat(hex & 0xFF) / 255, alpha: CGFloat(alpha!))
     }
 }
