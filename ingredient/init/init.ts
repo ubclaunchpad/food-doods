@@ -57,7 +57,6 @@ const parseIngredient = (description: string) => {
 };
 
 const parsedIngredients = values
-    .slice(0, 100)
     .filter((recipe) => recipe.hasOwnProperty('ingredients'))
     .flatMap((recipe: IRecipe) => {
         const { ingredients } = recipe;
