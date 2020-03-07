@@ -18,7 +18,7 @@ enum Service {
 class LocalHostTest {
     var baseURL: String
     
-    static let shared = LocalHostTest("http://localhost:8585")
+    static let shared = LocalHostTest("http://localhost:8000")
     
     private init (_ hostName: String) {
         baseURL = hostName
@@ -85,14 +85,18 @@ class LocalHostTest {
                 print ("--- Data ---")
                 
                 //MARK: Decode Data
-//                let decodedData = try? JSONDecoder().decode(ResponseHashes.self, from: data)
-//                guard let data = decodedData else {
-//                    print("Could not decode data")
-//                    return
-//                }
+                let decodedData = try? JSONDecoder().decode(UserAPIResponse.self, from: data)
+                guard let data = decodedData else {
+                    print("Could not decode data")
+                    return
+                }
                 
-
-                print(data)
+                print("Full Name: \(data.fullName)")
+                print("User Name: \(data.username)")
+                print("User ID: \(data.id)")
+                UserDefaults.standard.set(data.fullName, forKey: "name")
+                UserDefaults.standard.set(data.username, forKey: "username")
+                UserDefaults.standard.set(data.id, forKey: "id")
             }
         }
         
@@ -171,7 +175,7 @@ class LocalHostTest {
             returnURL.append("/suggestion")
             break
         case Service.User:
-            returnURL.append("/user")
+            returnURL.append("/user/abcabc")
             break
             
         case Service.Ingredient:
@@ -184,6 +188,14 @@ class LocalHostTest {
         return URL(string: returnURL)
     }
         
+}
+
+
+
+
+//MARK: - FOR TESTING PURPOSES
+struct UserAPIResponse: Codable {
+    let fullName, username, id: String
 }
 
 
