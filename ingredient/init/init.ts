@@ -42,7 +42,10 @@ const getUnit = (ingredient: string[]) => {
 
 const getName = (ingredient: string[], index: number) => {
     const name = ingredient.slice(index + 1).join(' ');
-    return name.split(',')[0].replace(/\((.*?)\)/, '');
+    return name
+        .split(',')[0]
+        .replace(/\((.*?)\)/, '')
+        .trim();
 };
 
 const parseIngredient = (description: string) => {
@@ -79,14 +82,12 @@ parsedIngredients.forEach((ingredient) => {
     }
 });
 
-let script = `
-    insert into ingredient
-        (id, name, test_data, unit_category)
-    values
+let script = `insert into ingredient (id, name, test_data, unit_category)
+values
 `;
 result.forEach((ingredient, idx) => {
     const id = idx + 1;
-    script += `\t\t(${idx + 1}, "${ingredient.name}", false, ${ingredient.unit})${id < result.length ? ',' : ';'}\n`;
+    script += `(${idx + 1}, "${ingredient.name}", false, ${ingredient.unit})${id < result.length ? ',' : ';'}\n`;
 });
 writeFile('init/seed.sql', script, (err) => {
     if (err) {
