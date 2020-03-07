@@ -1,24 +1,37 @@
 import * as mongoose from 'mongoose';
 
 export interface IRecipes extends mongoose.Document {
-    recipe_name: string;
-    description: string;
-    instructions: string[];
+    name: string;
     ingredients: string[];
+    instructions: string[];
+    time: string;
+    servings: string;
 }
 
+const time = new mongoose.Schema({
+    prep: { type: String },
+    cook: { type: String },
+    active: { type: String },
+    inactive: { type: String },
+    ready: { type: String },
+    total: { type: String },
+});
+
 export const Recipes = new mongoose.Schema({
-    recipe_name: {
+    name: {
         type: String,
     },
-    description: {
-        type: String,
+    ingredients: {
+        type: Array,
     },
     instructions: {
         type: Array,
     },
-    ingredients: {
-        type: Array,
+    time: {
+        type: time,
+    },
+    servings: {
+        type: String,
     },
 });
 

@@ -1,6 +1,7 @@
 import { Application, Router } from 'express';
-import { RecipesModel } from '../models/recipes';
+import { IRecipes, RecipesModel } from '../models/recipes';
 import { UserRecipesModel } from '../models/userRecipes';
+const recipeScraper = require('recipe-scraper');
 
 export const initializeRecipeRoutes = (app: Application) => {
     const recipeRouter = Router();
@@ -23,7 +24,7 @@ export const initializeRecipeRoutes = (app: Application) => {
         try {
             const user = await UserRecipesModel.findById(req.params.user_id);
             if (!user) {
-                throw new Error(`No user exists with id ${req.params.user_id}`);
+                return res.status(400).send(`No user exists with id ${req.params.user_id}`);
             }
             if (!user.recipe_ids || user.recipe_ids.length === 0) {
                 res.json('No recipes associated with this user');
@@ -89,18 +90,33 @@ export const initializeRecipeRoutes = (app: Application) => {
     recipeRouter.get('/recipe', async (req, res) => {
         try {
             let { count, index } = req.query;
-            count = parseInt(count)
-            index = parseInt(index) - 1
-            const recipes = await RecipesModel.find().skip(index).limit(count);
+            count = parseInt(count, 10);
+            index = parseInt(index, 10) - 1;
+            const recipes = await RecipesModel.find()
+                .skip(index)
+                .limit(count);
             if (recipes === null || recipes.length === 0) {
                 res.status(404).send(`No such recipes found with query ${req.query}`);
-            }
-            else {
+            } else {
                 res.status(200);
                 await res.json(recipes);
             }
         } catch (e) {
             res.status(500).send(`Could not get the recipes with query ${req.query} for ${e.message}`);
         }
+    });
+
+    recipeRouter.post('/recipe-scraper', async (req, res) => {
+        if (!req.body.recipeUrl) {
+            return res.status(400).send('Please pass recipeUrl in the body');
+        }
+        recipeScraper(req.body.recipeUrl)
+            .then((recipe: IRecipes) => {
+                const postRecipe = new RecipesModel(recipe);
+                return postRecipe.save().then((r) => res.send(r), () => res.status(500).send('Could not save to DB'));
+            })
+            .catch(() => {
+                return res.status(404).send('No recipe found on the page');
+            });
     });
 };
