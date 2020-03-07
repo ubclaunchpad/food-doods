@@ -8,6 +8,16 @@
 
 import UIKit
 
+
+var shoppingListItems: [ShoppingItem] =
+    [
+        ShoppingItem(name: "Carrots", image: UIImage(named: "carrot"), price: 7.99, amount: 500, selected: false),
+        ShoppingItem(name: "Cheese", image: UIImage(named: "cheese"), price: 5.99, amount: 75, selected: false),
+        ShoppingItem(name: "Steak", image: UIImage(named: "steak"), price: 29.99, amount: 450, selected: false),
+        ShoppingItem(name: "Broccoli", image: UIImage(named: "broccoli"), price: 4.99, amount: 300, selected: false),
+        ShoppingItem(name: "Granola Bars", image: UIImage(named: "granola-bars"), price: 12.95, amount: 1300, selected: false)
+    ]
+
 class ShoppingListViewController: UIViewController {
     var tableView: UITableView!
     
@@ -32,22 +42,43 @@ class ShoppingListViewController: UIViewController {
 
 extension ShoppingListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return shoppingListItems.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 100
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShoppingCell", for: indexPath)
         
         //TODO: Change!
-        guard let shoppingCell = cell as? PantryTableViewCell else {
+        guard let shoppingCell = cell as? ShoppingListTableViewCell else {
             return cell
+        }
+        
+        shoppingCell.foodImage.image = shoppingListItems[indexPath.row].image
+        shoppingCell.nameLabel.text = shoppingListItems[indexPath.row].name
+        shoppingCell.amountLabel.text = "\(shoppingListItems[indexPath.row].amount) g"
+        shoppingCell.priceLabel.text = "$\(shoppingListItems[indexPath.row].price)"
+        
+        if shoppingListItems[indexPath.row].selected {
+            shoppingCell.selectedIcon.isHidden = false
+        } else {
+            shoppingCell.selectedIcon.isHidden = true
         }
 
         return shoppingCell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if shoppingListItems[indexPath.row].selected {
+            shoppingListItems[indexPath.row].selected = false
+        } else {
+            shoppingListItems[indexPath.row].selected = true
+        }
+        
+        tableView.reloadData()
     }
     
     
