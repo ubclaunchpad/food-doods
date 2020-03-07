@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync, writeFile } from 'fs';
 import { resolve } from 'path';
 
 interface IRecipe {
@@ -40,6 +40,14 @@ const getUnit = (ingredient: string[]) => {
     return null;
 };
 
+const getName = (ingredient: string[], index: number) => {
+    const name = ingredient.slice(index + 1).join(' ');
+    return name
+        .split(',')[0]
+        .replace(/\((.*?)\)/, '')
+        .trim();
+};
+
 const parseIngredient = (description: string) => {
     const words = description.split(' ');
     // take out ADVERTISEMENT
@@ -47,7 +55,7 @@ const parseIngredient = (description: string) => {
     const unitInfo = getUnit(trimmed);
     if (unitInfo) {
         const { unit, index } = unitInfo;
-        return { name: trimmed.slice(index + 1).join(' '), unit };
+        return { name: getName(trimmed, index), unit };
     }
 };
 
@@ -73,5 +81,17 @@ parsedIngredients.forEach((ingredient) => {
         result.push(ingredient);
     }
 });
-console.log(result.length);
-console.log('Example: ', result[0]);
+
+let script = `insert into ingredient (id, name, test_data, unit_category)
+values
+`;
+result.forEach((ingredient, idx) => {
+    const id = idx + 1;
+    script += `(${idx + 1}, "${ingredient.name}", false, ${ingredient.unit})${id < result.length ? ',' : ';'}\n`;
+});
+writeFile('init/seed.sql', script, (err) => {
+    if (err) {
+        console.error(err);
+    }
+    console.log('Done!');
+});
