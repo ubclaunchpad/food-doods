@@ -12,6 +12,10 @@ import UIKit
 class RecipesViewController: UIViewController {
     var allRecipes: [Recipe] = []
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        navigationController?.navigationBar.isHidden = false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         let newView = RecipeView()
@@ -24,6 +28,8 @@ class RecipesViewController: UIViewController {
         navigationController?.navigationBar.backgroundColor = UIColor(named: "menuColor")
         navigationItem.title = "Recipes"
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = .white
         setupMockData()
     }
     @objc func openFilter() {

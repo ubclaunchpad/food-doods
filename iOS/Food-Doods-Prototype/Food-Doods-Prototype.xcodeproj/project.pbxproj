@@ -17,6 +17,7 @@
 		25C236F9235A49DA0092EDE8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C236F8235A49DA0092EDE8 /* MainView.swift */; };
 		25CDA5F8240AF42000C148CF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDA5F7240AF42000C148CF /* FilterViewController.swift */; };
 		25CDA5FA240AF52700C148CF /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDA5F9240AF52600C148CF /* TestViewController.swift */; };
+		25D3D5B5240B1BFF007D0B53 /* RecipeDetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D3D5B4240B1BFF007D0B53 /* RecipeDetailedView.swift */; };
 		25FD352F23EF7AD500D1A90B /* RecipeDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FD352E23EF7AD500D1A90B /* RecipeDetailedViewController.swift */; };
 		6C13013923558ED200BB7908 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C13013823558ED200BB7908 /* RootTabBarController.swift */; };
 		6C13013B23559D6000BB7908 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C13013A23559D6000BB7908 /* SceneDelegate.swift */; };
@@ -51,6 +52,7 @@
 		25C236F8235A49DA0092EDE8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		25CDA5F7240AF42000C148CF /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		25CDA5F9240AF52600C148CF /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		25D3D5B4240B1BFF007D0B53 /* RecipeDetailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailedView.swift; sourceTree = "<group>"; };
 		25FD352E23EF7AD500D1A90B /* RecipeDetailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailedViewController.swift; sourceTree = "<group>"; };
 		6C13013823558ED200BB7908 /* RootTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabBarController.swift; sourceTree = "<group>"; };
 		6C13013A23559D6000BB7908 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				25178B12235C06DF00808C62 /* PantryTableViewCell.swift */,
 				258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */,
 				25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */,
+				25D3D5B4240B1BFF007D0B53 /* RecipeDetailedView.swift */,
 				6C5726742376923C006BE5E5 /* ShoppingListView.swift */,
 			);
 			path = Views;
@@ -246,6 +249,7 @@
 			files = (
 				6C7796FA2355891100052EEB /* SecondViewController.swift in Sources */,
 				25C236F9235A49DA0092EDE8 /* MainView.swift in Sources */,
+				25D3D5B5240B1BFF007D0B53 /* RecipeDetailedView.swift in Sources */,
 				6C2E77DD23EF77E600BC35EB /* TestQuery.swift in Sources */,
 				6C13013923558ED200BB7908 /* RootTabBarController.swift in Sources */,
 				6C6BCA352363BDF400C61748 /* ItemViewController.swift in Sources */,
