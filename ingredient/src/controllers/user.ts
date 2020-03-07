@@ -3,22 +3,18 @@ import { db } from '../db/connection';
 
 let internalId = 0;
 
-export const addUser = (req: Request, res: Response) => {
-    const { userId } = req.params;
+export const addUser = async (req: Request, res: Response) => {
+    const { externalId } = req.body;
     return db
-        .none(
-            `insert into id_map
-        values ($1, $2)`,
-            [internalId++, userId]
-        )
-        .then(() => res.status(201).end())
-        .catch((error) => res.status(500).json({ error }));
+        .none('INSERT INTO user_map VALUES ($1, $2)', [internalId++, externalId])
+        .then(() => res.status(201).json({ message: 'Successfully added user!' }))
+        .catch((error: Error) => res.status(400).json({ error }));
 };
 
 export const deleteUser = (req: Request, res: Response) => {
-    const { userId } = req.params;
+    const { id } = req.params;
     return db
-        .none('delete from id_map where external_id = $1', [userId])
-        .then(() => res.status(204).end())
-        .catch((error) => res.status(500).json({ error }));
+        .none('DELETE FROM user_map WHERE external_id = $1', [id])
+        .then(() => res.status(204).json({ message: 'Successfully deleted user!' }))
+        .catch((error: Error) => res.status(404).json({ error }));
 };

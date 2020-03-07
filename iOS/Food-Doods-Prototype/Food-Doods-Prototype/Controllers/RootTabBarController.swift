@@ -26,16 +26,8 @@ class RootTabBarController: UITabBarController {
         button.layer.rasterizationScale = UIScreen.main.scale
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         
-        //MARK: TEMPORARY TEST ACTION
-        #warning("TEMPORARY BUTTON ACTION")
-        button.addTarget(self, action: #selector(network), for: .touchUpInside)
-        
         return button
     }()
-    
-    @objc func network() {
-        LocalHostTest.shared.testCall()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,9 +57,15 @@ class RootTabBarController: UITabBarController {
         fourthViewController.tabBarItem.title = "Settings"
         fourthViewController.tabBarItem.tag = 3
         fourthViewController.tabBarItem.image = UIImage(systemName: "gear")
+        
+        let fifthVC = TestViewController()
+        fifthVC.tabBarItem = UITabBarItem()
+        fifthVC.tabBarItem.title = "TESTING"
+        fifthVC.tabBarItem.tag = 3
+        fifthVC.tabBarItem.image = UIImage(systemName: "pencil-slash")
 
 
-        let tabBarList = [firstViewController, secondViewController, thirdViewController, fourthViewController]
+        let tabBarList = [firstViewController, secondViewController, thirdViewController, fourthViewController, fifthVC]
         viewControllers = tabBarList
 
         self.view.addSubview(button)
