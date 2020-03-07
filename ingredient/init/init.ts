@@ -40,6 +40,11 @@ const getUnit = (ingredient: string[]) => {
     return null;
 };
 
+const getName = (ingredient: string[], index: number) => {
+    const name = ingredient.slice(index + 1).join(' ');
+    return name.split(',')[0].replace(/\((.*?)\)/, '');
+};
+
 const parseIngredient = (description: string) => {
     const words = description.split(' ');
     // take out ADVERTISEMENT
@@ -47,7 +52,7 @@ const parseIngredient = (description: string) => {
     const unitInfo = getUnit(trimmed);
     if (unitInfo) {
         const { unit, index } = unitInfo;
-        return { name: trimmed.slice(index + 1).join(' '), unit };
+        return { name: getName(trimmed, index), unit };
     }
 };
 
@@ -73,5 +78,4 @@ parsedIngredients.forEach((ingredient) => {
         result.push(ingredient);
     }
 });
-console.log(result.length);
-console.log('Example: ', result[0]);
+console.log(result);
