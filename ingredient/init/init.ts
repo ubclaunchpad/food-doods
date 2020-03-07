@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync, writeFile } from 'fs';
 import { resolve } from 'path';
 
 interface IRecipe {
@@ -57,6 +57,7 @@ const parseIngredient = (description: string) => {
 };
 
 const parsedIngredients = values
+    .slice(0, 100)
     .filter((recipe) => recipe.hasOwnProperty('ingredients'))
     .flatMap((recipe: IRecipe) => {
         const { ingredients } = recipe;
@@ -78,4 +79,19 @@ parsedIngredients.forEach((ingredient) => {
         result.push(ingredient);
     }
 });
-console.log(result);
+
+let script = `
+    insert into ingredient
+        (id, name, test_data, unit_category)
+    values
+`;
+result.forEach((ingredient, idx) => {
+    const id = idx + 1;
+    script += `\t\t(${idx + 1}, "${ingredient.name}", false, ${ingredient.unit})${id < result.length ? ',' : ';'}\n`;
+});
+writeFile('init/seed.sql', script, (err) => {
+    if (err) {
+        console.error(err);
+    }
+    console.log('Done!');
+});
