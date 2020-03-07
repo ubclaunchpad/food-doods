@@ -14,7 +14,7 @@ const userRouter = Router();
 userRouter.use('/ingredient', userListRouter);
 
 /*
- * POST /user/:id
+ * POST /user/
  *
  * generates a new user within the service database
  */
