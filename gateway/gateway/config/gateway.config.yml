@@ -11,7 +11,7 @@ apiEndpoints:
       - '/user'
 serviceEndpoints:
   userService:
-    url: 'http://localhost:8000'
+    url: "http://localhost:${USER_PORT:-8000}"
 policies:
   - basic-auth
   - cors
