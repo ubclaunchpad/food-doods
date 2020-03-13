@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 const recipeScraper = require('recipe-scraper');
 import { IRecipe, Recipe, RecipeModel } from '../models/recipes';
+import { parse } from '../../../util/ingredient-parser';
 
 export const recipeScraperUtil = (baseUrl: string, recipeIDs: string[]) => {
     const recipes: Array<Promise<IRecipe>> = [];
@@ -11,6 +12,11 @@ export const recipeScraperUtil = (baseUrl: string, recipeIDs: string[]) => {
 };
 
 const saveRecipeToDB = (recipes: IRecipe[]) => {
+    for (const recipe of recipes) {
+        console.log(recipe.ingredients);
+        const parsed = parse(recipe.ingredients);
+        console.log(parsed);
+    }
     const recipe = mongoose.model('recipe', Recipe);
     // recipe.collection.insertMany(recipes, onInsert);
 

@@ -11,7 +11,7 @@ interface IIngredient {
 
 const pluralfy = (units: string[]) => units.map((unit) => unit + 's');
 
-const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'ounce'];
+const volumeUnits = ['can', 'cup', 'teaspoon', 'tablespoon', 'ounce'];
 const weightUnits = ['gram', 'pound'];
 
 const volumes = volumeUnits.concat(pluralfy(volumeUnits));
@@ -49,15 +49,19 @@ const getName = (ingredient: string[], index: number) => {
         .trim();
 };
 
-const parseIngredient = (description: string): IIngredient => {
+const parseIngredient = (description: string): IIngredient | null => {
     const words = description.split(' ');
     // take out ADVERTISEMENT
-    const trimmed = words.slice(0, words.length - 1);
+    let trimmed = words;
+    if (description.endsWith('ADVERTISEMENT')) {
+        trimmed = words.slice(0, words.length - 1);
+    }
     const unitInfo = getUnit(trimmed);
     if (unitInfo) {
         const { unit, index } = unitInfo;
         return { name: getName(trimmed, index), unit_category: unit };
     }
+    return null;
 };
 
 const trim = (ingredients: IIngredient[]) => {
@@ -72,4 +76,13 @@ const trim = (ingredients: IIngredient[]) => {
     return result;
 };
 
-export const parse = (data: string[]): IIngredient[] => trim(data.map(parseIngredient).filter(Boolean));
+export const parse = (data: string[]): IIngredient[] => {
+    const result: IIngredient[] = [];
+    const parsed = data.map(parseIngredient);
+    for (const ingr of parsed) {
+        if (ingr !== null) {
+            result.push(ingr);
+        }
+    }
+    return result;
+};
