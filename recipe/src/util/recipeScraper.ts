@@ -12,13 +12,13 @@ export const recipeScraperUtil = (baseUrl: string, recipeIDs: string[]) => {
 
 const saveRecipeToDB = (recipes: IRecipe[]) => {
     const recipe = mongoose.model('recipe', Recipe);
-    recipe.collection.insertMany(recipes, onInsert);
+    // recipe.collection.insertMany(recipes, onInsert);
 
-    function onInsert(err, docs) {
-        if (err) {
-            console.error(err);
-        } else {
-            console.info('%d recipes were successfully stored.', docs.length);
-        }
-    }
+    // function onInsert(err, docs) {
+    //     if (err) {
+    //         console.error(err);
+    //     } else {
+    //         console.info('%d recipes were successfully stored.', docs.length);
+    //     }
+    // }
 };
