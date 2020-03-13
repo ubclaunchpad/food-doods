@@ -1,6 +1,7 @@
 import { Application, Router } from 'express';
 import { postUserLogin } from '../controllers/login';
-import { getUser, postUser } from '../controllers/user'
+import { postUserSuggestion } from '../controllers/suggestion';
+import { getUser, postUser } from '../controllers/user';
 
 export const initializeUserRoutes = (app: Application) => {
     const userRouter = Router();
@@ -9,7 +10,7 @@ export const initializeUserRoutes = (app: Application) => {
     /* gets a user */
     userRouter.get('/:username', async (req, res) => {
         try {
-            getUser(req, res)
+            getUser(req, res);
         } catch (e) {
             res.status(400).send(e.message);
         }
@@ -18,7 +19,7 @@ export const initializeUserRoutes = (app: Application) => {
     /* posts a user */
     userRouter.post('/', async (req, res) => {
         try {
-            postUser(req, res)
+            postUser(req, res);
         } catch (e) {
             res.status(400).send(e.message);
         }
@@ -34,5 +35,9 @@ export const initializeUserRoutes = (app: Application) => {
         res.status(200).send('Working user patch route');
     });
 
+    /* user login */
     userRouter.post('/login', postUserLogin);
+
+    /* retrieves recipe suggestion for user */
+    userRouter.post('/suggestion', postUserSuggestion);
 };

@@ -9,7 +9,7 @@
 import UIKit
 
 class NavigationController: UINavigationController {
-
+    var model: Recipe!
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true

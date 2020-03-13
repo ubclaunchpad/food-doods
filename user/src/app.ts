@@ -18,7 +18,7 @@ initializeUserRoutes(app);
 
 // Connect to DB
 mongoose
-    .connect(DB_CONNECTION_STRING, { useUnifiedTopology: true, useNewUrlParser: true })
+    .connect(DB_CONNECTION_STRING, { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true })
     .then(() => console.log('Connected to MongoDB!'));
 
 try {
