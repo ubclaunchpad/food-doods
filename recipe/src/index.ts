@@ -5,8 +5,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import { initializeRecipeRoutes } from './routes/routes';
 
-const PORT = process.env.RECIPE_PORT || 8090;
-const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://localhost:27017/test';
+const PORT = process.env.RECIPE_PORT;
+const RECIPE_DB_CONNECTION = process.env.RECIPE_DB_CONNECTION;
 const app = express();
 
 // middle wares
@@ -18,8 +18,14 @@ initializeRecipeRoutes(app);
 
 // Connect to DB
 mongoose
-    .connect(DB_CONNECTION_STRING, { useUnifiedTopology: true, useNewUrlParser: true })
-    .then(() => console.log('Connected to MongoDB!'));
+    .connect(String(RECIPE_DB_CONNECTION), {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log('Db connected...'))
+    .catch(() => {
+        throw new Error('Unable to connect to DB');
+    });
 
 try {
     app.listen(PORT);

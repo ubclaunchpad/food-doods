@@ -1,5 +1,5 @@
 import { Application, Router } from 'express';
-import { IRecipes, RecipesModel } from '../models/recipes';
+import { IRecipe, RecipeModel } from '../models/recipes';
 import { UserRecipesModel } from '../models/userRecipes';
 const recipeScraper = require('recipe-scraper');
 
@@ -9,7 +9,7 @@ export const initializeRecipeRoutes = (app: Application) => {
 
     /* create a recipe */
     recipeRouter.post('/', async (req, res) => {
-        const recipe = new RecipesModel(req.body);
+        const recipe = new RecipeModel(req.body);
         try {
             await recipe.save().then((item) => res.send(item));
         } catch (e) {
@@ -29,7 +29,7 @@ export const initializeRecipeRoutes = (app: Application) => {
             if (!user.recipe_ids || user.recipe_ids.length === 0) {
                 res.json('No recipes associated with this user');
             } else {
-                RecipesModel.find(
+                RecipeModel.find(
                     {
                         _id: { $in: user.recipe_ids },
                     },
@@ -73,7 +73,7 @@ export const initializeRecipeRoutes = (app: Application) => {
     /* gets a recipe associated to an id*/
     recipeRouter.get('/recipe/:recipe_id', async (req, res) => {
         try {
-            const recipe = await RecipesModel.findById(req.params.recipe_id);
+            const recipe = await RecipeModel.findById(req.params.recipe_id);
             if (recipe === null) {
                 res.status(404).send(`No such recipe found with query ${req.query}`);
             }
@@ -92,7 +92,7 @@ export const initializeRecipeRoutes = (app: Application) => {
             let { count, index } = req.query;
             count = parseInt(count, 10);
             index = parseInt(index, 10) - 1;
-            const recipes = await RecipesModel.find()
+            const recipes = await RecipeModel.find()
                 .skip(index)
                 .limit(count);
             if (recipes === null || recipes.length === 0) {
@@ -111,8 +111,8 @@ export const initializeRecipeRoutes = (app: Application) => {
             return res.status(400).send('Please pass recipeUrl in the body');
         }
         recipeScraper(req.body.recipeUrl)
-            .then((recipe: IRecipes) => {
-                const postRecipe = new RecipesModel(recipe);
+            .then((recipe: IRecipe) => {
+                const postRecipe = new RecipeModel(recipe);
                 return postRecipe.save().then((r) => res.send(r), () => res.status(500).send('Could not save to DB'));
             })
             .catch(() => {

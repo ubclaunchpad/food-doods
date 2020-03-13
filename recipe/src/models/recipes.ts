@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export interface IRecipes extends mongoose.Document {
+export interface IRecipe extends mongoose.Document {
     name: string;
     ingredients: string[];
     instructions: string[];
@@ -17,7 +17,7 @@ const time = new mongoose.Schema({
     total: { type: String },
 });
 
-export const Recipes = new mongoose.Schema({
+export const Recipe = new mongoose.Schema({
     name: {
         type: String,
     },
@@ -35,4 +35,4 @@ export const Recipes = new mongoose.Schema({
     },
 });
 
-export const RecipesModel = mongoose.model<IRecipes>('Recipes', Recipes);
+export const RecipeModel = mongoose.model<IRecipe>('Recipe', Recipe);
