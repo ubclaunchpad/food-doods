@@ -1,6 +1,6 @@
 import { readFileSync, writeFile } from 'fs';
 import { resolve } from 'path';
-import { parse } from '../../util/ingredient-parser';
+import { IRecipe, parse } from '../../util/ingredient-parser';
 
 const seedData = JSON.parse(readFileSync(resolve('init/seed.json')).toString());
 const values = Object.values(seedData);
@@ -19,14 +19,31 @@ const sequelfy = (ingredients: any[]) => {
 };
 
 const parsed = values
-    .filter((recipe) => recipe.hasOwnProperty('ingredients'))
-    .flatMap((recipe: any) => parse(recipe.ingredients));
+    .filter((recipe: any) => recipe.hasOwnProperty('ingredients'))
+    .flatMap((recipe: IRecipe) => parse(recipe.ingredients));
 
 const script = sequelfy(parsed);
+
+const idMap = {};
+parsed.forEach((ingr, idx) => (idMap[ingr.name] = idx));
 
 writeFile('init/seed.sql', script, (err) => {
     if (err) {
         console.error(err);
     }
-    console.log('Done!');
+    console.log('Finished writing initialization script');
+});
+
+writeFile('mocks/db.json', JSON.stringify(parsed), (err) => {
+    if (err) {
+        console.error(err);
+    }
+    console.log('Finished writing mock db');
+});
+
+writeFile('mocks/id_map.json', JSON.stringify(idMap), (err) => {
+    if (err) {
+        console.error(err);
+    }
+    console.log('Finished writing ID map');
 });

@@ -1,10 +1,10 @@
-interface IRecipe {
-    ingredients?: string[];
+export interface IRecipe {
+    ingredients: string[];
 }
 
 type UnitCategory = 0 | 1 | 2 | 3;
 
-interface IIngredient {
+export interface IIngredient {
     name: string;
     unit_category: UnitCategory;
 }
@@ -44,9 +44,9 @@ const getUnit = (ingredient: string[]) => {
 const getName = (ingredient: string[], index: number) => {
     const name = ingredient.slice(index + 1).join(' ');
     return name
-        .split(',')[0]
-        .replace(/\((.*?)\)/, '')
-        .trim();
+        .split(',')[0] // Remove anything after a comma
+        .replace(/\((.*?)\)/, '') // Remove anything inside brackets
+        .trim(); // Remove whitespace
 };
 
 const parseIngredient = (description: string): IIngredient | null => {
@@ -84,5 +84,5 @@ export const parse = (data: string[]): IIngredient[] => {
             result.push(ingr);
         }
     }
-    return result;
+    return trim(result);
 };
