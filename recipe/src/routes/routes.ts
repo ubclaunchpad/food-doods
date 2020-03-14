@@ -1,7 +1,11 @@
+import * as fs from 'fs';
 import { Application, Router } from 'express';
 import { IRecipe, RecipeModel } from '../models/recipes';
 import { UserRecipesModel } from '../models/userRecipes';
 const recipeScraper = require('recipe-scraper');
+import { parse } from '../../../util/ingredient-parser';
+
+const idMap = JSON.parse(fs.readFileSync(`${__dirname}/../../../ingredient/mocks/id_map.json`).toString());
 
 export const initializeRecipeRoutes = (app: Application) => {
     const recipeRouter = Router();
@@ -76,8 +80,7 @@ export const initializeRecipeRoutes = (app: Application) => {
             const recipe = await RecipeModel.findById(req.params.recipe_id);
             if (recipe === null) {
                 res.status(404).send(`No such recipe found with query ${req.query}`);
-            }
-            else {
+            } else {
                 res.status(200);
                 await res.json(recipe);
             }
@@ -99,7 +102,7 @@ export const initializeRecipeRoutes = (app: Application) => {
                 res.status(404).send(`No such recipes found with query ${req.query}`);
             } else {
                 res.status(200);
-                await res.json(recipes);
+                res.json(recipes);
             }
         } catch (e) {
             res.status(500).send(`Could not get the recipes with query ${req.query} for ${e.message}`);
@@ -111,9 +114,20 @@ export const initializeRecipeRoutes = (app: Application) => {
             return res.status(400).send('Please pass recipeUrl in the body');
         }
         recipeScraper(req.body.recipeUrl)
-            .then((recipe: IRecipe) => {
+            .then(async (recipe: any) => {
+                const parsed = parse(recipe.ingredients);
+                const ingredients = parsed.map((ingr) => {
+                    return { ...ingr, id: idMap[ingr.name] };
+                });
+
+                recipe.ingredients = ingredients;
                 const postRecipe = new RecipeModel(recipe);
-                return postRecipe.save().then((r) => res.send(r), () => res.status(500).send('Could not save to DB'));
+                try {
+                    const r = await postRecipe.save();
+                    return res.send(r);
+                } catch (e) {
+                    return res.status(500).send('Could not save to DB');
+                }
             })
             .catch(() => {
                 return res.status(404).send('No recipe found on the page');
