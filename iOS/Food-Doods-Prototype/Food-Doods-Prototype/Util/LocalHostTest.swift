@@ -99,7 +99,7 @@ class LocalHostTest {
         dataTask.resume()
     }
     
-    public func testCall() {
+    public func getRecipeSuggestions() {
         guard let requestURL = createEndpointURL(for: Service.Suggestion, url: baseURL) else { return }
         
         var request = URLRequest(url: requestURL)

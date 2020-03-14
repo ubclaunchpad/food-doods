@@ -18,7 +18,7 @@ class TestViewController: UIViewController {
         testButton1.translatesAutoresizingMaskIntoConstraints = false
         testButton1.layer.cornerRadius = 100
         testButton1.backgroundColor = .blue
-        testButton1.setTitle("Test", for: .normal)
+        testButton1.setTitle("Get Recipes", for: .normal)
         
         //MARK: Test Button 2
         var getUserButton = UIButton()
@@ -43,7 +43,7 @@ class TestViewController: UIViewController {
         testButton1.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         testButton1.heightAnchor.constraint(equalToConstant: 200).isActive = true
         testButton1.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        testButton1.addTarget(self, action: #selector(testAPIButton), for: .touchUpInside)
+        testButton1.addTarget(self, action: #selector(getRecipes), for: .touchUpInside)
         
         //MARK: Test Button 2 Constraints
         getUserButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -60,9 +60,9 @@ class TestViewController: UIViewController {
         getIngredientsButton.addTarget(self, action: #selector(getIngredientsAction), for: .touchUpInside)
     }
     
-    @objc func testAPIButton() {
-        print("Calling test API")
-        LocalHostTest.shared.testCall()
+    @objc func getRecipes() {
+        print("Calling Recieps Endpoint")
+        LocalHostTest.shared.getRecipeSuggestions()
     }
     
     @objc func getUserAction() {
