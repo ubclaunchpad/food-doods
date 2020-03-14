@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { db } from '../db/connection';
 
 export const addUser = async (req: Request, res: Response) => {
-    console.log('add user');
     const { externalId } = req.body;
     return db
         .one('INSERT INTO user_map (external_id) VALUES ($1) RETURNING id', [externalId])

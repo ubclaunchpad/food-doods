@@ -123,11 +123,11 @@ values
     (102, 'fd_orange', true, 3);
 
 insert into user_map
-    (id, external_id)
+    (external_id)
 values
-    (1, '54aedb94e6c12b1c0e83385f'),
-    (2, '544edb94e6c12b1c0e83355f'),
-    (3, '566edb94e6c12b1c0e83366f');
+    ('5e5f2e00ce491deb2f822b04'),
+    ('5e5f2f2a102141eb713f660e'),
+    ('5e5f3080d410e5ecabc4c9fa');
 
 insert into user_ingredient
     (user_id, ingredient_id, quantity)
