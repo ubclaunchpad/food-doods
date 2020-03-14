@@ -14,14 +14,17 @@ export interface IIngredient extends mongoose.Document {
     unit_category: number;
 }
 
-const time = new mongoose.Schema({
-    prep: { type: String },
-    cook: { type: String },
-    active: { type: String },
-    inactive: { type: String },
-    ready: { type: String },
-    total: { type: String },
-});
+const time = new mongoose.Schema(
+    {
+        prep: { type: String },
+        cook: { type: String },
+        active: { type: String },
+        inactive: { type: String },
+        ready: { type: String },
+        total: { type: String },
+    },
+    { _id: false }
+);
 
 export const Ingredient = new mongoose.Schema(
     {
