@@ -18,14 +18,16 @@ const sequelfy = (ingredients: any[]) => {
     return result;
 };
 
-const parsed = values
+const ingredients = values
     .filter((recipe: any) => recipe.hasOwnProperty('ingredients'))
-    .flatMap((recipe: IRecipe) => parse(recipe.ingredients));
+    .flatMap((recipe: IRecipe) => recipe.ingredients);
+
+const parsed = parse(ingredients);
 
 const script = sequelfy(parsed);
 
 const idMap = {};
-parsed.forEach((ingr, idx) => (idMap[ingr.name] = idx));
+parsed.forEach((ingr, idx) => (idMap[ingr.name] = idx + 1));
 
 writeFile('init/seed.sql', script, (err) => {
     if (err) {
