@@ -1,0 +1,33 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  userApi:
+    host: 'localhost'
+    paths: 
+      - '/user/*'
+      - '/user'
+serviceEndpoints:
+  userService:
+    url: "http://localhost:${USER_PORT:-8000}"
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  default: 
+    -name: user
+    apiEndpoints:
+      - userApi
+    policies:
+      - proxy:
+        - action:
+            serviceEndpoint: userService
+            changeOrigin: true
