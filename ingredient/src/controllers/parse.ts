@@ -5,7 +5,7 @@ import { parse as parseRecipe } from '../util/parser';
 export const parse = (req: Request, res: Response) => {
     const error = validate(req.body);
     if (error) {
-        return res.status(400).send(error);
+        return res.status(400).json({ error });
     }
     const ingredients = parseRecipe(req.body);
     return res.json({ ingredients });
