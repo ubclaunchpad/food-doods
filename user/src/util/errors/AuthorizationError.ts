@@ -5,3 +5,5 @@ class AuthorizationError extends Error {
         this.message = message;
     }
 }
+
+export { AuthorizationError };

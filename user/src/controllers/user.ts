@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { createUser, UserModel } from '../models/user';
 import { registerUser } from '../models/userManager';
+import { AuthorizationError } from '../util/errors/AuthorizationError';
 
 const postUser = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
@@ -38,7 +39,10 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
 
     if (token) {
         return getUserToken(token)
-            .then((newToken: string) => {
+            .then((newToken: string | false) => {
+                if (!newToken) {
+                    throw new AuthorizationError('');
+                }
                 return res
                     .status(200)
                     .set('token', newToken)
@@ -59,35 +63,35 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
 };
 
 const getUserToken = async (token: string): Promise<string> => {
-    const newToken: string | false = await loginWithToken(token);
-    if (!newToken) {
-        throw new AuthorizationError('Authorization denied.');
-    }
-    return newToken;
+    return loginWithToken(token)
+        .then((newToken: string) => newToken)
+        .catch((error: Error) => {
+            throw new AuthorizationError(error.message);
+        });
 };
 
-async function loginWithToken(token: string): Promise<string | false> {
+async function loginWithToken(token: string): Promise<string> {
     const secretKey: any = process.env.JWT_SECRET_KEY;
     const decoded: any = jwt.verify(token, secretKey, { maxAge: '168h' });
 
     if (decoded) {
-        const user: Document = await findUser(decoded);
-        if (user && decoded.username === user.get('username')) {
+        const user: Document = await findUser(decoded.username);
+        if (user?.get('username')) {
             return assignNewToken(user);
         }
     }
-    return false;
+    throw new Error('Verification error.');
 }
 
-function assignNewToken(user: Document): string | false {
+function assignNewToken(user: Document): string {
     const secretKey: string | undefined = process.env.JWT_SECRET_KEY;
-    if (secretKey) {
-        const payload: object = { username: user.get('username'), iat: Date.now() };
-        const newToken: string = jwt.sign(payload, secretKey, { expiresIn: '168h' });
-        user.set('token', newToken);
-        return newToken;
+    if (!secretKey) {
+        throw new Error('JWT_SECRET_KEY is not defined.');
     }
-    return false;
+    const payload: object = { username: user.get('username'), iat: Date.now() };
+    const newToken: string = jwt.sign(payload, secretKey, { expiresIn: '168h' });
+    user.set('token', newToken);
+    return newToken;
 }
 
 const getUserAttributes = async (username: string): Promise<object> => {
@@ -121,6 +125,7 @@ async function findUser(username: string): Promise<Document> {
     if (!user) {
         throw new Error('User could not be found.');
     }
+    console.log(user);
     return user;
 }
 
@@ -135,4 +140,4 @@ async function retrieveUsers(): Promise<Document[]> {
     });
 }
 
-export { getUser, postUser, assignNewToken, findUser };
+export { getUser, postUser, getUserToken, assignNewToken, findUser };
