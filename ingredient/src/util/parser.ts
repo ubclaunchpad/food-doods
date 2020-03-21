@@ -32,12 +32,13 @@ export function parse(ingredient: string): IRecipeIngredient {
     if (!quantityInfo[0]) {
         return null;
     }
-    const [unitCategory, rest] = getUnitCategory(quantityInfo[1]);
+    const [unitCategory, unit, rest] = getUnitCategory(quantityInfo[1]);
     const name = getName(rest);
     const quantity = quantityInfo[0];
     return {
         id: 0,
         unit_category: unitCategory,
+        unit,
         quantity,
         name,
     };
@@ -96,13 +97,13 @@ function getFraction(maybeFraction: string): number {
     return numer / denom;
 }
 
-function getUnitCategory(ingredient: string): [UnitCategory, string] {
+function getUnitCategory(ingredient: string): [UnitCategory, string, string] {
     const words = ingredient.split(' ');
     const category = matchWordToUnit(words[0]);
     if (category === 3) {
-        return [category, words.join(' ')];
+        return [category, null, words.join(' ')];
     }
-    return [category, words.slice(1).join(' ')];
+    return [category, singular(words[0].replace(bracketRegex, '')), words.slice(1).join(' ')];
 }
 
 function getName(ingredient: string) {
@@ -111,14 +112,14 @@ function getName(ingredient: string) {
         trimmed
             .join(' ')
             .split(',')[0]
-            .replace(/\((.*?)\)/, '')
+            .replace(bracketContentsRegex, '')
             .trim()
             .toLowerCase()
     );
 }
 
 function matchWordToUnit(word: string): UnitCategory {
-    const trimmed = word.replace(/[()]/, '');
+    const trimmed = word.replace(bracketRegex, '');
     if (volumes.includes(trimmed)) {
         return 1;
     }

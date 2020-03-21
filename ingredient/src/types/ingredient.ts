@@ -8,4 +8,5 @@ export interface IIngredient {
 
 export interface IRecipeIngredient extends IIngredient {
     quantity: number;
+    unit: string;
 }
