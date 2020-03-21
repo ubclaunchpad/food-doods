@@ -27,7 +27,7 @@ create table unit_category
  */
 create table ingredient
 (
-    id serial primary key,
+    id int primary key generated always as identity,
     name text unique,
     test_data boolean,
     unit_category int,

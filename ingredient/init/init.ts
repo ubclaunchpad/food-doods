@@ -10,9 +10,7 @@ const values = Object.values(seedData);
 const sequelfy = (ingrs: IIngredient[]) => {
     ingrs.forEach((ingredient, idx) => {
         if (ingredient.name.length) {
-            const id = idx + 1;
-            db.none('insert into ingredient (id, name, test_data, unit_category) values ($1, $2, $3, $4)', [
-                id,
+            db.none('insert into ingredient (name, test_data, unit_category) values ($1, $2, $3)', [
                 ingredient.name,
                 false,
                 ingredient.unit_category,
