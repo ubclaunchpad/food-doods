@@ -1,48 +1,11 @@
 {
-    "name": "food-doods-gateway",
-    "version": "0.0.1",
-    "description": "This is the gateway service for the Food Doods app.",
-    "main": "gateway.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ubclaunchpad/food-doods"
-    },
-    "scripts": {
-        "build": "tsc",
-        "lint": "tslint -c ../tslint.json ./src/**/*.ts",
-        "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/gateway.ts",
-        "start:dev": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/gateway.js\"",
-        "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/gateway.js\"",
-        "start:prod": "env-cmd -f ../config/dev.env node ./dist/gateway.js",
-        "test": "jest --watch"
-    },
-    "dependencies": {
-        "express": "^4.17.1",
-        "request": "^2.88.0"
-    },
-    "devDependencies": {
-        "@types/node": "^12.7.4",
-        "env-cmd": "^10.0.1",
-        "jest": "^24.9.0",
-        "prettier": "^1.18.2",
-        "ts-node": "^8.3.0",
-        "tsc-watch": "^4.0.0",
-        "tslint": "^5.19.0",
-        "tslint-config-prettier": "^1.18.0",
-        "tslint-plugin-prettier": "^2.0.1",
-        "typescript": "^3.6.2"
-    },
-    "nodemonConfig": {
-        "ignore": [
-            "**/*.test.ts",
-            "**/*.spec.ts",
-            ".git",
-            "node_modules"
-        ],
-        "watch": [
-            "src"
-        ],
-        "exec": "npm start",
-        "ext": "ts"
-    }
+  "name": "gateway",
+  "description": "Express Gateway Instance Bootstraped from Command Line",
+  "repository": {},
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "express-gateway": "^1.16.10"
+  }
 }

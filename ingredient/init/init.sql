@@ -7,7 +7,7 @@
  */
 create table user_map
 (
-    id int primary key,
+    id serial primary key,
     external_id varchar(24)
 );
 
@@ -17,7 +17,7 @@ create table user_map
  */
 create table unit_category
 (
-    id int primary key,
+    id serial primary key,
     name text
 );
 
@@ -43,7 +43,7 @@ create table ingredient
  */
 create table unit
 (
-    id int primary key,
+    id serial primary key,
     name_formal text,
     name_symbol text,
     value int,
@@ -84,7 +84,7 @@ values
     (3, 'unit');
 
 /* Units - Volume */
-insert into unit 
+insert into unit
     (id, name_formal, name_symbol, value, exponent, unit_category, main_unit)
 values
     (1, 'millilitre', 'mL', 1, -3, 1, false),
@@ -94,7 +94,7 @@ values
     (5, 'tablespoon', 'tbsp', 25, -3, 1, false);
 
 /* Units - Weight */
-insert into unit 
+insert into unit
     (id, name_formal, name_symbol, value, exponent, unit_category, main_unit)
 values
     (6, 'gram', 'g', 1, 1, 2, true),
@@ -102,7 +102,7 @@ values
     (8, 'kilogram', 'kg', 1, 3, 2, false);
 
 /* Units - Unit */
-insert into unit 
+insert into unit
     (id, name_formal, name_symbol, value, exponent, unit_category, main_unit)
 values
     (9, '', '', 1, 1, 3, true);
@@ -123,11 +123,11 @@ values
     ('fd_orange', true, 3);
 
 insert into user_map
-    (id, external_id)
+    (external_id)
 values
-    (1, '54aedb94e6c12b1c0e83385f'),
-    (2, '544edb94e6c12b1c0e83355f'),
-    (3, '566edb94e6c12b1c0e83366f');
+    ('5e5f2e00ce491deb2f822b04'),
+    ('5e5f2f2a102141eb713f660e'),
+    ('5e5f3080d410e5ecabc4c9fa');
 
 insert into user_ingredient
     (user_id, ingredient_id, quantity)
