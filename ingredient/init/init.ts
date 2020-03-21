@@ -12,7 +12,7 @@ const sequelfy = (ingrs: IIngredient[]) => {
     `;
     ingrs.forEach((ingredient, idx) => {
         const id = idx + 1;
-        result += `(${idx + 1}, "${ingredient.name}", false, ${ingredient.unitCategory})${
+        result += `(${idx + 1}, "${ingredient.name}", false, ${ingredient.unit_category})${
             id < ingrs.length ? ',' : ';'
         }\n`;
     });

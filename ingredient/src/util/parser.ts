@@ -4,7 +4,7 @@ import { IRecipe, IRecipeIngredient, UnitCategory } from '../types/_master-types
 const bracketContentsRegex = /\((.*?)\)/;
 const bracketRegex = /[()]/;
 
-const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'pinch', 'can'];
+const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'pinch', 'can', 'jar'];
 const weightUnits = ['gram', 'pound', 'ounce'];
 
 const volumes = volumeUnits.concat(volumeUnits.map(plural));
@@ -17,7 +17,7 @@ export function parseRecipe(recipe: IRecipe): IRecipeIngredient[] {
 export function parse(ingredient: string): IRecipeIngredient {
     let trimmed = ingredient;
     if (trimmed.endsWith('ADVERTISEMENT')) {
-        trimmed = trimmed.slice(0, trimmed.length - 1);
+        trimmed = trimmed.slice(0, trimmed.length - 'ADVERTISEMENT'.length);
     }
     const quantityInfo = getQuantity(trimmed);
     if (!quantityInfo[0]) {
@@ -28,9 +28,9 @@ export function parse(ingredient: string): IRecipeIngredient {
     const quantity = quantityInfo[0];
     return {
         id: 0,
+        unit_category: unitCategory,
         quantity,
         name,
-        unitCategory,
     };
 }
 
