@@ -73,21 +73,12 @@ const getUserToken = async (token: string): Promise<string> => {
 async function loginWithToken(token: string): Promise<string> {
     const secretKey: any = process.env.JWT_SECRET_KEY;
     const decoded: any = jwt.verify(token, secretKey, { maxAge: '168h' });
-
-    if (decoded) {
-        const user: Document = await findUser(decoded.username);
-        if (user?.get('username')) {
-            return assignNewToken(user);
-        }
-    }
-    throw new Error('Verification error.');
+    const user: Document = await findUser(decoded.username);
+    return assignNewToken(user);
 }
 
 function assignNewToken(user: Document): string {
-    const secretKey: string | undefined = process.env.JWT_SECRET_KEY;
-    if (!secretKey) {
-        throw new Error('JWT_SECRET_KEY is not defined.');
-    }
+    const secretKey: any = process.env.JWT_SECRET_KEY;
     const payload: object = { username: user.get('username'), iat: Date.now() };
     const newToken: string = jwt.sign(payload, secretKey, { expiresIn: '168h' });
     user.set('token', newToken);
@@ -125,7 +116,6 @@ async function findUser(username: string): Promise<Document> {
     if (!user) {
         throw new Error('User could not be found.');
     }
-    console.log(user);
     return user;
 }
 
