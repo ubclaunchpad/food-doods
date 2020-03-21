@@ -1,15 +1,10 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+// import { validationResult } from 'express-validator';
 import { Document } from 'mongoose';
 import { createUser } from '../models/user';
 import { findUser, loginWithToken, registerUser } from '../models/userManager';
 
 const postUser = async (req: Request, res: Response): Promise<Response> => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
-
     const { email, username, password, fullName, dateOfBirth, city, province, country } = req.body;
     const user: any = { email, username, password, fullName, dateOfBirth, location: { city, province, country } };
 
@@ -57,8 +52,8 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
         for (const field of requestedFields) {
             const value: any = user.get(field);
             if (value) {
-                if (field === "_id") {
-                    results["id"] = value;
+                if (field === '_id') {
+                    results.id = value;
                 } else {
                     results[field] = value;
                 }
