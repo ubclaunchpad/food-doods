@@ -46,15 +46,8 @@ class LocalHostTest {
                     
                     if let data = data {
                         print ("--- Data ---")
-                        
-                        //MARK: Decode Data
-    //                let decodedData = try? JSONDecoder().decode(ResponseHashes.self, from: data)
-    //                guard let data = decodedData else {
-    //                    print("Could not decode data")
-    //                    return
-    //                }
-                        
-                        print(data)
+                        let str = String(decoding: data, as: UTF8.self)
+                        print(str)
                     }
         }
                 
@@ -87,7 +80,8 @@ class LocalHostTest {
             
             if let data = data {
                 print ("--- Data ---")
-                print(data)
+                let str = String(decoding: data, as: UTF8.self)
+                print(str)
             }
         }
         
@@ -95,7 +89,7 @@ class LocalHostTest {
     }
     
     private func createUserHelper() -> Data? {
-        let body = CreateUserModel(email: "hello@gmail.com", username: "testUser", password: "password", fullName: "Joe Mama")
+        let body = CreateUserModel(email: "wrennyboy@gmail.com", username: "joemama", password: "letmein", fullName: "Joe Mama")
         
         let encoded = try? JSONEncoder().encode(body)
         
@@ -124,16 +118,8 @@ class LocalHostTest {
             
             if let data = data {
                 print ("--- Data ---")
-                
-                //MARK: Decode Data
-//                let decodedData = try? JSONDecoder().decode(ResponseHashes.self, from: data)
-//                guard let data = decodedData else {
-//                    print("Could not decode data")
-//                    return
-//                }
-                
-
-                print(data)
+                let str = String(decoding: data, as: UTF8.self)
+                print(str)
             }
         }
         
