@@ -21,11 +21,11 @@ class TestViewController: UIViewController {
         getRecipesButton.setTitle("Get Recipes", for: .normal)
         
         //MARK: Test Button 2
-        var getUserButton = UIButton()
-        getUserButton.translatesAutoresizingMaskIntoConstraints = false
-        getUserButton.layer.cornerRadius = 10
-        getUserButton.backgroundColor = .green
-        getUserButton.setTitle("Get User", for: .normal)
+        var loginUserButton = UIButton()
+        loginUserButton.translatesAutoresizingMaskIntoConstraints = false
+        loginUserButton.layer.cornerRadius = 10
+        loginUserButton.backgroundColor = .green
+        loginUserButton.setTitle("Login User", for: .normal)
         
         //MARK: Test Button 3
         var getIngredientsButton = UIButton()
@@ -49,7 +49,7 @@ class TestViewController: UIViewController {
         openLoginViewButton.setTitle("Create User", for: .normal)
         
         self.view.addSubview(getRecipesButton)
-        self.view.addSubview(getUserButton)
+        self.view.addSubview(loginUserButton)
         self.view.addSubview(getIngredientsButton)
         self.view.addSubview(createUserButton)
         self.view.addSubview(openLoginViewButton)
@@ -62,15 +62,15 @@ class TestViewController: UIViewController {
         getRecipesButton.addTarget(self, action: #selector(getRecipes), for: .touchUpInside)
         
         //MARK: Test Button 2 Constraints
-        getUserButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        getUserButton.topAnchor.constraint(equalTo: getRecipesButton.bottomAnchor, constant: 10).isActive = true
-        getUserButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        getUserButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        getUserButton.addTarget(self, action: #selector(getUserAction), for: .touchUpInside)
+        loginUserButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        loginUserButton.topAnchor.constraint(equalTo: getRecipesButton.bottomAnchor, constant: 10).isActive = true
+        loginUserButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        loginUserButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        loginUserButton.addTarget(self, action: #selector(loginUserAction), for: .touchUpInside)
         
         //MARK: Test Button 3 Constraints
         getIngredientsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        getIngredientsButton.topAnchor.constraint(equalTo: getUserButton.bottomAnchor, constant: 10).isActive = true
+        getIngredientsButton.topAnchor.constraint(equalTo: loginUserButton.bottomAnchor, constant: 10).isActive = true
         getIngredientsButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
         getIngredientsButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
         getIngredientsButton.addTarget(self, action: #selector(getIngredientsAction), for: .touchUpInside)
@@ -95,9 +95,9 @@ class TestViewController: UIViewController {
         LocalHostTest.shared.getRecipeSuggestions()
     }
     
-    @objc func getUserAction() {
-        print("Calling User Endpoint: GET")
-        LocalHostTest.shared.getUser()
+    @objc func loginUserAction() {
+        print("Calling User Endpoint: POST LOGIN")
+        LocalHostTest.shared.loginUser()
     }
     
     @objc func getIngredientsAction() {
@@ -106,7 +106,7 @@ class TestViewController: UIViewController {
     }
     
     @objc func createUserAction() {
-        print("Calling User Endpoint: POST")
+        print("Calling User Endpoint: POST CREATE")
         LocalHostTest.shared.createUser()
     }
     
