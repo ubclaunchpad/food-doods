@@ -1,13 +1,14 @@
+import { plural, singular } from 'pluralize';
 import { IRecipe, IRecipeIngredient, UnitCategory } from '../types/_master-types';
 
 const bracketContentsRegex = /\((.*?)\)/;
 const bracketRegex = /[()]/;
 
-const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'pinch'];
+const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'pinch', 'can'];
 const weightUnits = ['gram', 'pound', 'ounce'];
 
-const volumes = volumeUnits.concat(volumeUnits.map((unit) => unit + 's'));
-const weights = weightUnits.concat(weightUnits.map((unit) => unit + 's'));
+const volumes = volumeUnits.concat(volumeUnits.map(plural));
+const weights = weightUnits.concat(weightUnits.map(plural));
 
 export function parseRecipe(recipe: IRecipe): IRecipeIngredient[] {
     return recipe.ingredients.map(parse).filter(Boolean);
@@ -87,14 +88,23 @@ function getFraction(maybeFraction: string): number {
 }
 
 function getUnitCategory(ingredient: string): [UnitCategory, string] {
-    return [1, ingredient];
+    const words = ingredient.split(' ');
+    const category = matchWordToUnit(words[0]);
+    if (category === 3) {
+        return [category, words.join(' ')];
+    }
+    return [category, words.slice(1).join(' ')];
 }
 
 function getName(ingredient: string) {
-    return ingredient
-        .split(',')[0]
-        .replace(/\((.*?)\)/, '')
-        .trim();
+    const trimmed = ingredient.split(' ').filter((word) => !volumes.includes(word) && !weights.includes(word));
+    return singular(
+        trimmed
+            .join(' ')
+            .split(',')[0]
+            .replace(/\((.*?)\)/, '')
+            .trim()
+    );
 }
 
 function matchWordToUnit(word: string): UnitCategory {

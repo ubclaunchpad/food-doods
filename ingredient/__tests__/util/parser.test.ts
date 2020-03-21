@@ -25,8 +25,10 @@ describe('Ingredient Parser', () => {
             ['1 1/4 cups buttermilk', { id: 0, quantity: 1.25, name: 'buttermilk', unitCategory: 1 }],
             ['2 (6 ounce) cans tomatoes', { id: 0, quantity: 6, name: 'tomato', unitCategory: 2 }],
         ];
-        it('Should correctly parse an ingredient description', () => {
-            cases.forEach(([ingredient, result]) => expect(parse(ingredient)).toEqual(result));
+        cases.forEach(([ingredient, result]) => {
+            it(`Should correctly parse "${ingredient}"`, () => {
+                expect(parse(ingredient)).toEqual(result);
+            });
         });
     });
 });
