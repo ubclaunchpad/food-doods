@@ -18,7 +18,7 @@ enum Service {
 class LocalHostTest {
     var baseURL: String
     
-    static let shared = LocalHostTest("http://localhost:8585")
+    static let shared = LocalHostTest("http://localhost:8000")
     
     private init (_ hostName: String) {
         baseURL = hostName
@@ -95,7 +95,7 @@ class LocalHostTest {
     }
     
     private func createUserHelper() -> Data? {
-        let body = CreateUserModel(email: "hello@gmail.com", username: "test", password: "password", fullName: "joe mama")
+        let body = CreateUserModel(email: "hello@gmail.com", username: "testUser", password: "password", fullName: "Joe Mama")
         
         let encoded = try? JSONEncoder().encode(body)
         
