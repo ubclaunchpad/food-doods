@@ -6,20 +6,12 @@ import * as controller from '../controllers/ingredient';
  */
 const ingredientRouter = Router();
 
-ingredientRouter.get('/:id', (req, res) => {
-    res.send('stub');
-});
+ingredientRouter.get('/:id', controller.getIngredients);
 
-ingredientRouter.post('/', (req, res) => {
-    res.send('stub');
-});
+ingredientRouter.post('/', controller.postIngredient);
 
-ingredientRouter.patch('/:id', (req, res) => {
-    res.send('stub');
-});
+ingredientRouter.patch('/:id', controller.patchIngredient);
 
-ingredientRouter.delete('/:id', (req, res) => {
-    res.send('stub');
-});
+ingredientRouter.delete('/:id', controller.deleteIngredient);
 
 export { ingredientRouter };

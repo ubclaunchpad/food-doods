@@ -120,6 +120,7 @@ class LocalHostTest {
                 print ("--- Data ---")
                 let str = String(decoding: data, as: UTF8.self)
                 print(str)
+
             }
         }
         
@@ -198,7 +199,7 @@ class LocalHostTest {
             returnURL.append("/suggestion")
             break
         case Service.User:
-            returnURL.append("/user")
+            returnURL.append("/user/abcabc")
             break
             
         case Service.Ingredient:
@@ -211,6 +212,14 @@ class LocalHostTest {
         return URL(string: returnURL)
     }
         
+}
+
+
+
+
+//MARK: - FOR TESTING PURPOSES
+struct UserAPIResponse: Codable {
+    let fullName, username, id: String
 }
 
 

@@ -50,19 +50,23 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
     } else {
         // TODO: change requestedFields into a static array instead of retrieving from request
         // const { requestedFields } = req.body;
-        const requestedFields = ['fullName', 'username'];
+        const requestedFields = ['fullName', 'username', '_id'];
         const user: Document = await findUser(username);
 
         const results: any = {};
         for (const field of requestedFields) {
             const value: any = user.get(field);
             if (value) {
-                results[field] = value;
+                if (field === "_id") {
+                    results["id"] = value;
+                } else {
+                    results[field] = value;
+                }
             }
         }
 
         if (Object.keys(results).length > 0) {
-            return res.status(200).send({ attributes: results });
+            return res.status(200).send(results);
         } else {
             return res.status(404).json({ error: 'Requested attributes could not be found.' });
         }

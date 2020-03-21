@@ -28,6 +28,7 @@ class LoginView: UIView {
         field.clipsToBounds = true
         field.layer.cornerRadius = 20
         field.backgroundColor = .gray
+
         return field
     }()
     
@@ -39,6 +40,7 @@ class LoginView: UIView {
         field.clipsToBounds = true
         field.layer.cornerRadius = 20
         field.backgroundColor = .gray
+
         return field
     }()
     
@@ -49,12 +51,13 @@ class LoginView: UIView {
         button.layer.cornerRadius = 25
         button.backgroundColor = .blue
         button.setTitle("Login", for: .normal)
+      
         return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setupView()
     }
     
@@ -62,15 +65,18 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+
     func setupView() {
         backgroundColor = .white
+
         addSubview(titleLabel)
         addSubview(usernameTextField)
         addSubview(passwordTextField)
         addSubview(loginButton)
-        
+      
         setupConstraints()
     }
+  
     private func setupConstraints() {
         titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
@@ -94,5 +100,5 @@ class LoginView: UIView {
     
     
     
-    
+ 
 }

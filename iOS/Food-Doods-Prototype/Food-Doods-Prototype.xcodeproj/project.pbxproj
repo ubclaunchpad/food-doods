@@ -14,6 +14,7 @@
 		25288EB3236E1329001BA957 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB2236E1329001BA957 /* Recipe.swift */; };
 		25288EB5236E2B92001BA957 /* RecipeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */; };
 		258C052723E6270A004209E2 /* ShoppingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */; };
+		259C853424268EA100FC2995 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259C853324268EA100FC2995 /* LoginView.swift */; };
 		25C236F9235A49DA0092EDE8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C236F8235A49DA0092EDE8 /* MainView.swift */; };
 		25CDA5F8240AF42000C148CF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDA5F7240AF42000C148CF /* FilterViewController.swift */; };
 		25CDA5FA240AF52700C148CF /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDA5F9240AF52600C148CF /* TestViewController.swift */; };
@@ -52,6 +53,7 @@
 		25288EB2236E1329001BA957 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Recipe.swift; path = "Food-Doods-Prototype/Controllers/Recipe.swift"; sourceTree = SOURCE_ROOT; };
 		25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCollectionViewCell.swift; sourceTree = "<group>"; };
 		258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListTableViewCell.swift; sourceTree = "<group>"; };
+		259C853324268EA100FC2995 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		25C236F8235A49DA0092EDE8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		25CDA5F7240AF42000C148CF /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		25CDA5F9240AF52600C148CF /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
