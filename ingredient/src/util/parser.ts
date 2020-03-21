@@ -1,10 +1,10 @@
 import { IRecipe, IRecipeIngredient, UnitCategory } from '../types/_master-types';
 
-const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'ounce'];
+const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'ounce', 'pinch'];
 const weightUnits = ['gram', 'pound'];
 
-const volumes = volumeUnits.concat(pluralfy(volumeUnits));
-const weights = weightUnits.concat(pluralfy(weightUnits));
+const volumes = volumeUnits.concat(volumeUnits.map((unit) => unit + 's'));
+const weights = weightUnits.concat(weightUnits.map((unit) => unit + 's'));
 
 export function parse(recipe: IRecipe): IRecipeIngredient[] {
     return recipe.ingredients
@@ -13,37 +13,36 @@ export function parse(recipe: IRecipe): IRecipeIngredient[] {
             if (trimmed.endsWith('ADVERTISEMENT')) {
                 trimmed = trimmed.slice(0, trimmed.length - 1);
             }
-            const unitInfo = getUnit(trimmed);
-            if (unitInfo) {
-                const { unit: unitCategory, index } = unitInfo;
-                // TODO: Update parser to retrieve quantity info
-                return { id: 0, quantity: 0, name: getName(trimmed, index), unitCategory };
+            const quantityInfo = getQuantity(trimmed);
+            if (!quantityInfo[0]) {
+                return null;
             }
-            return null;
+            const [unitCategory, rest] = getUnitCategory(quantityInfo[1]);
+            const name = getName(rest);
+            const quantity = quantityInfo[0];
+            return {
+                id: 0,
+                quantity,
+                name,
+                unitCategory,
+            };
         })
         .filter(Boolean);
 }
 
-function pluralfy(units: string[]) {
-    return units.map((unit) => unit + 's');
+export function getQuantity(ingredient: string): [number, string] {
+    return [0, ingredient];
 }
 
-function getName(ingredient: string, index: number) {
-    const name = ingredient.slice(index + 1);
-    return name
+function getUnitCategory(ingredient: string): [UnitCategory, string] {
+    return [0, ingredient];
+}
+
+function getName(ingredient: string) {
+    return ingredient
         .split(',')[0]
         .replace(/\((.*?)\)/, '')
         .trim();
-}
-
-function getUnit(ingredient: string) {
-    for (let index = ingredient.length - 1; index >= 0; index--) {
-        const unit = matchWordToUnit(ingredient[index]);
-        if (unit) {
-            return { unit, index };
-        }
-    }
-    return null;
 }
 
 function matchWordToUnit(word: string): UnitCategory {
