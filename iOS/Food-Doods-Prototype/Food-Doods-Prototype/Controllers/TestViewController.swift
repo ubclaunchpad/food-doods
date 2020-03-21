@@ -67,7 +67,7 @@ class TestViewController: UIViewController {
     
     @objc func getUserAction() {
         print("Calling User Endpoint")
-        LocalHostTest.shared.getUserCall()
+        LocalHostTest.shared.getUser()
     }
     
     @objc func getIngredientsAction() {

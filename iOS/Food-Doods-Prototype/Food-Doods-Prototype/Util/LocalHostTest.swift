@@ -61,7 +61,48 @@ class LocalHostTest {
         dataTask.resume()
     }
     
-    public func getUserCall() {
+    public func createUser() {
+        guard let requestURL = createEndpointURL(for: Service.User, url: baseURL) else { return }
+        
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.httpBody = createUserHelper()
+        
+        let dataTask = URLSession.shared.dataTask(with: request) {
+            (data, response, error) in
+            
+            if let error = error {
+                print("--- Error ---")
+                print(error)
+                return
+            }
+            
+            if let response = response {
+                print("--- Response ---")
+                print(response)
+            }
+            
+            if let data = data {
+                print ("--- Data ---")
+                print(data)
+            }
+        }
+        
+        dataTask.resume()
+    }
+    
+    private func createUserHelper() -> Data? {
+        let body = CreateUserModel(email: "hello@gmail.com", username: "test", password: "password", fullName: "joe mama")
+        
+        let encoded = try? JSONEncoder().encode(body)
+        
+        return encoded
+    }
+    
+    public func getUser() {
         guard let requestURL = createEndpointURL(for: Service.User, url: baseURL) else { return }
         
         var request = URLRequest(url: requestURL)
@@ -175,7 +216,7 @@ class LocalHostTest {
             break
             
         case Service.Ingredient:
-            returnURL.append("/ingredient")
+            returnURL.append("/user/ingredient/1")
             break
         default:
             print("No special action needed")
