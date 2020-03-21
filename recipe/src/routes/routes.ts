@@ -15,7 +15,7 @@ export const initializeRecipeRoutes = (app: Application) => {
     recipeRouter.post('/', async (req, res) => {
         const recipe = new RecipeModel(req.body);
         try {
-            await recipe.save().then((item) => res.send(item));
+            await recipe.save().then((item: any) => res.send(item));
         } catch (e) {
             console.error(e);
             res.status(500);

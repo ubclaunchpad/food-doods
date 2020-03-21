@@ -14,24 +14,22 @@ export const recipeScraperUtil = (baseUrl: string, recipeIDs: string[]) => {
     Promise.all(recipes).then((data) => saveRecipeToDB(data));
 };
 
-const saveRecipeToDB = (recipes: IRecipe[]) => {
+const saveRecipeToDB = (recipes: any) => {
     for (const recipe of recipes) {
-        console.log(recipe.ingredients);
         const parsed = parse(recipe.ingredients);
-        console.log(
-            parsed.map((ingr) => {
-                return { ...ingr, id: idMap[ingr.name] };
-            })
-        );
+        const ingredients = parsed.map((ingr) => {
+            return { ...ingr, id: idMap[ingr.name] };
+        });
+        recipe.ingredients = ingredients;
     }
-    const recipe = mongoose.model('recipe', Recipe);
-    // recipe.collection.insertMany(recipes, onInsert);
 
-    // function onInsert(err, docs) {
-    //     if (err) {
-    //         console.error(err);
-    //     } else {
-    //         console.info('%d recipes were successfully stored.', docs.length);
-    //     }
-    // }
+    RecipeModel.bulkInsert(recipes, function(err: any, results: any) {
+        if (err) {
+            console.log(err);
+            process.exit(1);
+        } else {
+            console.log(results);
+            process.exit(0);
+        }
+    });
 };

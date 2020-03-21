@@ -61,4 +61,19 @@ export const Recipe = new mongoose.Schema({
     },
 });
 
+Recipe.statics.bulkInsert = function(models: string | any[], fn: (arg0: string | null) => any) {
+    if (!models || !models.length) return fn(null);
+
+    var bulk = this.collection.initializeOrderedBulkOp();
+    if (!bulk) return fn('bulkInsertModels: MongoDb connection is not yet established');
+
+    var model;
+    for (var i = 0; i < models.length; i++) {
+        model = models[i];
+        bulk.insert(model.toJSON());
+    }
+
+    bulk.execute(fn);
+};
+
 export const RecipeModel = mongoose.model<IRecipe>('Recipe', Recipe);
