@@ -3,8 +3,8 @@ import { IRecipe, IRecipeIngredient, UnitCategory } from '../types/_master-types
 const bracketContentsRegex = /\((.*?)\)/;
 const bracketRegex = /[()]/;
 
-const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'ounce', 'pinch'];
-const weightUnits = ['gram', 'pound'];
+const volumeUnits = ['cup', 'teaspoon', 'tablespoon', 'pinch'];
+const weightUnits = ['gram', 'pound', 'ounce'];
 
 const volumes = volumeUnits.concat(volumeUnits.map((unit) => unit + 's'));
 const weights = weightUnits.concat(weightUnits.map((unit) => unit + 's'));
@@ -87,7 +87,7 @@ function getFraction(maybeFraction: string): number {
 }
 
 function getUnitCategory(ingredient: string): [UnitCategory, string] {
-    return [0, ingredient];
+    return [1, ingredient];
 }
 
 function getName(ingredient: string) {
@@ -105,8 +105,5 @@ function matchWordToUnit(word: string): UnitCategory {
     if (weights.includes(trimmed)) {
         return 2;
     }
-    if (!isNaN(parseInt(trimmed, 2))) {
-        return 3;
-    }
-    return 0;
+    return 3;
 }

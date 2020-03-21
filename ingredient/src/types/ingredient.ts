@@ -1,4 +1,4 @@
-export type UnitCategory = 0 | 1 | 2 | 3;
+export type UnitCategory = 1 | 2 | 3;
 
 export interface IIngredient {
     id: number;

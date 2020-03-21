@@ -1,8 +1,6 @@
 import { IRecipeIngredient } from '../../src/types/ingredient';
 import { getQuantity, parse } from '../../src/util/parser';
 
-const testIngredients = ['6 eggs', 'hello', '1/4 teaspoon salt', '1 1/4 cups buttermilk', '2 (6 ounce) cans tomatoes'];
-
 describe('Ingredient Parser', () => {
     describe('Parse Quantity', () => {
         const cases: Array<[string, [number, string], string]> = [
@@ -20,7 +18,15 @@ describe('Ingredient Parser', () => {
     });
 
     describe('Parser', () => {
-        const cases: Array<[string, IRecipeIngredient, string]> = [];
-        testIngredients.forEach((ingredient) => {});
+        const cases: Array<[string, IRecipeIngredient]> = [
+            ['6 eggs', { id: 0, quantity: 6, name: 'egg', unitCategory: 3 }],
+            ['hello', null],
+            ['1/4 teaspoon salt', { id: 0, quantity: 0.25, name: 'salt', unitCategory: 1 }],
+            ['1 1/4 cups buttermilk', { id: 0, quantity: 1.25, name: 'buttermilk', unitCategory: 1 }],
+            ['2 (6 ounce) cans tomatoes', { id: 0, quantity: 6, name: 'tomato', unitCategory: 2 }],
+        ];
+        it('Should correctly parse an ingredient description', () => {
+            cases.forEach(([ingredient, result]) => expect(parse(ingredient)).toEqual(result));
+        });
     });
 });
