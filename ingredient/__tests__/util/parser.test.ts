@@ -19,11 +19,11 @@ describe('Ingredient Parser', () => {
 
     describe('Parser', () => {
         const cases: Array<[string, IRecipeIngredient]> = [
-            ['6 eggs', { id: 0, quantity: 6, name: 'egg', unitCategory: 3 }],
+            ['6 eggs', { id: 0, quantity: 6, name: 'egg', unit_category: 3 }],
             ['hello', null],
-            ['1/4 teaspoon salt', { id: 0, quantity: 0.25, name: 'salt', unitCategory: 1 }],
-            ['1 1/4 cups buttermilk', { id: 0, quantity: 1.25, name: 'buttermilk', unitCategory: 1 }],
-            ['2 (6 ounce) cans tomatoes', { id: 0, quantity: 6, name: 'tomato', unitCategory: 2 }],
+            ['1/4 teaspoon salt', { id: 0, quantity: 0.25, name: 'salt', unit_category: 1 }],
+            ['1 1/4 cups buttermilk', { id: 0, quantity: 1.25, name: 'buttermilk', unit_category: 1 }],
+            ['2 (6 ounce) cans tomatoes', { id: 0, quantity: 6, name: 'tomato', unit_category: 2 }],
         ];
         cases.forEach(([ingredient, result]) => {
             it(`Should correctly parse "${ingredient}"`, () => {
