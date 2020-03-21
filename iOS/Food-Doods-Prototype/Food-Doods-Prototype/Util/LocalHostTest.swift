@@ -89,7 +89,7 @@ class LocalHostTest {
     }
     
     private func createUserHelper() -> Data? {
-        let body = CreateUserModel(email: "wrennyboy@gmail.com", username: "joemama", password: "letmein", fullName: "Joe Mama")
+        let body = CreateUserModel(email: "anothertest@gmail.com", username: "workworkwork", password: "1234567", fullName: "Joe Mama")
         
         let encoded = try? JSONEncoder().encode(body)
         
@@ -199,7 +199,7 @@ class LocalHostTest {
             returnURL.append("/suggestion")
             break
         case Service.User:
-            returnURL.append("/user/abcabc")
+            returnURL.append("/user")
             break
             
         case Service.Ingredient:
