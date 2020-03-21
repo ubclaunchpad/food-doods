@@ -9,28 +9,28 @@ const weightUnits = ['gram', 'pound'];
 const volumes = volumeUnits.concat(volumeUnits.map((unit) => unit + 's'));
 const weights = weightUnits.concat(weightUnits.map((unit) => unit + 's'));
 
-export function parse(recipe: IRecipe): IRecipeIngredient[] {
-    return recipe.ingredients
-        .map((description) => {
-            let trimmed = description;
-            if (trimmed.endsWith('ADVERTISEMENT')) {
-                trimmed = trimmed.slice(0, trimmed.length - 1);
-            }
-            const quantityInfo = getQuantity(trimmed);
-            if (!quantityInfo[0]) {
-                return null;
-            }
-            const [unitCategory, rest] = getUnitCategory(quantityInfo[1]);
-            const name = getName(rest);
-            const quantity = quantityInfo[0];
-            return {
-                id: 0,
-                quantity,
-                name,
-                unitCategory,
-            };
-        })
-        .filter(Boolean);
+export function parseRecipe(recipe: IRecipe): IRecipeIngredient[] {
+    return recipe.ingredients.map(parse).filter(Boolean);
+}
+
+export function parse(ingredient: string): IRecipeIngredient {
+    let trimmed = ingredient;
+    if (trimmed.endsWith('ADVERTISEMENT')) {
+        trimmed = trimmed.slice(0, trimmed.length - 1);
+    }
+    const quantityInfo = getQuantity(trimmed);
+    if (!quantityInfo[0]) {
+        return null;
+    }
+    const [unitCategory, rest] = getUnitCategory(quantityInfo[1]);
+    const name = getName(rest);
+    const quantity = quantityInfo[0];
+    return {
+        id: 0,
+        quantity,
+        name,
+        unitCategory,
+    };
 }
 
 export function getQuantity(ingredient: string): [number, string] {

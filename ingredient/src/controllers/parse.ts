@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { db } from '../db/connection';
-import { parse as parseRecipe } from '../util/parser';
+import { parseRecipe } from '../util/parser';
 
 export const parse = (req: Request, res: Response) => {
     const error = validate(req.body);
