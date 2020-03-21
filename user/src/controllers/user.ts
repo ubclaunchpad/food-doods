@@ -6,6 +6,8 @@ import { createUser, UserModel } from '../models/user';
 import { registerUser } from '../models/userManager';
 import { AuthorizationError } from '../util/errors/AuthorizationError';
 
+const AVAILABLE_FIELDS: string[] = ['fullName', 'username', '_id'];
+
 const postUser = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -86,25 +88,20 @@ function assignNewToken(user: Document): string {
 }
 
 const getUserAttributes = async (username: string): Promise<object> => {
-    const requestedFields = ['fullName', 'username', '_id'];
     const user: Document = await findUser(username);
 
     const attributes: any = {};
-    for (const field of requestedFields) {
-        const value: any = user.get(field);
+    for (const field of AVAILABLE_FIELDS) {
+        let value: any = user.get(field);
         if (value) {
             if (field.startsWith('_')) {
                 field.slice(1);
+                value = value.toString();
             }
             attributes[field] = value;
         }
     }
-
-    if (Object.keys(attributes).length > 0) {
-        return attributes;
-    } else {
-        throw Error('Requested attributes could not be found.');
-    }
+    return attributes;
 };
 
 async function findUser(username: string): Promise<Document> {
@@ -130,4 +127,4 @@ async function retrieveUsers(): Promise<Document[]> {
     });
 }
 
-export { getUser, postUser, getUserToken, assignNewToken, findUser };
+export { getUser, postUser, getUserAttributes, getUserToken, assignNewToken, findUser, AVAILABLE_FIELDS };
