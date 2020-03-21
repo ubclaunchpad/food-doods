@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { connect } from '.';
+import { assignNewToken } from '../controllers/user';
 import { addUserIngredient } from '../util/ingredient';
 import { addUserRecipe } from '../util/recipe';
 import { passwordsMatch } from './password';
-import { assignNewToken } from './token';
 import { UserModel } from './user';
 
 async function findUser(username: string): Promise<Document> {
@@ -81,17 +81,4 @@ async function verifyUser(username: string, password: string, token: string): Pr
     }
 }
 
-async function loginWithToken(token: string): Promise<string | false> {
-    const secretKey: any = process.env.JWT_SECRET_KEY;
-    const decoded: any = jwt.verify(token, secretKey, { maxAge: '168h' });
-
-    if (decoded) {
-        const user: Document = await findUser(decoded);
-        if (user && decoded.username === user.get('username')) {
-            return assignNewToken(user);
-        }
-    }
-    return false;
-}
-
-export { registerUser, findUser, verifyUser, loginWithToken };
+export { registerUser, findUser, verifyUser };
