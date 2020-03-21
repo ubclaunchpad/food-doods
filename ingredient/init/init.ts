@@ -1,7 +1,7 @@
 import { readFileSync, writeFile } from 'fs';
 import { resolve } from 'path';
 import { IIngredient } from '../src/types/_master-types';
-import { parse } from '../src/util/parser';
+import { parseRecipe } from '../src/util/parser';
 
 const seedData = JSON.parse(readFileSync(resolve('init/seed.json')).toString());
 const values = Object.values(seedData);
@@ -31,7 +31,7 @@ const trim = (ingrs: IIngredient[]) => {
     return result;
 };
 
-const parsed = values.filter((recipe: any) => recipe.hasOwnProperty('ingredients')).flatMap(parse);
+const parsed = values.filter((recipe: any) => recipe.hasOwnProperty('ingredients')).flatMap(parseRecipe);
 const ingredients = trim(parsed);
 
 const script = sequelfy(ingredients);

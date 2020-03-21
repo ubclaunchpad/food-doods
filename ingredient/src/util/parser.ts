@@ -11,7 +11,16 @@ const volumes = volumeUnits.concat(volumeUnits.map(plural));
 const weights = weightUnits.concat(weightUnits.map(plural));
 
 export function parseRecipe(recipe: IRecipe): IRecipeIngredient[] {
-    return recipe.ingredients.map(parse).filter(Boolean);
+    const seen = new Set<string>();
+    const ingredients = recipe.ingredients.map(parse).filter(Boolean);
+    const result = [];
+    ingredients.forEach((ingredient) => {
+        if (!seen.has(ingredient.name)) {
+            seen.add(ingredient.name);
+            result.push(ingredient);
+        }
+    });
+    return result;
 }
 
 export function parse(ingredient: string): IRecipeIngredient {
@@ -104,6 +113,7 @@ function getName(ingredient: string) {
             .split(',')[0]
             .replace(/\((.*?)\)/, '')
             .trim()
+            .toLowerCase()
     );
 }
 
