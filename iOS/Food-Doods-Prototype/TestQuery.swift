@@ -21,6 +21,10 @@ struct QueryIngredient: Codable {
     let commonName, databaseID: String
 }
 
+//MARK: TestCreateUserModel
+struct CreateUserModel: Codable {
+    let email, username, password, fullName: String
+}
 
 
 

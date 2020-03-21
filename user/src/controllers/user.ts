@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+//import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { createUser, UserModel } from '../models/user';
@@ -9,11 +9,6 @@ import { AuthorizationError } from '../util/errors/AuthorizationError';
 const AVAILABLE_FIELDS: string[] = ['fullName', 'username', '_id'];
 
 const postUser = async (req: Request, res: Response): Promise<Response> => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
-
     const { email, username, password, fullName, dateOfBirth, city, province, country } = req.body;
     const user: any = { email, username, password, fullName, dateOfBirth, location: { city, province, country } };
 
