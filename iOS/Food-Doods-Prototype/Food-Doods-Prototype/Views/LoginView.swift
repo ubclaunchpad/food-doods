@@ -63,13 +63,17 @@ class LoginView: UIView {
     }
     
     func setupView() {
-        
+        backgroundColor = .white
+        addSubview(titleLabel)
+        addSubview(usernameTextField)
+        addSubview(passwordTextField)
+        addSubview(loginButton)
         
         setupConstraints()
     }
     private func setupConstraints() {
         titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         
         usernameTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
         usernameTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true

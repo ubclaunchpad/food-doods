@@ -41,10 +41,18 @@ class TestViewController: UIViewController {
         createUserButton.backgroundColor = .purple
         createUserButton.setTitle("Create User", for: .normal)
         
+        //MARK: Test Button 5
+        var openLoginViewButton = UIButton()
+        openLoginViewButton.translatesAutoresizingMaskIntoConstraints = false
+        openLoginViewButton.layer.cornerRadius = 10
+        openLoginViewButton.backgroundColor = .yellow
+        openLoginViewButton.setTitle("Create User", for: .normal)
+        
         self.view.addSubview(getRecipesButton)
         self.view.addSubview(getUserButton)
         self.view.addSubview(getIngredientsButton)
         self.view.addSubview(createUserButton)
+        self.view.addSubview(openLoginViewButton)
         
         //MARK: Test Button 1 Constraints
         getRecipesButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -73,6 +81,13 @@ class TestViewController: UIViewController {
         createUserButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
         createUserButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
         createUserButton.addTarget(self, action: #selector(createUserAction), for: .touchUpInside)
+        
+        //MARK: Open Login View Button Constraints
+        openLoginViewButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        openLoginViewButton.topAnchor.constraint(equalTo: getIngredientsButton.bottomAnchor, constant: 10).isActive = true
+        openLoginViewButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        openLoginViewButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        openLoginViewButton.addTarget(self, action: #selector(openLoginView), for: .touchUpInside)
     }
     
     @objc func getRecipes() {
@@ -93,6 +108,12 @@ class TestViewController: UIViewController {
     @objc func createUserAction() {
         print("Calling User Endpoint: POST")
         LocalHostTest.shared.createUser()
+    }
+    
+    @objc func openLoginView() {
+        print("Opening Login View")
+        let presentVC = LoginViewController()
+        present(presentVC, animated: true, completion: nil)
     }
 }
 
