@@ -1,43 +1,17 @@
 import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { connect } from '.';
-import { assignNewToken } from '../controllers/user';
+import { assignNewToken, findUser } from '../controllers/user';
 import { addUserIngredient } from '../util/ingredient';
 import { addUserRecipe } from '../util/recipe';
 import { passwordsMatch } from './password';
-import { UserModel } from './user';
 
-async function findUser(username: string): Promise<Document> {
-    const listOfUsers: Document[] = await retrieveUsers();
-    const user: Document | undefined = listOfUsers.find((u: Document) => {
-        return u.get('username') === username;
-    });
-
-    if (user) {
-        return user;
-    } else {
-        throw new Error('User could not be found.');
-    }
-}
-
-async function retrieveUsers(): Promise<Document[]> {
-    return new Promise((resolve: any, reject: any) => {
-        UserModel.find({}, (error: any, users: Document[]) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(users);
-            }
-        });
-    });
-}
-
-async function registerUser(user: Document): Promise<string> {
-    const callback = async (error: any): Promise<string> => {
+async function registerUser(user: Document): Promise<string | false> {
+    const callback = async (error: any): Promise<string | false> => {
         if (error) {
             throw error;
         }
-        const token: string = assignNewToken(user);
+        const token: string | false = assignNewToken(user);
         return user
             .save()
             .then(() => {
@@ -81,4 +55,4 @@ async function verifyUser(username: string, password: string, token: string): Pr
     }
 }
 
-export { registerUser, findUser, verifyUser };
+export { registerUser, verifyUser };

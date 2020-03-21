@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
-import { createUser } from '../models/user';
-import { findUser, registerUser } from '../models/userManager';
+import { createUser, UserModel } from '../models/user';
+import { registerUser } from '../models/userManager';
 
 const postUser = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
@@ -18,7 +18,10 @@ const postUser = async (req: Request, res: Response): Promise<Response> => {
         .then((newUser: Document) => {
             return registerUser(newUser);
         })
-        .then((token: string) => {
+        .then((token: string | false) => {
+            if (!token) {
+                throw Error('Failed to register user.');
+            }
             return res
                 .status(201)
                 .set('token', token)
@@ -109,4 +112,27 @@ const getUserAttributes = async (username: string): Promise<object> => {
     }
 };
 
-export { getUser, postUser, assignNewToken };
+async function findUser(username: string): Promise<Document> {
+    const listOfUsers: Document[] = await retrieveUsers();
+    const user: Document | undefined = listOfUsers.find((u: Document) => {
+        return u.get('username') === username;
+    });
+
+    if (!user) {
+        throw new Error('User could not be found.');
+    }
+    return user;
+}
+
+async function retrieveUsers(): Promise<Document[]> {
+    return new Promise((resolve: any, reject: any) => {
+        UserModel.find({}, (error: any, users: Document[]) => {
+            if (error) {
+                return reject(error);
+            }
+            return resolve(users);
+        });
+    });
+}
+
+export { getUser, postUser, assignNewToken, findUser };
