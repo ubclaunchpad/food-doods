@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { AVAILABLE_FIELDS, getUserAttributes, getUserToken } from '../../src/controllers/user';
+import { AVAILABLE_FIELDS, createUser, getUserAttributes, getUserToken } from '../../src/controllers/user';
 import { connect } from '../../src/models';
 import { AuthorizationError } from '../../src/util/errors/AuthorizationError';
 
@@ -96,5 +96,21 @@ describe('GET /user/:username', () => {
                     fail('should not have failed: ' + error.message);
                 });
         });
+    });
+});
+
+describe('POST /user', () => {
+    describe('createUser', () => {
+        it('should create user with valid required fields', () => {});
+        it('should not create user with missing email', () => {});
+        it('should not create user with missing username', () => {});
+        it('should not create user with missing password', () => {});
+        it('should not create user with missing full name', () => {});
+        it('should not create two users with the same email', () => {});
+        it('should not create two users with the same username', () => {});
+        it('should create user with all fields', () => {});
+        it('should not create user with location but missing city', () => {});
+        it('should not create user with location but missing province', () => {});
+        it('should not create user with location but missing country', () => {});
     });
 });
