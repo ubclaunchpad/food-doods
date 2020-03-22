@@ -23,13 +23,13 @@ const saveRecipeToDB = (recipes: any) => {
         recipe.ingredients = ingredients;
     }
 
-    RecipeModel.bulkInsert(recipes, function(err: any, results: any) {
-        if (err) {
-            console.log(err);
-            process.exit(1);
-        } else {
-            console.log(results);
-            process.exit(0);
-        }
-    });
+    // RecipeModel.bulkInsert(recipes, function(err: any, results: any) {
+    //     if (err) {
+    //         console.log(err);
+    //         process.exit(1);
+    //     } else {
+    //         console.log(results);
+    //         process.exit(0);
+    //     }
+    // });
 };
