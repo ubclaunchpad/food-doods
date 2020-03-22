@@ -131,12 +131,128 @@ describe('POST /user', () => {
                 });
         });
 
-        it('should not create user with missing email', () => {});
-        it('should not create user with missing username', () => {});
-        it('should not create user with missing password', () => {});
-        it('should not create user with missing full name', () => {});
-        it('should not create two users with the same email', () => {});
-        it('should not create two users with the same username', () => {});
+        it('should not create user with missing email', async () => {
+            const user: any = {
+                username: 'username',
+                password: 'password',
+                fullName: 'John Smith',
+            };
+
+            return createUser(user)
+                .then(() => {
+                    fail('should have thrown an error');
+                })
+                .catch((error: Error) => {
+                    expect(error.message).toMatch(/Path `email` is required./i);
+                });
+        });
+
+        it('should not create user with missing username', async () => {
+            const user: any = {
+                email: 'test123@gmail.com',
+                password: 'password',
+                fullName: 'John Smith',
+            };
+
+            return createUser(user)
+                .then(() => {
+                    fail('should have thrown an error');
+                })
+                .catch((error: Error) => {
+                    expect(error.message).toMatch(/Path `username` is required./i);
+                });
+        });
+
+        it('should not create user with missing password', async () => {
+            const user: any = {
+                email: 'test123@gmail.com',
+                username: 'username',
+                fullName: 'John Smith',
+            };
+
+            return createUser(user)
+                .then(() => {
+                    fail('should have thrown an error');
+                })
+                .catch((error: Error) => {
+                    expect(error.message).toMatch(/data and salt arguments required/i);
+                });
+        });
+
+        it('should not create user with missing fullName', async () => {
+            const user: any = {
+                email: 'test123@gmail.com',
+                username: 'username',
+                password: 'password',
+            };
+
+            return createUser(user)
+                .then(() => {
+                    fail('should have thrown an error');
+                })
+                .catch((error: Error) => {
+                    expect(error.message).toMatch(/Path `fullName` is required./i);
+                });
+        });
+
+        it('should not create two users with the same email', async () => {
+            const userOne: any = {
+                email: 'test123@gmail.com',
+                username: 'username',
+                password: 'password',
+                fullName: 'John Smith',
+            };
+            const userTwo: any = {
+                email: 'test123@gmail.com',
+                username: 'another_username',
+                password: 'another_password',
+                fullName: 'Dan Lee',
+            };
+
+            return createUser(userOne)
+                .then(async () => {
+                    return createUser(userTwo)
+                        .then(() => {
+                            fail('should have thrown error');
+                        })
+                        .catch((error: Error) => {
+                            expect(error.message).toMatch(/duplicate key error/i);
+                        });
+                })
+                .catch((error: Error) => {
+                    fail('should not have thrown error: ' + error.message);
+                });
+        });
+
+        it('should not create two users with the same username', async () => {
+            const userOne: any = {
+                email: 'test123@gmail.com',
+                username: 'username',
+                password: 'password',
+                fullName: 'John Smith',
+            };
+            const userTwo: any = {
+                email: 'test456@gmail.com',
+                username: 'username',
+                password: 'another_password',
+                fullName: 'Dan Lee',
+            };
+
+            return createUser(userOne)
+                .then(async () => {
+                    return createUser(userTwo)
+                        .then(() => {
+                            fail('should have thrown error');
+                        })
+                        .catch((error: Error) => {
+                            expect(error.message).toMatch(/duplicate key error/i);
+                        });
+                })
+                .catch((error: Error) => {
+                    fail('should not have thrown error: ' + error.message);
+                });
+        });
+
         it('should create user with all fields', () => {});
         it('should not create user with location but missing city', () => {});
         it('should not create user with location but missing province', () => {});
