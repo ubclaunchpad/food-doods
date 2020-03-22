@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { AVAILABLE_FIELDS, createUser, findUser, getUserAttributes, getUserToken } from '../../src/controllers/user';
 import { connect } from '../../src/models';
@@ -19,10 +19,10 @@ describe('GET /user/:username', () => {
             const expiredToken: string = jwt.sign(payload, secretKey, { expiresIn: '-1' });
             return getUserToken(expiredToken)
                 .then(() => {
-                    fail('should have failed with AuthorizationError');
+                    fail('should have failed with TokenExpiredError');
                 })
                 .catch((error: Error) => {
-                    expect(error).toBeInstanceOf(AuthorizationError);
+                    expect(error).toBeInstanceOf(TokenExpiredError);
                     expect(error.message).toEqual('jwt expired');
                 });
         });
@@ -33,10 +33,10 @@ describe('GET /user/:username', () => {
             const token: string = jwt.sign(payload, 'secret-key', { expiresIn: '168h' });
             return getUserToken(token)
                 .then(() => {
-                    fail('should have failed with AuthorizationError');
+                    fail('should have failed with JsonWebTokenError');
                 })
                 .catch((error: Error) => {
-                    expect(error).toBeInstanceOf(AuthorizationError);
+                    expect(error).toBeInstanceOf(JsonWebTokenError);
                     expect(error.message).toEqual('invalid signature');
                 });
         });
