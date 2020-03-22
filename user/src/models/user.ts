@@ -9,7 +9,7 @@ const UserModel: mongoose.Model<mongoose.Document> = mongoose.model(
         fullName: { type: String, required: true },
         timeCreated: { type: Date, required: true, default: new Date() },
         dateOfBirth: { type: Date },
-        location: { type: { type: mongoose.Types.ObjectId, ref: 'Location' } },
+        location: { type: mongoose.Types.ObjectId, ref: 'Location' },
         token: { type: String },
     })
 );

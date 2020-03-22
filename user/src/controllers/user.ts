@@ -37,69 +37,60 @@ async function createUser(user: any): Promise<string> {
         timeCreated: Date.now(),
         dateOfBirth,
         token: null,
+        location: null,
     });
 
-    const isLocationValid =
-        location &&
-        REQUIRED_LOCATION_FIELDS.reduce((acc, prop) => {
-            return acc && location[prop];
-        }, true);
-
-    if (isLocationValid) {
-        return createLocation(location)
-            .then(() => getLocationID(location))
-            .then((locationId: Types.ObjectId) => {
-                newUser.set('location', locationId);
-                return newUser.save();
-            })
-            .then((userWithLocation: Document) => registerUser(userWithLocation))
-            .catch((error: any) => {
-                throw error;
-            });
+    if (!location) {
+        return registerUser(newUser);
     }
-    return registerUser(newUser);
-}
 
-async function createLocation(location: any): Promise<Document> {
+    const isLocationValid = REQUIRED_LOCATION_FIELDS.reduce((acc, prop) => acc && location[prop], true);
+    if (!isLocationValid) {
+        throw Error('Missing location fields.');
+    }
     const { city, province, country } = location;
-    const loc = new LocationModel({ city, province, country });
-    return loc.save();
-}
-
-async function getLocationID(location: any): Promise<Types.ObjectId> {
-    const { city, province, country } = location;
-    const objectId: Types.ObjectId = await new Promise((resolve, reject) => {
-        LocationModel.findOne({ city, province, country }, (err: any, loc: Document) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(loc._id);
+    return createLocation(city, province, country)
+        .then((locationId: Types.ObjectId) => {
+            newUser.set('location', locationId);
+            return newUser.save();
+        })
+        .then((userWithLocation: Document) => registerUser(userWithLocation))
+        .catch((error: any) => {
+            throw error;
         });
-    });
-    return objectId;
+}
+
+async function createLocation(city: string, province: string, country: string): Promise<Types.ObjectId> {
+    const newLocation = new LocationModel({ city, province, country });
+    return newLocation
+        .save()
+        .then((doc: Document) => doc.get('_id'))
+        .catch((error: Error) => {
+            throw error;
+        });
 }
 
 async function registerUser(user: Document): Promise<string> {
-    const callback = async (error: any): Promise<string> => {
-        if (error) {
+    return connect()
+        .then(() => {
+            const token: string = assignNewToken(user);
+            return (
+                user
+                    .save()
+                    // .then(() => {
+                    //     const username: string = user.get('username');
+                    //     return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
+                    //     return user.get('username');
+                    // })
+                    .then(() => token)
+                    .catch((err: any) => {
+                        throw err;
+                    })
+            );
+        })
+        .catch((error: Error) => {
             throw error;
-        }
-        const token: string = assignNewToken(user);
-        return (
-            user
-                .save()
-                // .then(() => {
-                //     const username: string = user.get('username');
-                //     return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
-                //     return user.get('username');
-                // })
-                .then(() => token)
-                .catch((err: any) => {
-                    throw err;
-                })
-        );
-    };
-    return connect(callback);
+        });
 }
 
 const getUser = async (req: Request, res: Response): Promise<Response> => {
@@ -172,26 +163,11 @@ async function getUserAttributes(username: string): Promise<object> {
 }
 
 async function findUser(username: string): Promise<Document> {
-    const listOfUsers: Document[] = await retrieveUsers();
-    const user: Document | undefined = listOfUsers.find((u: Document) => {
-        return u.get('username') === username;
-    });
-
+    const user: Document | null = await UserModel.findOne({ username });
     if (!user) {
         throw new Error('User could not be found.');
     }
     return user;
-}
-
-async function retrieveUsers(): Promise<Document[]> {
-    return new Promise((resolve: any, reject: any) => {
-        UserModel.find({}, (error: any, users: Document[]) => {
-            if (error) {
-                return reject(error);
-            }
-            return resolve(users);
-        });
-    });
 }
 
 export { getUser, postUser, getUserAttributes, getUserToken, assignNewToken, createUser, findUser, AVAILABLE_FIELDS };

@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { AVAILABLE_FIELDS, createUser, findUser, getUserAttributes, getUserToken } from '../../src/controllers/user';
 import { connect } from '../../src/models';
+import { LocationModel } from '../../src/models/location';
 import { UserModel } from '../../src/models/user';
 import { AuthorizationError } from '../../src/util/errors/AuthorizationError';
 
@@ -106,7 +107,10 @@ describe('POST /user', () => {
     describe('createUser', () => {
         beforeEach(() => connect());
 
-        afterEach(() => UserModel.findOneAndRemove({ email: 'test123@gmail.com' }));
+        afterEach(async () => {
+            await UserModel.deleteOne({ email: 'test123@gmail.com' });
+            return LocationModel.deleteOne({ city: 'TestCity' });
+        });
 
         it('should create user with valid required fields', async () => {
             const user: any = {
@@ -253,9 +257,82 @@ describe('POST /user', () => {
                 });
         });
 
-        it('should create user with all fields', () => {});
-        it('should not create user with location but missing city', () => {});
-        it('should not create user with location but missing province', () => {});
-        it('should not create user with location but missing country', () => {});
+        it('should create user with all fields', async () => {
+            const user: any = {
+                email: 'test123@gmail.com',
+                username: 'username',
+                password: 'password',
+                fullName: 'John Smith',
+                dateOfBirth: new Date(2000, 1, 1),
+                location: {
+                    city: 'TestCity',
+                    province: 'TC',
+                    country: 'Country',
+                },
+            };
+
+            return createUser(user)
+                .then(async (expectedToken: string) => {
+                    const userMatchingUsername: any = await UserModel.findOne({ username: user.username });
+                    const { email, username, password, fullName, token, location } = userMatchingUsername.toObject();
+                    const locationMatchingUser: any = await LocationModel.findById(location).lean();
+                    if (locationMatchingUser) {
+                        delete locationMatchingUser.__v;
+                        delete locationMatchingUser._id;
+                    }
+                    expect(email).toEqual(user.email);
+                    expect(username).toEqual(user.username);
+                    expect(bcrypt.compare(password, user.password)).toBeTruthy();
+                    expect(fullName).toEqual(user.fullName);
+                    expect(token).toEqual(expectedToken);
+                    expect(locationMatchingUser).toEqual(user.location);
+                })
+                .catch((error: Error) => {
+                    fail('should not have failed: ' + error.message);
+                });
+        });
+
+        it('should not create user with location but missing location fields', async () => {
+            const user: any = {
+                email: 'test123@gmail.com',
+                username: 'username',
+                password: 'password',
+                fullName: 'John Smith',
+                location: {
+                    city: 'Test City',
+                    province: 'TC',
+                    country: 'Country',
+                },
+            };
+
+            const missingCity: any = { ...user };
+            delete missingCity.location.city;
+            const missingProvince: any = { ...user };
+            delete missingCity.location.province;
+            const missingCountry: any = { ...user };
+            delete missingCity.location.country;
+
+            return createUser(missingCity)
+                .then(() => {
+                    fail('should have thrown error');
+                })
+                .catch((error: Error) => {
+                    expect(error.message).toEqual('Missing location fields.');
+                    return createUser(missingProvince);
+                })
+                .then(() => {
+                    fail('should have thrown error');
+                })
+                .catch((error: Error) => {
+                    expect(error.message).toEqual('Missing location fields.');
+                    return createUser(missingCountry);
+                })
+                .then(() => {
+                    fail('should have thrown error');
+                })
+                .catch((error: Error) => {
+                    expect(error.message).toEqual('Missing location fields.');
+                });
+        });
     });
 });
