@@ -24,19 +24,19 @@ router.post('/', (req, res) => {
     res.status(200).json({ hashes: recipeHashes });
 });
 
+// POST /suggestion/:userId
 router.post('/:userId', (req, res) => {
     // get all ingredients
-    // const ingredients = GET Ingredients of a User by User Id
+    // const ingredients = GET Ingredients of a User by User Id; currently mocked
     const object = JSON.parse(readFileSync(resolve('mocks/sampleIngredients.json')).toString());
-    // hash the ingredients
-    // get all the recipes
-    // const recipes = GET All the Recipes
-    // compare hashed ingredients with recipes
-    const recipeNumber = 3;
+    // const recipes = GET All the Recipes; currently mocked
     const recipes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString());
-    const suggestedRecipes = suggestRecipes(object.ingredients, recipeNumber, recipes);
-    console.log(suggestedRecipes);
+    const recipeNumber = 0.3;
     // return recipe id's
+    // the suggestRecipes controller is currently  has a TODO ticket that's
+    // meant to return the recipes instead of the hashes
+    const suggestions = suggestRecipes(object.ingredients, recipeNumber, recipes);
+    res.status(200).json({ recipes: suggestions });
 });
 
 module.exports = router;
