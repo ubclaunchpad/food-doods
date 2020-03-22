@@ -1,22 +1,21 @@
+import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-//import { validationResult } from 'express-validator';
+// import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import { Document } from 'mongoose';
-import { createUser, UserModel } from '../models/user';
-import { registerUser } from '../models/userManager';
+import { Document, Types } from 'mongoose';
+import { connect } from '../models/index';
+import { LocationModel } from '../models/location';
+import { UserModel } from '../models/user';
 import { AuthorizationError } from '../util/errors/AuthorizationError';
 
 const AVAILABLE_FIELDS: string[] = ['fullName', 'username', '_id'];
+const REQUIRED_LOCATION_FIELDS: string[] = ['city', 'province', 'country'];
 
 const postUser = async (req: Request, res: Response): Promise<Response> => {
-    const { email, username, password, fullName, dateOfBirth, city, province, country } = req.body;
-    const user: any = { email, username, password, fullName, dateOfBirth, location: { city, province, country } };
+    const user = req.body;
 
     return createUser(user)
-        .then((newUser: Document) => {
-            return registerUser(newUser);
-        })
-        .then((token: string | false) => {
+        .then((token: string) => {
             if (!token) {
                 throw Error('Failed to register user.');
             }
@@ -25,10 +24,83 @@ const postUser = async (req: Request, res: Response): Promise<Response> => {
                 .set('token', token)
                 .send({ message: 'Successfully registered!' });
         })
-        .catch((error: any) => {
-            return res.status(422).json({ error });
-        });
+        .catch((error: any) => res.status(422).json({ error }));
 };
+
+async function createUser(user: any): Promise<string> {
+    const { email, username, password, fullName, dateOfBirth, location } = user;
+    const newUser: Document = new UserModel({
+        email,
+        username,
+        password: bcrypt.hashSync(password, 10),
+        fullName,
+        timeCreated: Date.now(),
+        dateOfBirth,
+        token: null,
+    });
+
+    const isLocationValid =
+        location &&
+        REQUIRED_LOCATION_FIELDS.reduce((acc, prop) => {
+            return acc && location[prop];
+        }, true);
+
+    if (isLocationValid) {
+        return createLocation(location)
+            .then(() => getLocationID(location))
+            .then((locationId: Types.ObjectId) => {
+                newUser.set('location', locationId);
+                return newUser.save();
+            })
+            .then((userWithLocation: Document) => registerUser(userWithLocation))
+            .catch((error: any) => {
+                throw error;
+            });
+    }
+    return registerUser(newUser);
+}
+
+async function createLocation(location: any): Promise<Document> {
+    const { city, province, country } = location;
+    const loc = new LocationModel({ city, province, country });
+    return loc.save();
+}
+
+async function getLocationID(location: any): Promise<Types.ObjectId> {
+    const { city, province, country } = location;
+    const objectId: Types.ObjectId = await new Promise((resolve, reject) => {
+        LocationModel.findOne({ city, province, country }, (err: any, loc: Document) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(loc._id);
+        });
+    });
+    return objectId;
+}
+
+async function registerUser(user: Document): Promise<string> {
+    const callback = async (error: any): Promise<string> => {
+        if (error) {
+            throw error;
+        }
+        const token: string = assignNewToken(user);
+        return (
+            user
+                .save()
+                // .then(() => {
+                //     const username: string = user.get('username');
+                //     return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
+                //     return user.get('username');
+                // })
+                .then(() => token)
+                .catch((err: any) => {
+                    throw err;
+                })
+        );
+    };
+    return connect(callback);
+}
 
 const getUser = async (req: Request, res: Response): Promise<Response> => {
     const username: string = req.params.username;
@@ -36,7 +108,7 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
 
     if (token) {
         return getUserToken(token)
-            .then((newToken: string | false) => {
+            .then((newToken: string) => {
                 if (!newToken) {
                     throw new AuthorizationError('');
                 }
@@ -59,13 +131,13 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-const getUserToken = async (token: string): Promise<string> => {
+async function getUserToken(token: string): Promise<string> {
     return loginWithToken(token)
         .then((newToken: string) => newToken)
         .catch((error: Error) => {
             throw new AuthorizationError(error.message);
         });
-};
+}
 
 async function loginWithToken(token: string): Promise<string> {
     const secretKey: any = process.env.JWT_SECRET_KEY;
@@ -82,7 +154,7 @@ function assignNewToken(user: Document): string {
     return newToken;
 }
 
-const getUserAttributes = async (username: string): Promise<object> => {
+async function getUserAttributes(username: string): Promise<object> {
     const user: Document = await findUser(username);
 
     const attributes: any = {};
@@ -97,7 +169,7 @@ const getUserAttributes = async (username: string): Promise<object> => {
         }
     }
     return attributes;
-};
+}
 
 async function findUser(username: string): Promise<Document> {
     const listOfUsers: Document[] = await retrieveUsers();
@@ -122,4 +194,4 @@ async function retrieveUsers(): Promise<Document[]> {
     });
 }
 
-export { getUser, postUser, getUserAttributes, getUserToken, assignNewToken, findUser, AVAILABLE_FIELDS };
+export { getUser, postUser, getUserAttributes, getUserToken, assignNewToken, createUser, findUser, AVAILABLE_FIELDS };

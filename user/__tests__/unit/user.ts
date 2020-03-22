@@ -1,6 +1,9 @@
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { AVAILABLE_FIELDS, createUser, getUserAttributes, getUserToken } from '../../src/controllers/user';
+import { Document } from 'mongoose';
+import { AVAILABLE_FIELDS, createUser, findUser, getUserAttributes, getUserToken } from '../../src/controllers/user';
 import { connect } from '../../src/models';
+import { UserModel } from '../../src/models/user';
 import { AuthorizationError } from '../../src/util/errors/AuthorizationError';
 
 // NOTE: these tests assume the existence of specific users in the db
@@ -101,7 +104,33 @@ describe('GET /user/:username', () => {
 
 describe('POST /user', () => {
     describe('createUser', () => {
-        it('should create user with valid required fields', () => {});
+        beforeEach(() => connect());
+
+        afterEach(() => UserModel.findOneAndRemove({ email: 'test123@gmail.com' }));
+
+        it('should create user with valid required fields', async () => {
+            const user: any = {
+                email: 'test123@gmail.com',
+                username: 'username',
+                password: 'password',
+                fullName: 'John Smith',
+            };
+
+            return createUser(user)
+                .then(async (expectedToken: string) => {
+                    const userMatchingUsername: Document = await findUser(user.username);
+                    const { email, username, password, fullName, token } = userMatchingUsername.toObject();
+                    expect(email).toEqual(user.email);
+                    expect(username).toEqual(user.username);
+                    expect(bcrypt.compare(password, user.password)).toBeTruthy();
+                    expect(fullName).toEqual(user.fullName);
+                    expect(token).toEqual(expectedToken);
+                })
+                .catch((error: Error) => {
+                    fail('should not have failed: ' + error.message);
+                });
+        });
+
         it('should not create user with missing email', () => {});
         it('should not create user with missing username', () => {});
         it('should not create user with missing password', () => {});
