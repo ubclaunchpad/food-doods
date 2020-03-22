@@ -36,6 +36,7 @@
     "scripts": {
         "build": "tsc",
         "lint": "tslint -c ../tslint.json ./src/**/*.ts",
+        "seed": "env-cmd -f ../config/dev.env node -r ts-node/register ./init/init.ts",
         "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/server.ts",
         "start:dev": "env-cmd -f ../config/dev.env nodemon",
         "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/server.js\"",

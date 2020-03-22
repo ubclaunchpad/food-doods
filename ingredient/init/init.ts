@@ -34,4 +34,7 @@ const trim = (ingrs: IIngredient[]) => {
 const parsed = values.filter((recipe: any) => recipe.hasOwnProperty('ingredients')).flatMap(parseRecipe);
 const ingredients = trim(parsed);
 
+console.log('Done parsing.');
+console.log('Adding to db...');
+
 sequelfy(ingredients);
