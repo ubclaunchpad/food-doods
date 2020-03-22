@@ -9,9 +9,16 @@ apiEndpoints:
     paths: 
       - '/user/*'
       - '/user'
+  suggestionApi:
+    host: 'localhost'
+    paths: 
+      - '/suggestion/*'
+      - '/suggestion'
 serviceEndpoints:
   userService:
     url: "http://localhost:${USER_PORT:-8000}"
+  suggestionService:
+    url: "http://localhost:8585"
 policies:
   - basic-auth
   - cors
@@ -22,12 +29,19 @@ policies:
   - proxy
   - rate-limit
 pipelines:
-  default: 
-    -name: user
+  - name: user
     apiEndpoints:
       - userApi
     policies:
       - proxy:
         - action:
             serviceEndpoint: userService
+            changeOrigin: true
+  - name: suggestion
+    apiEndpoints:
+      - suggestionApi
+    policies:
+      - proxy:
+        - action:
+            serviceEndpoint: suggestionService
             changeOrigin: true
