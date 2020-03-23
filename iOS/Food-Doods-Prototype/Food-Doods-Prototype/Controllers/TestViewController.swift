@@ -48,11 +48,20 @@ class TestViewController: UIViewController {
         openLoginViewButton.backgroundColor = .orange
         openLoginViewButton.setTitle("Pop Login View", for: .normal)
         
+        //MARK: Test Button 6
+        var postUserIngredientsButton = UIButton()
+        postUserIngredientsButton.translatesAutoresizingMaskIntoConstraints = false
+        postUserIngredientsButton.layer.cornerRadius = 10
+        postUserIngredientsButton.backgroundColor = .green
+        postUserIngredientsButton.setTitle("Post Ingredient User", for: .normal)
+        
         self.view.addSubview(getRecipesButton)
         self.view.addSubview(loginUserButton)
         self.view.addSubview(getIngredientsButton)
         self.view.addSubview(createUserButton)
         self.view.addSubview(openLoginViewButton)
+        self.view.addSubview(postUserIngredientsButton)
+
         
         //MARK: Test Button 1 Constraints
         getRecipesButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -88,6 +97,13 @@ class TestViewController: UIViewController {
         openLoginViewButton.heightAnchor.constraint(equalToConstant: 125).isActive = true
         openLoginViewButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
         openLoginViewButton.addTarget(self, action: #selector(openLoginView), for: .touchUpInside)
+        
+        //MARK: Post Ingredients User Constraints
+        postUserIngredientsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        postUserIngredientsButton.topAnchor.constraint(equalTo: loginUserButton.bottomAnchor, constant: 10).isActive = true
+        postUserIngredientsButton.heightAnchor.constraint(equalToConstant: 125).isActive = true
+        postUserIngredientsButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        postUserIngredientsButton.addTarget(self, action: #selector(getIngredientUser), for: .touchUpInside)
     }
     
     @objc func getRecipes() {
@@ -99,9 +115,12 @@ class TestViewController: UIViewController {
         print("Calling User Endpoint: POST LOGIN")
         LocalHostTest.shared.loginUser()
     }
-    
+    @objc func getIngredientUser() {
+        print("Calling Get User for Ingredients Enpoint: POST USER")
+        LocalHostTest.shared.postIngredientUser()
+    }
     @objc func getIngredientsAction() {
-        print("Calling Ingredients Endpoint")
+        print("Calling Get User List id = 1 Endpoint")
         LocalHostTest.shared.getIngredientsList()
     }
     

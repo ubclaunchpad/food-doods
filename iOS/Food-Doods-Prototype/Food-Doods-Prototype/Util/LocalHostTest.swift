@@ -24,14 +24,50 @@ class LocalHostTest {
         baseURL = hostName
     }
     
+    public func postIngredientUser() {
+        guard let requestURL = URL(string: "http://localhost:9000/user") else {
+            return
+        }
+        
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let body = IngredientUserMode(externalId: "1")
+               
+        let encoded = try? JSONEncoder().encode(body)
+        request.httpBody = encoded
+        let dataTask = URLSession.shared.dataTask(with: request) {
+                    (data, response, error) in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    
+                    if let response = response {
+                        print("--- Response ---")
+                        print(response)
+                    }
+                    
+                    if let data = data {
+                        print ("--- Data ---")
+                        let str = String(decoding: data, as: UTF8.self)
+                        print(str)
+                    }
+        }
+                
+        dataTask.resume()
+    }
+    
+    
     public func getIngredientsList() {
-        guard let requestURL = createEndpointURL(for: Service.Ingredient, url: baseURL) else { return }
+        guard let requestURL = createEndpointURL(for: Service.Ingredient, url: "http://localhost:9000") else { return }
         
         var request = URLRequest(url: requestURL)
         
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+   
         let dataTask = URLSession.shared.dataTask(with: request) {
                     (data, response, error) in
                     if let error = error {
