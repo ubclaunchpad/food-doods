@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 // import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 import { connect } from '../models/index';
 import { LocationModel } from '../models/location';
 import { UserModel } from '../models/user';
@@ -86,23 +86,10 @@ async function findLocation(city: string, province: string, country: string): Pr
 }
 
 async function registerUser(user: Document): Promise<string> {
+    // const username: string = user.get('username');
+    // return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
     return connect()
-        .then(() => {
-            const token: string = assignNewToken(user);
-            return (
-                user
-                    .save()
-                    // .then(() => {
-                    //     const username: string = user.get('username');
-                    //     return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
-                    //     return user.get('username');
-                    // })
-                    .then(() => token)
-                    .catch((err: any) => {
-                        throw err;
-                    })
-            );
-        })
+        .then(async () => assignNewToken(user))
         .catch((error: Error) => {
             throw error;
         });
@@ -143,10 +130,11 @@ async function getUserToken(token: string): Promise<string> {
     return assignNewToken(user);
 }
 
-function assignNewToken(user: Document): string {
+async function assignNewToken(user: Document): Promise<string> {
     const payload: object = { username: user.get('username'), iat: Date.now() };
     const newToken: string = jwt.sign(payload, JWT_SECRET_KEY as string, { expiresIn: '168h' });
     user.set('token', newToken);
+    await user.save();
     return newToken;
 }
 
@@ -168,11 +156,14 @@ async function getUserAttributes(username: string): Promise<object> {
 }
 
 async function findUser(username: string): Promise<Document> {
-    const user: Document | null = await UserModel.findOne({ username });
-    if (!user) {
-        throw new AuthorizationError('User could not be found.');
-    }
-    return user;
+    return connect()
+        .then(() => UserModel.findOne({ username }))
+        .then((user: Document | null) => {
+            if (!user) {
+                throw new AuthorizationError('User could not be found.');
+            }
+            return user;
+        });
 }
 
 export {
