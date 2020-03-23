@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { AVAILABLE_FIELDS, createUser, findUser, getUserAttributes, getUserToken } from '../../src/controllers/user';
-import { connect } from '../../src/models';
+import { connect } from '../../src/db';
 import { LocationModel } from '../../src/models/location';
 import { UserModel } from '../../src/models/user';
 import { AuthorizationError } from '../../src/util/errors/AuthorizationError';

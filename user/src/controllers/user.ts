@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 // import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { Document } from 'mongoose';
-import { connect } from '../models/index';
+import { connect } from '../db/index';
 import { LocationModel } from '../models/location';
 import { UserModel } from '../models/user';
 import { AuthorizationError } from '../util/errors/AuthorizationError';

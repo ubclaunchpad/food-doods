@@ -2,11 +2,14 @@ import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { Document } from 'mongoose';
 import { verifyUser } from '../../src/controllers/login';
 import { findUser } from '../../src/controllers/user';
+import { connect } from '../../src/db';
 import { AuthenticationError } from '../../src/util/errors/AuthenticationError';
 import { AuthorizationError } from '../../src/util/errors/AuthorizationError';
 
 // NOTE: these tests assume the existence of specific users in the db
 describe('POST /user/login', () => {
+    beforeEach(() => connect());
+
     describe('verifyUser', () => {
         it('should return new token if username and password match', async () => {
             const user: any = {
