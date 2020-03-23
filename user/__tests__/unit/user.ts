@@ -371,8 +371,7 @@ describe('POST /user', () => {
                     const user: Document = await findUser(userTwo.username);
                     expect(token).toEqual(user.get('token'));
                     expect(user.get('location')).not.toBeNull();
-                    const { city, province, country } = userTwo.location;
-                    const location: Document[] = await LocationModel.find({ city, province, country });
+                    const location: Document[] = await LocationModel.find(userTwo.location);
                     expect(location.length).toEqual(1);
                 })
                 .catch((error: Error) => {
