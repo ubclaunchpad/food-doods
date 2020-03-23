@@ -15,8 +15,6 @@ enum Service {
     case Recipe
 }
 
-var lastToken: String?
-
 class LocalHostTest {
     var baseURL: String
     
@@ -41,11 +39,9 @@ class LocalHostTest {
                         return
                     }
                     
-                    if let response = response as? HTTPURLResponse {
+                    if let response = response {
                         print("--- Response ---")
                         print(response)
-                        
-                        lastToken = response.allHeaderFields["token"] as? String
                     }
                     
                     if let data = data {
@@ -77,9 +73,13 @@ class LocalHostTest {
                 return
             }
             
-            if let response = response {
+            if let response = response as? HTTPURLResponse {
                 print("--- Response ---")
                 print(response)
+                
+                let token = response.allHeaderFields["token"] as? String
+                
+                UserDefaults.standard.set(token, forKey: "token")
             }
             
             if let data = data {
@@ -93,9 +93,7 @@ class LocalHostTest {
     }
     
     private func createUserHelper() -> Data? {
-        let body = CreateUserModel(email: "anothertest@gmail.com", username: "workworkwork", password: "1234567", fullName: "Joe Mama")
-        
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Indvcmt3b3Jrd29yayIsImlhdCI6MTU4NDgxODM0MjgwMSwiZXhwIjoxNTg0ODE4OTQ3NjAxfQ.5VZv0y78xweR4r769zfm0kOP99GQIYymeazyaPcdcAE"
+        let body = CreateUserModel(email: "testLogin@gmail.com", username: "foodDoods", password: "password", fullName: "Food Dood")
         
         let encoded = try? JSONEncoder().encode(body)
         
