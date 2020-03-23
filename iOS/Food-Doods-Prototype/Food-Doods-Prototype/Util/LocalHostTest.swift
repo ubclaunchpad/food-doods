@@ -98,17 +98,17 @@ class LocalHostTest {
         return encoded
     }
     
-    public func loginUser() {
+    public func loginUser(username: String, password: String, token: String) {
         guard let requestURL = createEndpointURL(for: Service.User, url: baseURL) else { return }
         
         var request = URLRequest(url: requestURL)
         
-        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Indvcmt3b3Jrd29yayIsImlhdCI6MTU4NDgxODM0MjgwMSwiZXhwIjoxNTg0ODE4OTQ3NjAxfQ.5VZv0y78xweR4r769zfm0kOP99GQIYymeazyaPcdcAE"
+        let myToken = token
         
-        let login = LoginModel(username: "workworkwork", password: "1234567")
+        let login = LoginModel(username: username, password: password)
         
         request.httpMethod = "POST"
-        request.addValue(token, forHTTPHeaderField: "token")
+        request.addValue(myToken, forHTTPHeaderField: "token")
         
         request.httpBody = try? JSONEncoder().encode(login)
         
@@ -133,6 +133,14 @@ class LocalHostTest {
         }
         
         dataTask.resume()
+    }
+    
+    public func loginUser() {
+        let defaultUser = "workworkwork"
+        let password = "1234567"
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Indvcmt3b3Jrd29yayIsImlhdCI6MTU4NDgxODM0MjgwMSwiZXhwIjoxNTg0ODE4OTQ3NjAxfQ.5VZv0y78xweR4r769zfm0kOP99GQIYymeazyaPcdcAE"
+        
+        loginUser(username: defaultUser, password: password, token: token)
     }
 
     public func getUser() {

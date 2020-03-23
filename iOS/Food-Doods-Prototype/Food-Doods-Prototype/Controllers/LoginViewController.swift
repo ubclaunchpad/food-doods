@@ -22,15 +22,22 @@ class LoginViewController: UIViewController {
         usernameTextField = loginView.usernameTextField
         passwordTextField = loginView.passwordTextField
         loginView.loginButton.addTarget(self, action: #selector(callLoginAPI), for: .touchUpInside)
+        loginView.dismissButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         
         self.view = loginView
     }
     
     @objc func callLoginAPI() {
         //grab text from text fields
-        let user = usernameTextField.text
+        let username = usernameTextField.text
         let password = passwordTextField.text
         
+        if let user = username, let pass = password {
+            LocalHostTest.shared.loginUser(username: user, password: pass, token: "")
+        }
+    }
+    
+    @objc func dismissView() {
         self.dismiss(animated: true, completion: nil)
     }
 }
