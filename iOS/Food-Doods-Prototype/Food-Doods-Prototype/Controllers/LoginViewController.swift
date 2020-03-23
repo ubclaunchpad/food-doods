@@ -33,7 +33,12 @@ class LoginViewController: UIViewController {
         let password = passwordTextField.text
         
         if let user = username, let pass = password {
-            LocalHostTest.shared.loginUser(username: user, password: pass, token: "")
+            if let token = lastToken {
+                LocalHostTest.shared.loginUser(username: user, password: pass, token: token)
+            } else {
+                LocalHostTest.shared.loginUser(username: user, password: pass, token: "")
+            }
+            
         }
     }
     

@@ -15,6 +15,8 @@ enum Service {
     case Recipe
 }
 
+var lastToken: String?
+
 class LocalHostTest {
     var baseURL: String
     
@@ -39,9 +41,11 @@ class LocalHostTest {
                         return
                     }
                     
-                    if let response = response {
+                    if let response = response as? HTTPURLResponse {
                         print("--- Response ---")
                         print(response)
+                        
+                        lastToken = response.allHeaderFields["token"] as? String
                     }
                     
                     if let data = data {
