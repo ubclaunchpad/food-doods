@@ -51,25 +51,38 @@ async function createUser(user: any): Promise<string> {
     }
 
     const { city, province, country } = location;
-    return createLocation(city, province, country)
-        .then((locationId: Types.ObjectId) => {
-            newUser.set('location', locationId);
-            return newUser.save();
-        })
+    return createLocation(city, province, country, newUser)
         .then((userWithLocation: Document) => registerUser(userWithLocation))
         .catch((error: any) => {
             throw error;
         });
 }
 
-async function createLocation(city: string, province: string, country: string): Promise<Types.ObjectId> {
-    const newLocation = new LocationModel({ city, province, country });
-    return newLocation
-        .save()
-        .then((doc: Document) => doc.get('_id'))
-        .catch((error: Error) => {
-            throw error;
-        });
+async function createLocation(city: string, province: string, country: string, user: Document): Promise<Document> {
+    try {
+        const location: Document = await findLocation(city, province, country);
+        user.set('location', location.get('_id'));
+        return user.save();
+    } catch (error) {
+        const newLocation = new LocationModel({ city, province, country });
+        return newLocation
+            .save()
+            .then((doc: Document) => {
+                user.set('location', doc.get('_id'));
+                return user.save();
+            })
+            .catch((error: Error) => {
+                throw error;
+            });
+    }
+}
+
+async function findLocation(city: string, province: string, country: string): Promise<Document> {
+    const location: Document | null = await LocationModel.findOne({ city, province, country });
+    if (!location) {
+        throw new Error('Location could not be found.');
+    }
+    return location;
 }
 
 async function registerUser(user: Document): Promise<string> {
@@ -162,4 +175,14 @@ async function findUser(username: string): Promise<Document> {
     return user;
 }
 
-export { getUser, postUser, getUserAttributes, getUserToken, assignNewToken, createUser, findUser, AVAILABLE_FIELDS };
+export {
+    getUser,
+    postUser,
+    getUserAttributes,
+    getUserToken,
+    assignNewToken,
+    createUser,
+    findUser,
+    findLocation,
+    AVAILABLE_FIELDS,
+};

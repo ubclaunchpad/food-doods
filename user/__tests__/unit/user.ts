@@ -109,6 +109,7 @@ describe('POST /user', () => {
 
         afterEach(async () => {
             await UserModel.deleteOne({ email: 'test123@gmail.com' });
+            await UserModel.deleteOne({ email: 'test456@gmail.com' });
             return LocationModel.deleteOne({ city: 'TestCity' });
         });
 
@@ -332,6 +333,50 @@ describe('POST /user', () => {
                 })
                 .catch((error: Error) => {
                     expect(error.message).toEqual('Missing location fields.');
+                });
+        });
+
+        it('should not duplicate location already in database', async () => {
+            const userOne: any = {
+                email: 'test123@gmail.com',
+                username: 'username',
+                password: 'password',
+                fullName: 'John Smith',
+                location: {
+                    city: 'Test City',
+                    province: 'TC',
+                    country: 'Country',
+                },
+            };
+            const userTwo: any = {
+                email: 'test456@gmail.com',
+                username: 'another_username',
+                password: 'another_password',
+                fullName: 'Dan Lee',
+                location: {
+                    city: 'Test City',
+                    province: 'TC',
+                    country: 'Country',
+                },
+            };
+
+            return createUser(userOne)
+                .then(async (token: string) => {
+                    const user: Document = await findUser(userOne.username);
+                    expect(token).toEqual(user.get('token'));
+                    expect(user.get('location')).not.toBeNull();
+                    return createUser(userTwo);
+                })
+                .then(async (token: string) => {
+                    const user: Document = await findUser(userTwo.username);
+                    expect(token).toEqual(user.get('token'));
+                    expect(user.get('location')).not.toBeNull();
+                    const { city, province, country } = userTwo.location;
+                    const location: Document[] = await LocationModel.find({ city, province, country });
+                    expect(location.length).toEqual(1);
+                })
+                .catch((error: Error) => {
+                    fail('should not have thrown error: ' + error.message);
                 });
         });
     });
