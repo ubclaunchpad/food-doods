@@ -1,9 +1,9 @@
 import * as fs from 'fs';
-import { Application, Router } from 'express';
+import e, { Application, Router } from 'express';
 import { IRecipe, RecipeModel } from '../models/recipes';
 import { UserRecipesModel } from '../models/userRecipes';
 const recipeScraper = require('recipe-scraper');
-import { parse } from '../../../util/ingredient-parser';
+const axios = require('axios').default;
 
 const idMap = JSON.parse(fs.readFileSync(`${__dirname}/../../../ingredient/mocks/id_map.json`).toString());
 
@@ -82,7 +82,7 @@ export const initializeRecipeRoutes = (app: Application) => {
                 res.status(404).send(`No such recipe found with query ${req.query}`);
             } else {
                 res.status(200);
-                await res.json(recipe);
+                res.json(recipe);
             }
         } catch (e) {
             res.status(500).send(`Could not get the recipe with id ${req.params.id} for ${e.message}`);
@@ -115,22 +115,18 @@ export const initializeRecipeRoutes = (app: Application) => {
         }
         recipeScraper(req.body.recipeUrl)
             .then(async (recipe: any) => {
-                const parsed = parse(recipe.ingredients);
-                const ingredients = parsed.map((ingr) => {
-                    return { ...ingr, id: idMap[ingr.name] };
-                });
+                const ingredients = recipe.ingredients;
+                let resAxios = await axios.post('http://localhost:9000/parse/', { ingredients });
 
-                recipe.ingredients = ingredients;
+                recipe.ingredients = resAxios.data.ingredients;
                 const postRecipe = new RecipeModel(recipe);
                 try {
                     const r = await postRecipe.save();
                     return res.send(r);
                 } catch (e) {
-                    return res.status(500).send('Could not save to DB');
+                    return res.status(500).send(e.message);
                 }
             })
-            .catch(() => {
-                return res.status(404).send('No recipe found on the page');
-            });
+            .catch((error: any) => res.status(500).send(error.message));
     });
 };

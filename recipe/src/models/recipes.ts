@@ -39,6 +39,12 @@ export const Ingredient = new mongoose.Schema(
         unit_category: {
             type: Number,
         },
+        quantity: {
+            type: Number,
+        },
+        unit: {
+            type: String,
+        },
     },
     { _id: false }
 );
