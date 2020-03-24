@@ -1,3 +1,2 @@
-export { IIngredient } from './ingredient';
-export { ISearchResult } from './search-result';
-export { ISearchResultItem } from './search-result-item';
+export { IIngredient, UnitCategory, IRecipeIngredient } from './ingredient';
+export { IRecipe } from './recipe';
