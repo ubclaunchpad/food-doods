@@ -11,13 +11,15 @@
         "body-parser": "^1.19.0",
         "express": "^4.17.1",
         "pg": "^7.12.1",
-        "pg-promise": "^9.3.3"
+        "pg-promise": "^9.3.3",
+        "pluralize": "^8.0.0"
     },
     "devDependencies": {
         "@types/express": "^4.17.1",
         "@types/jest": "^24.0.20",
-        "@types/node": "^12.11.7",
+        "@types/node": "^12.12.30",
         "@types/pg": "^7.11.2",
+        "@types/pluralize": "0.0.29",
         "env-cmd": "^10.0.1",
         "jest": "^25.1.0",
         "nodemon": "^1.19.4",
@@ -37,7 +39,7 @@
         "start": "env-cmd -f ../config/dev.env node -r ts-node/register ./src/server.ts",
         "start:dev": "env-cmd -f ../config/dev.env nodemon",
         "start:docker": "env-cmd -f ../config/dev.env tsc-watch --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-        "test": "env-cmd -f ../config/dev.env jest --runInBand --coverage"
+        "test": "env-cmd -f ../config/dev.env jest --runInBand"
     },
     "nodemonConfig": {
         "ignore": [

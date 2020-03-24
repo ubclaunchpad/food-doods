@@ -1,7 +1,11 @@
-import { Application, Router } from 'express';
-import { IRecipes, RecipesModel } from '../models/recipes';
+import * as fs from 'fs';
+import e, { Application, Router } from 'express';
+import { IRecipe, RecipeModel } from '../models/recipes';
 import { UserRecipesModel } from '../models/userRecipes';
 const recipeScraper = require('recipe-scraper');
+const axios = require('axios').default;
+
+const idMap = JSON.parse(fs.readFileSync(`${__dirname}/../../../ingredient/mocks/id_map.json`).toString());
 
 export const initializeRecipeRoutes = (app: Application) => {
     const recipeRouter = Router();
@@ -9,9 +13,9 @@ export const initializeRecipeRoutes = (app: Application) => {
 
     /* create a recipe */
     recipeRouter.post('/', async (req, res) => {
-        const recipe = new RecipesModel(req.body);
+        const recipe = new RecipeModel(req.body);
         try {
-            await recipe.save().then((item) => res.send(item));
+            await recipe.save().then((item: any) => res.send(item));
         } catch (e) {
             console.error(e);
             res.status(500);
@@ -29,7 +33,7 @@ export const initializeRecipeRoutes = (app: Application) => {
             if (!user.recipe_ids || user.recipe_ids.length === 0) {
                 res.json('No recipes associated with this user');
             } else {
-                RecipesModel.find(
+                RecipeModel.find(
                     {
                         _id: { $in: user.recipe_ids },
                     },
@@ -73,13 +77,12 @@ export const initializeRecipeRoutes = (app: Application) => {
     /* gets a recipe associated to an id*/
     recipeRouter.get('/recipe/:recipe_id', async (req, res) => {
         try {
-            const recipe = await RecipesModel.findById(req.params.recipe_id);
+            const recipe = await RecipeModel.findById(req.params.recipe_id);
             if (recipe === null) {
                 res.status(404).send(`No such recipe found with query ${req.query}`);
-            }
-            else {
+            } else {
                 res.status(200);
-                await res.json(recipe);
+                res.json(recipe);
             }
         } catch (e) {
             res.status(500).send(`Could not get the recipe with id ${req.params.id} for ${e.message}`);
@@ -92,14 +95,14 @@ export const initializeRecipeRoutes = (app: Application) => {
             let { count, index } = req.query;
             count = parseInt(count, 10);
             index = parseInt(index, 10) - 1;
-            const recipes = await RecipesModel.find()
+            const recipes = await RecipeModel.find()
                 .skip(index)
                 .limit(count);
             if (recipes === null || recipes.length === 0) {
                 res.status(404).send(`No such recipes found with query ${req.query}`);
             } else {
                 res.status(200);
-                await res.json(recipes);
+                res.json(recipes);
             }
         } catch (e) {
             res.status(500).send(`Could not get the recipes with query ${req.query} for ${e.message}`);
@@ -111,12 +114,19 @@ export const initializeRecipeRoutes = (app: Application) => {
             return res.status(400).send('Please pass recipeUrl in the body');
         }
         recipeScraper(req.body.recipeUrl)
-            .then((recipe: IRecipes) => {
-                const postRecipe = new RecipesModel(recipe);
-                return postRecipe.save().then((r) => res.send(r), () => res.status(500).send('Could not save to DB'));
+            .then(async (recipe: any) => {
+                const ingredients = recipe.ingredients;
+                let resAxios = await axios.post('http://localhost:9000/parse/', { ingredients });
+
+                recipe.ingredients = resAxios.data.ingredients;
+                const postRecipe = new RecipeModel(recipe);
+                try {
+                    const r = await postRecipe.save();
+                    return res.send(r);
+                } catch (e) {
+                    return res.status(500).send(e.message);
+                }
             })
-            .catch(() => {
-                return res.status(404).send('No recipe found on the page');
-            });
+            .catch((error: any) => res.status(500).send(error.message));
     });
 };

@@ -1,5 +1,12 @@
+export type UnitCategory = 1 | 2 | 3;
+
 export interface IIngredient {
-    id: string;
+    id: number;
     name: string;
-    category: string;
+    unit_category: UnitCategory;
+}
+
+export interface IRecipeIngredient extends IIngredient {
+    quantity: number;
+    unit: string;
 }

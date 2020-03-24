@@ -27,8 +27,8 @@ create table unit_category
  */
 create table ingredient
 (
-    id serial primary key,
-    name text,
+    id int primary key generated always as identity,
+    name text unique,
     test_data boolean,
     unit_category int,
     foreign key (unit_category) references unit_category(id) on delete cascade
@@ -116,11 +116,11 @@ commit;
 /* -------------------- BEGIN TEST DATA -------------------- */
 
 insert into ingredient
-    (id, name, test_data, unit_category)
+    (name, test_data, unit_category)
 values
-    (100, 'fd_carrot', true, 3),
-    (101, 'fd_apple', true, 3),
-    (102, 'fd_orange', true, 3);
+    ('fd_carrot', true, 3),
+    ('fd_apple', true, 3),
+    ('fd_orange', true, 3);
 
 insert into user_map
     (external_id)
@@ -132,10 +132,10 @@ values
 insert into user_ingredient
     (user_id, ingredient_id, quantity)
 values
-    (1, 100, 5),
-    (1, 101, 5),
-    (2, 101, 5),
-    (3, 102, 10);
+    (1, 1, 5),
+    (1, 2, 5),
+    (2, 2, 5),
+    (3, 3, 10);
 
 commit;
 /* -------------------- END TEST DATA -------------------- */
