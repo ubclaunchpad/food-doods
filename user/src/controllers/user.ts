@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
+import { Document } from 'mongoose';
+import { AuthenticationError } from '../util/errors/AuthenticationError';
 import { AuthorizationError } from '../util/errors/AuthorizationError';
-import { getUserToken } from '../util/token';
-import { createUser, getUserAttributes } from '../util/user';
+import { deleteLocation } from '../util/location';
+import { getUserToken, verifyUserToken } from '../util/token';
+import { createUser, findUser, getUserAttributes, removeUser } from '../util/user';
 
 const postUser = async (req: Request, res: Response): Promise<Response> => {
     const user = req.body;
@@ -48,4 +51,27 @@ const getUser = async (req: Request, res: Response): Promise<Response> => {
     }
 };
 
-export { getUser, postUser };
+const deleteUser = async (req: Request, res: Response): Promise<Response> => {
+    const username: string = req.params.username;
+    const token: string | undefined = req.header('token');
+
+    const user: Document = await findUser(username);
+    const isAuthorizedUser: boolean = token ? await verifyUserToken(token, username) : false;
+    if (!token || !isAuthorizedUser) {
+        const error: AuthorizationError = new AuthorizationError('You are not permitted to delete this user.');
+        return res.status(401).send(error);
+    } else if (user.get('token') !== token) {
+        const error: AuthenticationError = new AuthenticationError(
+            "The given token does not match the user's current token."
+        );
+        return res.status(401).send(error);
+    }
+
+    const locationId: string = user.get('location');
+    return deleteLocation(locationId)
+        .then(() => removeUser(username))
+        .then(() => res.status(204).send())
+        .catch((error: Error) => res.status(404).send(error));
+};
+
+export { deleteUser, getUser, postUser };
