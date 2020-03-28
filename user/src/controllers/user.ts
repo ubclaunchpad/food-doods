@@ -7,6 +7,8 @@ import { connect } from '../db/index';
 import { LocationModel } from '../models/location';
 import { UserModel } from '../models/user';
 import { AuthorizationError } from '../util/errors/AuthorizationError';
+import { addUserIngredient } from '../util/ingredient';
+import { addUserRecipe } from '../util/recipe';
 
 const AVAILABLE_FIELDS: string[] = ['fullName', 'username', '_id'];
 const REQUIRED_LOCATION_FIELDS: string[] = ['city', 'province', 'country'];
@@ -86,9 +88,11 @@ async function findLocation(city: string, province: string, country: string): Pr
 }
 
 async function registerUser(user: Document): Promise<string> {
-    // const username: string = user.get('username');
-    // return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
     return connect()
+        .then(() => {
+            const username: string = user.get('username');
+            return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
+        })
         .then(async () => assignNewToken(user))
         .catch((error: Error) => {
             throw error;
