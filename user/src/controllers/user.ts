@@ -88,11 +88,12 @@ async function findLocation(city: string, province: string, country: string): Pr
 }
 
 async function registerUser(user: Document): Promise<string> {
+    // TODO
+    // .then(() => {
+    //     const username: string = user.get('username');
+    //     return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
+    // })
     return connect()
-        .then(() => {
-            const username: string = user.get('username');
-            return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
-        })
         .then(async () => assignNewToken(user))
         .catch((error: Error) => {
             throw error;
