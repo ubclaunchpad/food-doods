@@ -61,7 +61,10 @@ export const initializeRecipeRoutes = (app: Application) => {
     /* remove a user */
     recipeRouter.delete('/user/:user_id', async (req: Request, res: Response) => {
         try {
-            await UserRecipesModel.findByIdAndDelete(req.params.user_id).then((user: Document) => {
+            await UserRecipesModel.findByIdAndDelete(req.params.user_id).then((user: Document | null) => {
+                if (!user) {
+                    throw new Error(`No user exists with id ${req.params.user_id}`);
+                }
                 const username: string = user.get('username');
                 res.status(200).send(`${username} \n \n Removed from DB`);
             });
@@ -110,11 +113,11 @@ export const initializeRecipeRoutes = (app: Application) => {
             return res.status(400).send('Please pass recipeUrl in the body');
         }
         recipeScraper(req.body.recipeUrl)
-            .then((recipe: IRecipes) => {
+            .then(async (recipe: IRecipes) => {
                 const postRecipe = new RecipesModel(recipe);
                 return postRecipe
                     .save()
-                    .then((r: Response) => res.send(r))
+                    .then((recipes: Document) => res.status(201).json({ recipes }))
                     .catch(() => res.status(500).send('Could not save to DB'));
             })
             .catch(() => {
