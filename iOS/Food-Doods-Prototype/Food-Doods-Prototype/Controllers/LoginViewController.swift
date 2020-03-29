@@ -33,15 +33,9 @@ class LoginViewController: UIViewController {
         let password = passwordTextField.text
         
         let lastToken = UserDefaults.standard.string(forKey: "token")
-        print("lastToken: \(lastToken)")
         
-        if let user = username, let pass = password {
-            if let token = lastToken {
-                LocalHostTest.shared.loginUser(username: user, password: pass, token: token)
-            } else {
-                LocalHostTest.shared.loginUser(username: user, password: pass, token: "")
-            }
-            
+        if let user = username, let pass = password, let token = lastToken {
+            UserAPIUtil.shared.loginUser(username: user, password: pass, token: token)
         }
     }
     

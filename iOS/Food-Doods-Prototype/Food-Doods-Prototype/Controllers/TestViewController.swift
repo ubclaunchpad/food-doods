@@ -21,11 +21,11 @@ class TestViewController: UIViewController {
         getRecipesButton.setTitle("Get Recipes", for: .normal)
         
         //MARK: Test Button 2
-        var loginUserButton = UIButton()
-        loginUserButton.translatesAutoresizingMaskIntoConstraints = false
-        loginUserButton.layer.cornerRadius = 10
-        loginUserButton.backgroundColor = .cyan
-        loginUserButton.setTitle("Login User", for: .normal)
+        var freeButton = UIButton()
+        freeButton.translatesAutoresizingMaskIntoConstraints = false
+        freeButton.layer.cornerRadius = 10
+        freeButton.backgroundColor = .cyan
+        freeButton.setTitle("Free Button", for: .normal)
         
         //MARK: Test Button 3
         var getIngredientsButton = UIButton()
@@ -56,7 +56,7 @@ class TestViewController: UIViewController {
         postUserIngredientsButton.setTitle("Post Ingredient User", for: .normal)
         
         self.view.addSubview(getRecipesButton)
-        self.view.addSubview(loginUserButton)
+        self.view.addSubview(freeButton)
         self.view.addSubview(getIngredientsButton)
         self.view.addSubview(createUserButton)
         self.view.addSubview(openLoginViewButton)
@@ -71,15 +71,15 @@ class TestViewController: UIViewController {
         getRecipesButton.addTarget(self, action: #selector(getRecipes), for: .touchUpInside)
         
         //MARK: Test Button 2 Constraints
-        loginUserButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        loginUserButton.topAnchor.constraint(equalTo: getRecipesButton.bottomAnchor, constant: 10).isActive = true
-        loginUserButton.heightAnchor.constraint(equalToConstant: 125).isActive = true
-        loginUserButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        loginUserButton.addTarget(self, action: #selector(loginUserAction), for: .touchUpInside)
+        freeButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        freeButton.topAnchor.constraint(equalTo: getRecipesButton.bottomAnchor, constant: 10).isActive = true
+        freeButton.heightAnchor.constraint(equalToConstant: 125).isActive = true
+        freeButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        freeButton.addTarget(self, action: #selector(freeAction), for: .touchUpInside)
         
         //MARK: Test Button 3 Constraints
         getIngredientsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        getIngredientsButton.topAnchor.constraint(equalTo: loginUserButton.bottomAnchor, constant: 10).isActive = true
+        getIngredientsButton.topAnchor.constraint(equalTo: freeButton.bottomAnchor, constant: 10).isActive = true
         getIngredientsButton.heightAnchor.constraint(equalToConstant: 125).isActive = true
         getIngredientsButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
         getIngredientsButton.addTarget(self, action: #selector(getIngredientsAction), for: .touchUpInside)
@@ -100,7 +100,7 @@ class TestViewController: UIViewController {
         
         //MARK: Post Ingredients User Constraints
         postUserIngredientsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        postUserIngredientsButton.topAnchor.constraint(equalTo: loginUserButton.bottomAnchor, constant: 10).isActive = true
+        postUserIngredientsButton.topAnchor.constraint(equalTo: freeButton.bottomAnchor, constant: 10).isActive = true
         postUserIngredientsButton.heightAnchor.constraint(equalToConstant: 125).isActive = true
         postUserIngredientsButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
         postUserIngredientsButton.addTarget(self, action: #selector(getIngredientUser), for: .touchUpInside)
@@ -109,11 +109,6 @@ class TestViewController: UIViewController {
     @objc func getRecipes() {
         print("Calling Recieps Endpoint")
         LocalHostTest.shared.getRecipeSuggestions()
-    }
-    
-    @objc func loginUserAction() {
-        print("Calling User Endpoint: POST LOGIN")
-        LocalHostTest.shared.loginUser()
     }
     @objc func getIngredientUser() {
         print("Calling Get User for Ingredients Enpoint: POST USER")
@@ -126,13 +121,22 @@ class TestViewController: UIViewController {
     
     @objc func createUserAction() {
         print("Calling User Endpoint: POST CREATE")
-        LocalHostTest.shared.createUser()
+        let email = "wrenTest@gmail.com"
+        let username = "wrenTest"
+        let password = "swiftyboi"
+        let fullName = "Wren Test"
+        UserAPIUtil.shared.createNewUser(email: email, username: username, password: password, fullName: fullName)
     }
     
     @objc func openLoginView() {
         print("Opening Login View")
         let presentVC = LoginViewController()
         present(presentVC, animated: true, completion: nil)
+    }
+    
+    
+    @objc func freeAction() {
+        
     }
 }
 

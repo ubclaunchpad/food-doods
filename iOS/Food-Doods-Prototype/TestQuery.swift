@@ -26,18 +26,6 @@ struct IngredientUserMode: Codable {
     let externalId: String
 }
 
-//MARK: TestCreateUserModel
-struct CreateUserModel: Codable {
-    let email, username, password, fullName: String
-}
-
-//MARK: LoginModel
-struct LoginModel: Codable {
-    let username, password: String
-}
-
-
-
 // MARK: - RESPONSE DATA STRUCTURES
 struct ResponseHashes: Codable {
     let hashes: [Int]
