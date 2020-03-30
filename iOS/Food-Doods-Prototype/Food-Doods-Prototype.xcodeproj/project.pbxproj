@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		25288EB1236E1244001BA957 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB0236E1244001BA957 /* SettingsViewController.swift */; };
 		25288EB3236E1329001BA957 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB2236E1329001BA957 /* Recipe.swift */; };
 		25288EB5236E2B92001BA957 /* RecipeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */; };
+		253FB2E82432BAD4008BD653 /* AlanYanHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 253FB2E72432BAD4008BD653 /* AlanYanHelpers */; };
+		253FB2E92432BAD4008BD653 /* AlanYanHelpers in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 253FB2E72432BAD4008BD653 /* AlanYanHelpers */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		258C052723E6270A004209E2 /* ShoppingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */; };
 		25C236F9235A49DA0092EDE8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C236F8235A49DA0092EDE8 /* MainView.swift */; };
 		25CDA5F8240AF42000C148CF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDA5F7240AF42000C148CF /* FilterViewController.swift */; };
@@ -46,6 +48,20 @@
 		6CE6E3DF24327A6700E58A25 /* RecipeAPIUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE6E3DE24327A6700E58A25 /* RecipeAPIUtil.swift */; };
 		6CE6E3E224327A9700E58A25 /* UserAPIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE6E3E124327A9700E58A25 /* UserAPIModels.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		253FB2EA2432BAD5008BD653 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				253FB2E92432BAD4008BD653 /* AlanYanHelpers in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		25178B12235C06DF00808C62 /* PantryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryTableViewCell.swift; sourceTree = "<group>"; };
@@ -95,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				253FB2E82432BAD4008BD653 /* AlanYanHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,12 +238,16 @@
 				6C7796D82355871E00052EEB /* Sources */,
 				6C7796D92355871E00052EEB /* Frameworks */,
 				6C7796DA2355871E00052EEB /* Resources */,
+				253FB2EA2432BAD5008BD653 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Food-Doods-Prototype";
+			packageProductDependencies = (
+				253FB2E72432BAD4008BD653 /* AlanYanHelpers */,
+			);
 			productName = "Food-Doods-Prototype";
 			productReference = 6C7796DC2355871E00052EEB /* Food-Doods-Prototype.app */;
 			productType = "com.apple.product-type.application";
@@ -255,6 +276,9 @@
 				Base,
 			);
 			mainGroup = 6C7796D32355871E00052EEB;
+			packageReferences = (
+				253FB2E62432BAD4008BD653 /* XCRemoteSwiftPackageReference "UIKit-Toolbox" */,
+			);
 			productRefGroup = 6C7796DD2355871E00052EEB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -508,6 +532,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		253FB2E62432BAD4008BD653 /* XCRemoteSwiftPackageReference "UIKit-Toolbox" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yan-alan/UIKit-Toolbox.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		253FB2E72432BAD4008BD653 /* AlanYanHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 253FB2E62432BAD4008BD653 /* XCRemoteSwiftPackageReference "UIKit-Toolbox" */;
+			productName = AlanYanHelpers;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		6C7796E82355871F00052EEB /* Food_Doods_Prototype.xcdatamodeld */ = {
