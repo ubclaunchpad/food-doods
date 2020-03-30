@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Function {
+enum UserFunction {
     case GETuser
     case POSTcreateUser
     case POSTloginUser
@@ -16,14 +16,6 @@ enum Function {
 
 enum UserError: Error {
     case missingUsername
-}
-
-struct CreateNewUserModel: Codable {
-    let email, username, password, fullName: String
-}
-
-struct LoginUserModel: Codable {
-    let username, password: String
 }
 
 class UserAPIUtil {
@@ -37,7 +29,7 @@ class UserAPIUtil {
     
     public func getUser(with username: String, token: String) {
         do {
-            let requestURL = try assembleURL(for: Function.GETuser, username: username)
+            let requestURL = try assembleURL(for: UserFunction.GETuser, username: username)
             
             var request = URLRequest(url: URL(string: requestURL)!)
             
@@ -73,7 +65,7 @@ class UserAPIUtil {
     
     public func createNewUser(email: String, username: String, password: String, fullName: String) {
         do {
-            let requestURL = try assembleURL(for: Function.POSTcreateUser)
+            let requestURL = try assembleURL(for: UserFunction.POSTcreateUser)
             
             var request = URLRequest(url: URL(string: requestURL)!)
             
@@ -119,7 +111,7 @@ class UserAPIUtil {
     
     public func loginUser(username: String, password: String, token: String) {
         do {
-            let requestURL = try assembleURL(for: Function.POSTloginUser)
+            let requestURL = try assembleURL(for: UserFunction.POSTloginUser)
             
             var request = URLRequest(url: URL(string: requestURL)!)
             
@@ -160,18 +152,18 @@ class UserAPIUtil {
     }
     
     
-    private func assembleURL(for function: Function, username: String? = nil) throws -> String {
+    private func assembleURL(for function: UserFunction, username: String? = nil) throws -> String {
         var url = hostURL
         
         switch (function) {
-        case Function.GETuser:
+        case UserFunction.GETuser:
             guard let username = username else { throw UserError.missingUsername }
             url.append("/user/\(username)")
             break
-        case Function.POSTcreateUser:
+        case UserFunction.POSTcreateUser:
             url.append("/user")
             break
-        case Function.POSTloginUser:
+        case UserFunction.POSTloginUser:
             url.append("/user/login")
             break
         }

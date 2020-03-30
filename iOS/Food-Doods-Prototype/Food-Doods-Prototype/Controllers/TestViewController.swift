@@ -25,7 +25,7 @@ class TestViewController: UIViewController {
         freeButton.translatesAutoresizingMaskIntoConstraints = false
         freeButton.layer.cornerRadius = 10
         freeButton.backgroundColor = .cyan
-        freeButton.setTitle("Free Button", for: .normal)
+        freeButton.setTitle("Get Recipe By ID", for: .normal)
         
         //MARK: Test Button 3
         var getIngredientsButton = UIButton()
@@ -75,7 +75,7 @@ class TestViewController: UIViewController {
         freeButton.topAnchor.constraint(equalTo: getRecipesButton.bottomAnchor, constant: 10).isActive = true
         freeButton.heightAnchor.constraint(equalToConstant: 125).isActive = true
         freeButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        freeButton.addTarget(self, action: #selector(freeAction), for: .touchUpInside)
+        freeButton.addTarget(self, action: #selector(getRecipeByID), for: .touchUpInside)
         
         //MARK: Test Button 3 Constraints
         getIngredientsButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -135,8 +135,10 @@ class TestViewController: UIViewController {
     }
     
     
-    @objc func freeAction() {
-        
+    @objc func getRecipeByID() {
+        print("Getting recipe by ID")
+        let id = "5e7ecf6bd7ab9fa3fec1e048"
+        RecipeAPIUtil.shared.getRecipeBy(recipeID: id)
     }
 }
 
