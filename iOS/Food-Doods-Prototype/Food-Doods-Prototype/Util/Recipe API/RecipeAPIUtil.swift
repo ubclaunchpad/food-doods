@@ -26,7 +26,7 @@ class RecipeAPIUtil {
         self.hostURL = baseURL
     }
     
-    public func getRecipeBy(recipeID: String) {
+    public func getRecipeBy(recipeID: String, completionHandler: @escaping (RecipeModel) -> Void) {
         do {
             let requestURL = try assembleURL(for: RecipeFunction.GETrecipeByID, recipeID: recipeID)
             
@@ -49,11 +49,18 @@ class RecipeAPIUtil {
                     print ("--- Data ---")
                     let str = String(decoding: data, as: UTF8.self)
                     
-                    print(str)
+                    // print(str)
                     
-                    let decodedData = try? JSONDecoder().decode(RecipeModel.self, from: data)
-                    print("*** DECODED ***")
-                    print(decodedData)
+                    DispatchQueue.main.async {
+                        do {
+                            let decodedData = try JSONDecoder().decode(RecipeModel.self, from: data)
+                            print("*** DECODED ***")
+                            completionHandler(decodedData)
+                        } catch {
+                            print(error)
+                        }
+                        
+                    }
                 }
             }
             

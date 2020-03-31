@@ -13,7 +13,7 @@ struct RecipeModel: Codable {
     let ingredients: [RecipeIngredient]
     let instructions: [String]
     let id, name: String
-    let time: RecipeTime
+    let time: RecipeTime?
     let servings: String
     let v: Int
 
@@ -28,8 +28,8 @@ struct RecipeModel: Codable {
 // MARK: - RecipeIngredient
 struct RecipeIngredient: Codable {
     let id, unitCategory: Int
-    let unit: String
-    let quantity: Int
+    let unit: String?
+    let quantity: Double
     let name: String
 
     enum CodingKeys: String, CodingKey {

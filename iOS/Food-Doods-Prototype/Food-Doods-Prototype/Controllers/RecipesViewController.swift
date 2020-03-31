@@ -11,6 +11,7 @@ import UIKit
 
 class RecipesViewController: UIViewController {
     var allRecipes: [Recipe] = []
+    var serverRecipes: [RecipeModel] = []
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -30,8 +31,37 @@ class RecipesViewController: UIViewController {
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .white
-        setupMockData()
+        
+        // setupMockData()
+        getRecipeData()
     }
+    
+    func getRecipeData() {
+        let testIDs =
+            [
+                "5e7ecf3bd7ab9fa3fec1e045",
+                "5e7ecfedd7ab9fa3fec1e04b",
+                "5e7ed024d7ab9fa3fec1e051",
+                "5e7ed01cd7ab9fa3fec1e050",
+                "5e7ed075d7ab9fa3fec1e054"
+            ]
+        
+        for id in testIDs {
+            RecipeAPIUtil.shared.getRecipeBy(recipeID: id, completionHandler: apiCompletionHandler)
+        }
+        
+        // MARK: Debug
+        let _ = Timer.scheduledTimer(withTimeInterval: TimeInterval(2), repeats: false, block: {_ in 
+            print(self.serverRecipes)
+        })
+    }
+    
+    lazy var apiCompletionHandler: (RecipeModel) -> Void = {
+        recipe in
+        self.serverRecipes.append(recipe)
+        print("Got here!")
+    }
+    
     @objc func openFilter() {
         //MARK: TODO
         let newVC =  FilterViewController()

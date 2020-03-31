@@ -138,7 +138,9 @@ class TestViewController: UIViewController {
     @objc func getRecipeByID() {
         print("Getting recipe by ID")
         let id = "5e7ecf6bd7ab9fa3fec1e048"
-        RecipeAPIUtil.shared.getRecipeBy(recipeID: id)
+        RecipeAPIUtil.shared.getRecipeBy(recipeID: id, completionHandler: {_ in 
+            return
+        })
     }
 }
 
