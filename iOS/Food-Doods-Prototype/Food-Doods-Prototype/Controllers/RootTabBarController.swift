@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AlanYanHelpers
 
 class RootTabBarController: UITabBarController {
 
@@ -106,9 +107,9 @@ class CustomTabViewController: UITabBarController {
         ourTabBar = CustomTabBar(items: items)
         guard let bar = ourTabBar else { return }
         
-        #warning("SHADOW")
-        bar.backgroundColor = UIColor(hex: 0xE5E5E5)
-        bar.setSuperview(self.view as Any).addBottom().addTrailing().addLeading().addTop(anchor: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80).addCorners(radius: 15, corners: [.layerMaxXMinYCorner, .layerMinXMinYCorner]).done()
+        bar.backgroundColor = .white
+        bar.addCorners(radius: 15, corners: [.layerMaxXMinYCorner, .layerMinXMinYCorner]).done()
+        ShadowUIView(colour: UIColor(hex: 0xE0E0E0, alpha: 1),subLayer: bar).setSuperview(self.view as Any).addBottom().addTrailing().addLeading().addTop(anchor: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80).done()
             
         for i in 0 ..< items.count {
             items[i].tag = i
@@ -150,6 +151,9 @@ class TabBarViewController: CustomTabViewController {
     }()
     override func setupView() {
         let pantryButton = TabBarButton(title: "Pantry", image: UIImage(named: "fridge")?.withTintColor(.black, renderingMode: .alwaysOriginal))
+        let color = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        pantryButton.headerImage.image = pantryButton.headerImage.image?.withTintColor(color, renderingMode: .alwaysOriginal)
+        pantryButton.headerLabel.textColor = color
         let recipeButton = TabBarButton(title: "Recipes", image: UIImage(named: "recipebook")?.withTintColor(.black, renderingMode: .alwaysOriginal))
         let shoppingButton = TabBarButton(title: "Shopping List", image: UIImage(named: "shopping")?.withTintColor(.black, renderingMode: .alwaysOriginal))
         let settingsButton = TabBarButton(title: "Settings", image: UIImage(named: "settings")?.withTintColor(.black, renderingMode: .alwaysOriginal))
