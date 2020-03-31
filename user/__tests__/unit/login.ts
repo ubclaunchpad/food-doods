@@ -1,10 +1,9 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
 import { Document } from 'mongoose';
-import { verifyUser } from '../../src/controllers/login';
-import { findUser } from '../../src/controllers/user';
 import { connect } from '../../src/db';
 import { AuthenticationError } from '../../src/util/errors/AuthenticationError';
 import { AuthorizationError } from '../../src/util/errors/AuthorizationError';
+import { findUser, verifyUser } from '../../src/util/user';
 
 // NOTE: these tests assume the existence of specific users in the db
 describe('POST /user/login', () => {
