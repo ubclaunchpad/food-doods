@@ -148,12 +148,12 @@
 				25C236F8235A49DA0092EDE8 /* MainView.swift */,
 				6C91D24D235BCA3B003F9DB2 /* PantryView.swift */,
 				6C91D24F235BCA49003F9DB2 /* RecipeView.swift */,
+				25D3D5B4240B1BFF007D0B53 /* RecipeDetailedView.swift */,
 				6C91D251235BCA52003F9DB2 /* ItemView.swift */,
 				6C370402237767A30049F004 /* EditItemView.swift */,
 				25178B12235C06DF00808C62 /* PantryTableViewCell.swift */,
 				258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */,
 				25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */,
-				25D3D5B4240B1BFF007D0B53 /* RecipeDetailedView.swift */,
 				6C5726742376923C006BE5E5 /* ShoppingListView.swift */,
 				6CD0C6C6241D773600A7530F /* LoginView.swift */,
 			);
