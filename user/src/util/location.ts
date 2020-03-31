@@ -1,5 +1,6 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { LocationModel } from '../models/location';
+import { UserModel } from '../models/user';
 
 async function createLocation(city: string, province: string, country: string, user: Document): Promise<Document> {
     try {
@@ -20,6 +21,18 @@ async function createLocation(city: string, province: string, country: string, u
     }
 }
 
+async function deleteLocation(locationId: string): Promise<boolean> {
+    if (!locationId) {
+        return true;
+    }
+    const usersAtLocation: Document[] | null = await UserModel.find({ location: Types.ObjectId(locationId) });
+    if (usersAtLocation.length === 1) {
+        await LocationModel.deleteOne({ _id: Types.ObjectId(locationId) });
+        return true;
+    }
+    return false;
+}
+
 async function findLocation(city: string, province: string, country: string): Promise<Document> {
     const location: Document | null = await LocationModel.findOne({ city, province, country });
     if (!location) {
@@ -28,4 +41,4 @@ async function findLocation(city: string, province: string, country: string): Pr
     return location;
 }
 
-export { createLocation, findLocation };
+export { createLocation, deleteLocation, findLocation };

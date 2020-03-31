@@ -18,4 +18,9 @@ async function assignNewToken(user: Document): Promise<string> {
     return newToken;
 }
 
-export { assignNewToken, getUserToken };
+async function verifyUserToken(token: string, username: string): Promise<boolean> {
+    const decoded: any = jwt.verify(token, JWT_SECRET_KEY as string, { maxAge: '168h' });
+    return decoded.username === username;
+}
+
+export { assignNewToken, getUserToken, verifyUserToken };

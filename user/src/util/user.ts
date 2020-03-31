@@ -72,6 +72,14 @@ async function getUserAttributes(username: string): Promise<object> {
     return attributes;
 }
 
+async function removeUser(username: string): Promise<Document> {
+    const deletedUser: Document | null = await UserModel.findOneAndDelete({ username });
+    if (!deletedUser) {
+        throw new Error('User could not be found.');
+    }
+    return deletedUser;
+}
+
 async function registerUser(user: Document): Promise<string> {
     // const username: string = user.get('username');
     // return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
@@ -102,4 +110,4 @@ async function verifyUser(username: string, password: string, token: string): Pr
     throw new AuthenticationError('User could not be authenticated.');
 }
 
-export { AVAILABLE_FIELDS, createUser, findUser, getUserAttributes, registerUser, verifyUser };
+export { AVAILABLE_FIELDS, createUser, findUser, getUserAttributes, removeUser, registerUser, verifyUser };
