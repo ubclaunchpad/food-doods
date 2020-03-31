@@ -17,7 +17,10 @@ var itemArray: [Item] = []
 class PantryViewController: UIViewController {
     var tableView: UITableView!
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "CircularStd-Bold", size: 36)!]
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         let newView = PantryView();
@@ -26,7 +29,7 @@ class PantryViewController: UIViewController {
         newView.segmentControl.addTarget(self, action: #selector(segmentSelected(sender:)), for: .valueChanged)
         self.view = newView
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Ingredients"
+        navigationItem.title = "Pantry"
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")

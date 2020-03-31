@@ -24,13 +24,14 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Poutine"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont(name: "CircularStd-Bold", size: 12)
         return label
     }()
     var timeLabel: UILabel = {
         let label = UILabel()
         label.text = "30 Minutes"
-        label.font = UIFont.systemFont(ofSize: 11)
+        label.font = UIFont(name: "CircularStd-Book", size: 10)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -38,7 +39,8 @@ class RecipeCollectionViewCell: UICollectionViewCell {
     var difficultyLabel: UILabel = {
         let label = UILabel()
         label.text = "Easy"
-        label.font = UIFont.systemFont(ofSize: 11)
+        label.font = UIFont(name: "CircularStd-Book", size: 10)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -46,7 +48,8 @@ class RecipeCollectionViewCell: UICollectionViewCell {
     var ingredientLabel: UILabel = {
         let label = UILabel()
         label.text = "4/15 Ingredients"
-        label.font = UIFont.systemFont(ofSize: 11)
+        label.font = UIFont(name: "CircularStd-Book", size: 10)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -108,13 +111,13 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         recipeImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         recipeImage.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         recipeImage.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        recipeImage.heightAnchor.constraint(equalToConstant: 220).isActive = true
+        recipeImage.heightAnchor.constraint(equalToConstant: 227).isActive = true
         
         
-        nameLabel.topAnchor.constraint(equalTo: recipeImage.bottomAnchor, constant: 10).isActive = true
-        nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: recipeImage.bottomAnchor, constant: 8).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 6).isActive = true
         nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        nameLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 14).isActive = true
         
         timeLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
         timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true

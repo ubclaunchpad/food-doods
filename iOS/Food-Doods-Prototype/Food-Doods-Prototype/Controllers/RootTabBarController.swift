@@ -33,12 +33,14 @@ class RootTabBarController: UITabBarController {
         super.viewDidLoad()
 
         let firstViewController = NavigationController(rootViewController: PantryViewController())
+        firstViewController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "CircularStd-Bold", size: 36)!]
         firstViewController.tabBarItem = UITabBarItem()
         firstViewController.tabBarItem.title = "Pantry"
         firstViewController.tabBarItem.tag = 0
         firstViewController.tabBarItem.image = UIImage(systemName: "tray.2")
         
         let secondViewController = NavigationController(rootViewController: RecipesViewController())
+        secondViewController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "CircularStd-Bold", size: 36)!]
         secondViewController.tabBarItem = UITabBarItem()
         secondViewController.tabBarItem.title = "Recipes"
         secondViewController.tabBarItem.tag = 1
@@ -46,6 +48,7 @@ class RootTabBarController: UITabBarController {
 
         
         let thirdViewController = NavigationController(rootViewController: ShoppingListViewController())
+        thirdViewController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "CircularStd-Bold", size: 36)!]
         thirdViewController.tabBarItem = UITabBarItem()
         thirdViewController.tabBarItem.title = "Shopping List"
         thirdViewController.tabBarItem.tag = 2
@@ -53,6 +56,7 @@ class RootTabBarController: UITabBarController {
 
         
         let fourthViewController = NavigationController(rootViewController: SettingsViewController())
+        fourthViewController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "CircularStd-Bold", size: 36)!]
         fourthViewController.tabBarItem = UITabBarItem()
         fourthViewController.tabBarItem.title = "Settings"
         fourthViewController.tabBarItem.tag = 3
