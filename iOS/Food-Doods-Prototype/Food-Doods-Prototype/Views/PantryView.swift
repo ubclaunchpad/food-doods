@@ -7,16 +7,17 @@
 //
 
 import UIKit
-
+import AlanYanHelpers
 
 class PantryView: UIView {
     //instance of tableView instantiated lazily
     
-    var segmentControl: UISegmentedControl = {
-        let segments = ["All", "Pantry", "Fridge", "Dry"]
-        let segmentControl = UISegmentedControl(items: segments)
-        segmentControl.translatesAutoresizingMaskIntoConstraints = false
-        return segmentControl
+    var segmentControl: CustomSegmentedControl = {
+        let control = CustomSegmentedControl(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+        control.setButtonTitles(buttonTitles: ["All", "Pantry", "Fridge", "Dry"])
+        control.selectorViewColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        control.selectorTextColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        return control
     }()
     
     lazy var tableView: UITableView = {
@@ -55,7 +56,7 @@ class PantryView: UIView {
     //MARK: Constraints Setup
     private func setupConstraints() {
         
-        //segmentControl.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+        segmentControl.addTop(constant: 10).done()
         segmentControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         segmentControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         segmentControl.heightAnchor.constraint(equalToConstant: 31).isActive = true
@@ -64,5 +65,6 @@ class PantryView: UIView {
         tableView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+
     }
 }

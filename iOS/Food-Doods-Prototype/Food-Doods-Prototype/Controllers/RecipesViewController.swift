@@ -71,10 +71,10 @@ class RecipesViewController: UIViewController {
         var mockIngredients: [Item] = []
         var ingredOwned: [Item] = []
         for _ in 0...15 {
-            mockIngredients.append(Item(name: "", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
+            mockIngredients.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
         }
         for _ in 0...4 {
-            ingredOwned.append(Item(name: "", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
+            ingredOwned.append(Item(name: "Carrot Owned Edition", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
         }
         
         var recipe = Recipe(name: "Canadian Poutine", image: UIImage(named: "poutine"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 30, difficulty: "Medium")

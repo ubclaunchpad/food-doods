@@ -75,11 +75,13 @@ class SearchBarView: UIView {
 
 class RecipeView: UIView {
     var searchBar = SearchBarView()
-    var segmentControl: UISegmentedControl = {
-        let segments = ["Favorites", "Suggested"]
-        let segmentControl = UISegmentedControl(items: segments)
-        segmentControl.translatesAutoresizingMaskIntoConstraints = false
-        return segmentControl
+    var segmentControl: CustomSegmentedControl = {
+        let control = CustomSegmentedControl()
+        control.translatesAutoresizingMaskIntoConstraints = false
+        control.setButtonTitles(buttonTitles: ["Favorites", "Suggested"])
+        control.selectorViewColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        control.selectorTextColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        return control
     }()
     var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -120,7 +122,7 @@ class RecipeView: UIView {
         segmentControl.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10).isActive = true
         segmentControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         segmentControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        segmentControl.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        segmentControl.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 5).isActive = true
         collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true

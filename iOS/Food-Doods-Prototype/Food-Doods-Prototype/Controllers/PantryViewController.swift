@@ -14,7 +14,7 @@ var itemArray: [Item] = []
 
 
 
-class PantryViewController: UIViewController {
+class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
     var tableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -25,8 +25,7 @@ class PantryViewController: UIViewController {
         super.viewDidLoad()
         let newView = PantryView();
         tableView = newView.tableView
-        newView.segmentControl.selectedSegmentIndex = 0
-        newView.segmentControl.addTarget(self, action: #selector(segmentSelected(sender:)), for: .valueChanged)
+        newView.segmentControl.delegate = self
         self.view = newView
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Pantry"
@@ -55,11 +54,9 @@ class PantryViewController: UIViewController {
     }
     
     
-    
-    @objc
-    private func segmentSelected(sender: UISegmentedControl) {
+    func changeToIndex(index: Int) {
         var foodSection: FoodLocation?
-        switch(sender.selectedSegmentIndex) {
+        switch(index) {
         case 0: foodSection = .all
         case 1: foodSection = .pantry
         case 2: foodSection = .fridge
@@ -75,7 +72,6 @@ class PantryViewController: UIViewController {
         }
         self.tableView.reloadData()
     }
-
 }
 
 
