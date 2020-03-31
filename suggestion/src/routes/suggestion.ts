@@ -27,13 +27,13 @@ router.post('/', (req, res) => {
 });
 
 // POST /suggestion/:userId
-router.post('/:userId', async (req: Request, res: Response) => {
+router.post('/:userId', async (req: express.Request, res: express.Response) => {
     // get all ingredients
     // const ingredients = GET Ingredients of a User by User Id; currently mocked
     const { ingredients } = await axios.get(`localhost:${process.env.INGREDIENT_PORT}/user/${req.params.userId}`);
 
     const setOfRecipes: Set<object> = await getRecipes();
-    const recipes: string[] = hashRecipes(setOfRecipes, object.ingredients);
+    const recipes: string[] = hashRecipes(setOfRecipes, ingredients);
     const recipeNumber = 0.3;
     // return recipe id's
     // the suggestRecipes controller is currently  has a TODO ticket that's
