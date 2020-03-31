@@ -11,6 +11,27 @@ import UIKit
 
 class RecipesViewController: UIViewController {
     var allRecipes: [Recipe] = []
+    var serverRecipes: [RecipeModel] = []
+    
+    // MARK: - Testing
+    let testIDs =
+        [
+            "5e7ecf3bd7ab9fa3fec1e045",
+            "5e7ecfedd7ab9fa3fec1e04b",
+            "5e7ed024d7ab9fa3fec1e051",
+            "5e7ed01cd7ab9fa3fec1e050",
+            "5e7ed075d7ab9fa3fec1e054"
+        ]
+    
+    var successCounter: Int = 0 {
+        didSet {
+            if successCounter == testIDs.count {
+                print("Ready!")
+                
+                //MARK: DO WORK HERE TO LOAD DATA INTO VIEW
+            }
+        }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -30,8 +51,30 @@ class RecipesViewController: UIViewController {
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .white
-        setupMockData()
+        
+        // setupMockData()
+        getRecipeData()
     }
+    
+    func getRecipeData() {
+        
+        for id in testIDs {
+            RecipeAPIUtil.shared.getRecipeBy(recipeID: id, completionHandler: apiCompletionHandler)
+        }
+        
+        // MARK: Debug
+        let _ = Timer.scheduledTimer(withTimeInterval: TimeInterval(2), repeats: false, block: {_ in 
+            print(self.serverRecipes)
+        })
+    }
+    
+    lazy var apiCompletionHandler: (RecipeModel) -> Void = {
+        recipe in
+        print("Got here!")
+        self.serverRecipes.append(recipe)
+        self.successCounter += 1
+    }
+    
     @objc func openFilter() {
         //MARK: TODO
         let newVC =  FilterViewController()
