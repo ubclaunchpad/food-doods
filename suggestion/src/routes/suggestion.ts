@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as express from 'express';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -29,7 +30,7 @@ router.post('/', (req, res) => {
 router.post('/:userId', async (req: Request, res: Response) => {
     // get all ingredients
     // const ingredients = GET Ingredients of a User by User Id; currently mocked
-    const object = JSON.parse(readFileSync(resolve('mocks/sampleIngredients.json')).toString());
+    const { ingredients } = await axios.get(`localhost:${process.env.INGREDIENT_PORT}/user/${req.params.userId}`);
 
     const setOfRecipes: Set<object> = await getRecipes();
     const recipes: string[] = hashRecipes(setOfRecipes, object.ingredients);
@@ -37,8 +38,8 @@ router.post('/:userId', async (req: Request, res: Response) => {
     // return recipe id's
     // the suggestRecipes controller is currently  has a TODO ticket that's
     // meant to return the recipes instead of the hashes
-    const suggestions: number[] = suggestRecipes(object.ingredients, recipeNumber, recipes);
-    return res.status(200).json({ recipes: suggestions });
+    const suggestions = suggestRecipes(ingredients, recipeNumber, recipes);
+    res.status(200).json({ recipes: suggestions });
 });
 
 module.exports = router;
