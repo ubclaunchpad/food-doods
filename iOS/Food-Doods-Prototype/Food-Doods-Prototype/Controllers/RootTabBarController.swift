@@ -116,21 +116,16 @@ class CustomTabViewController: UITabBarController {
         }
     }
 
-    @objc func switchTab(button: UIButton) {
+    @objc func switchTab(button: TabBarButton) {
         print("clicked")
         selectedIndex = button.tag
-        switch button.tag {
-        case 0:
-            button.tintColor = UIColor(hex: 0xF87026)
-        case 1:
-            button.tintColor = UIColor(hex: 0x48C57C)
-        case 2:
-            button.tintColor = UIColor(hex: 0xDD56FF)
-        case 3:
-            button.tintColor = UIColor(hex: 0xDD56FF)
-        default:
-            fatalError()
+        items.forEach {
+            $0.headerImage.image = $0.headerImage.image?.withTintColor(.black, renderingMode: .alwaysOriginal)
+            $0.headerLabel.textColor = .black
         }
+        let color = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        button.headerImage.image = button.headerImage.image?.withTintColor(color, renderingMode: .alwaysOriginal)
+        button.headerLabel.textColor = color
     }
 }
 
@@ -154,27 +149,18 @@ class TabBarViewController: CustomTabViewController {
         return button
     }()
     override func setupView() {
-        let home = TabBarButton(title: "Pantry", image: UIImage(systemName: "checkmark"))
-        let doctors = TabBarButton(title: "Recipes", image: UIImage(systemName: "checkmark"))
-        let portfolio = TabBarButton(title: "Shopping List", image: UIImage(systemName: "checkmark"))
-        let settings = TabBarButton(title: "Settings", image: UIImage(systemName: "checkmark"))
+        let pantryButton = TabBarButton(title: "Pantry", image: UIImage(named: "fridge")?.withTintColor(.black, renderingMode: .alwaysOriginal))
+        let recipeButton = TabBarButton(title: "Recipes", image: UIImage(named: "recipebook")?.withTintColor(.black, renderingMode: .alwaysOriginal))
+        let shoppingButton = TabBarButton(title: "Shopping List", image: UIImage(named: "shopping")?.withTintColor(.black, renderingMode: .alwaysOriginal))
+        let settingsButton = TabBarButton(title: "Settings", image: UIImage(named: "settings")?.withTintColor(.black, renderingMode: .alwaysOriginal))
 
 
         let firstViewController = NavigationController(rootViewController: PantryViewController())
-        
         let secondViewController = NavigationController(rootViewController: RecipesViewController())
-
-
-        
         let thirdViewController = NavigationController(rootViewController: ShoppingListViewController())
-
-
-        
         let fourthViewController = NavigationController(rootViewController: SettingsViewController())
 
-  
-
-        setTabBar(items: [home, doctors, portfolio, settings])
+        setTabBar(items: [pantryButton, recipeButton, shoppingButton, settingsButton])
         viewControllers = [firstViewController, secondViewController, thirdViewController, fourthViewController]
         
         self.view.addSubview(button)

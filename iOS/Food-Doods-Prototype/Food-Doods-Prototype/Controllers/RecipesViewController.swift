@@ -52,8 +52,8 @@ class RecipesViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .white
         
-        // setupMockData()
-        getRecipeData()
+        setupMockData()
+//        getRecipeData()
     }
     
     func getRecipeData() {
