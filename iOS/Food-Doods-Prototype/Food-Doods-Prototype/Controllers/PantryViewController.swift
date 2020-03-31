@@ -88,7 +88,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
 
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 80 + 16
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -141,11 +141,6 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
             green = 1.0
             red = 0.0
         }
-        
-        
-        
-        
-        
         
         return UIColor(red: red, green: green, blue: blue, alpha: 0.5)
     }

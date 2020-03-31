@@ -15,6 +15,8 @@
 		25288EB5236E2B92001BA957 /* RecipeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */; };
 		253FB2E82432BAD4008BD653 /* AlanYanHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 253FB2E72432BAD4008BD653 /* AlanYanHelpers */; };
 		253FB2E92432BAD4008BD653 /* AlanYanHelpers in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 253FB2E72432BAD4008BD653 /* AlanYanHelpers */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		253FB2ED2432BDAF008BD653 /* CircularStd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 253FB2EC2432BDAF008BD653 /* CircularStd-Bold.otf */; };
+		253FB2EF2432BF63008BD653 /* CircularStd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 253FB2EE2432BF63008BD653 /* CircularStd-Book.otf */; };
 		258C052723E6270A004209E2 /* ShoppingListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */; };
 		25C236F9235A49DA0092EDE8 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C236F8235A49DA0092EDE8 /* MainView.swift */; };
 		25CDA5F8240AF42000C148CF /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25CDA5F7240AF42000C148CF /* FilterViewController.swift */; };
@@ -70,6 +72,8 @@
 		25288EB0236E1244001BA957 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		25288EB2236E1329001BA957 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Recipe.swift; path = "Food-Doods-Prototype/Controllers/Recipe.swift"; sourceTree = SOURCE_ROOT; };
 		25288EB4236E2B92001BA957 /* RecipeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCollectionViewCell.swift; sourceTree = "<group>"; };
+		253FB2EC2432BDAF008BD653 /* CircularStd-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Bold.otf"; sourceTree = "<group>"; };
+		253FB2EE2432BF63008BD653 /* CircularStd-Book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CircularStd-Book.otf"; sourceTree = "<group>"; };
 		258C052623E6270A004209E2 /* ShoppingListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListTableViewCell.swift; sourceTree = "<group>"; };
 		25C236F8235A49DA0092EDE8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		25CDA5F7240AF42000C148CF /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +122,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		253FB2EB2432BC7D008BD653 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				253FB2EE2432BF63008BD653 /* CircularStd-Book.otf */,
+				253FB2EC2432BDAF008BD653 /* CircularStd-Bold.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		25C236F6235A468F0092EDE8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +195,7 @@
 				6C7796F82355887900052EEB /* Controllers */,
 				6C7796DF2355871E00052EEB /* AppDelegate.swift */,
 				6C13013A23559D6000BB7908 /* SceneDelegate.swift */,
+				253FB2EB2432BC7D008BD653 /* Fonts */,
 				6C7796EB2355872200052EEB /* Assets.xcassets */,
 				6C7796ED2355872200052EEB /* LaunchScreen.storyboard */,
 				6C7796F02355872200052EEB /* Info.plist */,
@@ -294,7 +308,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C7796EF2355872200052EEB /* LaunchScreen.storyboard in Resources */,
+				253FB2ED2432BDAF008BD653 /* CircularStd-Bold.otf in Resources */,
 				6C7796EC2355872200052EEB /* Assets.xcassets in Resources */,
+				253FB2EF2432BF63008BD653 /* CircularStd-Book.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
