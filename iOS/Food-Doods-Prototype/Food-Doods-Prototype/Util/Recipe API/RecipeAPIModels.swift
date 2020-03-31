@@ -10,10 +10,14 @@ import Foundation
 
 // MARK: - RecipeModel
 struct RecipeModel: Codable {
+    let recipe: Recipe
+}
+
+struct Recipe: Codable {
     let ingredients: [RecipeIngredient]
     let instructions: [String]
     let id, name: String
-    let time: RecipeTime?
+    let time: RecipeTime
     let servings: String
     let v: Int
 

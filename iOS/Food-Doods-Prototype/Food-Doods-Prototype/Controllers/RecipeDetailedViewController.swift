@@ -9,7 +9,7 @@
 import UIKit
 
 class RecipeDetailedViewController: UIViewController {
-    var model: Recipe!
+    var model: RecipeModel!
     var favourited = false
     override func viewDidLoad() {
         super.viewDidLoad()

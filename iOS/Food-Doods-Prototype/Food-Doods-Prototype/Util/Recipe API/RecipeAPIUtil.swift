@@ -49,7 +49,7 @@ class RecipeAPIUtil {
                     print ("--- Data ---")
                     let str = String(decoding: data, as: UTF8.self)
                     
-                    // print(str)
+                    print(str)
                     
                     DispatchQueue.main.async {
                         do {

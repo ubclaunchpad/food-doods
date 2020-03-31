@@ -13,6 +13,8 @@ class RecipesViewController: UIViewController {
     var allRecipes: [Recipe] = []
     var serverRecipes: [RecipeModel] = []
     
+    var newView: RecipeView!
+    
     // MARK: - Testing
     let testIDs =
         [
@@ -27,7 +29,7 @@ class RecipesViewController: UIViewController {
         didSet {
             if successCounter == testIDs.count {
                 print("Ready!")
-                
+                newView.collectionView.reloadData()
                 //MARK: DO WORK HERE TO LOAD DATA INTO VIEW
             }
         }
@@ -39,7 +41,7 @@ class RecipesViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let newView = RecipeView()
+        newView = RecipeView()
         newView.collectionView.delegate = self
         newView.collectionView.dataSource = self
         newView.collectionView.register(RecipeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -52,8 +54,8 @@ class RecipesViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = .white
         
-        setupMockData()
-//        getRecipeData()
+        // setupMockData()
+        getRecipeData()
     }
     
     func getRecipeData() {
@@ -80,37 +82,37 @@ class RecipesViewController: UIViewController {
         let newVC =  FilterViewController()
         navigationController?.pushViewController(newVC, animated: true)
     }
-    func setupMockData()  {
-        var mockIngredients: [Item] = []
-        var ingredOwned: [Item] = []
-        for _ in 0...15 {
-            mockIngredients.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
-        }
-        for _ in 0...4 {
-            ingredOwned.append(Item(name: "Carrot Owned Edition", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
-        }
-        
-        var recipe = Recipe(name: "Canadian Poutine", image: UIImage(named: "poutine"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 30, difficulty: "Medium")
-        allRecipes.append(recipe)
-        
-        ingredOwned.remove(at: 0)
-        recipe = Recipe(name: "Chinese Beef Noodles", image: UIImage(named: "beefnoodles"), ingredientsNeeded: ingredOwned, ingredientsOwned: ingredOwned, time: 35, difficulty: "Medium")
-        allRecipes.append(recipe)
-        
-        recipe = Recipe(name: "Carbonara", image: UIImage(named: "carbonara"), ingredientsNeeded: ingredOwned, ingredientsOwned: ingredOwned, time: 20, difficulty: "Easy")
-        allRecipes.append(recipe)
-        
-        mockIngredients.remove(at: 0)
-        recipe = Recipe(name: "French Pepper Steak", image: UIImage(named: "frenchpepper"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 15, difficulty: "Easy")
-        allRecipes.append(recipe)
-        
-        recipe = Recipe(name: "Maple Salmon", image: UIImage(named: "maplesalmon"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 40, difficulty: "Medium")
-        allRecipes.append(recipe)
-        
-        recipe = Recipe(name: "Risotto", image: UIImage(named: "risotto"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 50, difficulty: "Hard")
-        allRecipes.append(recipe)
-        
-    }
+//    func setupMockData()  {
+//        var mockIngredients: [Item] = []
+//        var ingredOwned: [Item] = []
+//        for _ in 0...15 {
+//            mockIngredients.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
+//        }
+//        for _ in 0...4 {
+//            ingredOwned.append(Item(name: "Carrot Owned Edition", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
+//        }
+//
+//        var recipe = Recipe(name: "Canadian Poutine", image: UIImage(named: "poutine"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 30, difficulty: "Medium")
+//        allRecipes.append(recipe)
+//
+//        ingredOwned.remove(at: 0)
+//        recipe = Recipe(name: "Chinese Beef Noodles", image: UIImage(named: "beefnoodles"), ingredientsNeeded: ingredOwned, ingredientsOwned: ingredOwned, time: 35, difficulty: "Medium")
+//        allRecipes.append(recipe)
+//
+//        recipe = Recipe(name: "Carbonara", image: UIImage(named: "carbonara"), ingredientsNeeded: ingredOwned, ingredientsOwned: ingredOwned, time: 20, difficulty: "Easy")
+//        allRecipes.append(recipe)
+//
+//        mockIngredients.remove(at: 0)
+//        recipe = Recipe(name: "French Pepper Steak", image: UIImage(named: "frenchpepper"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 15, difficulty: "Easy")
+//        allRecipes.append(recipe)
+//
+//        recipe = Recipe(name: "Maple Salmon", image: UIImage(named: "maplesalmon"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 40, difficulty: "Medium")
+//        allRecipes.append(recipe)
+//
+//        recipe = Recipe(name: "Risotto", image: UIImage(named: "risotto"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 50, difficulty: "Hard")
+//        allRecipes.append(recipe)
+//
+//    }
 }
 
 
@@ -119,7 +121,7 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout, UICollectio
         return CGSize(width: collectionView.frame.width, height: 304)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allRecipes.count
+        return serverRecipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -127,18 +129,23 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout, UICollectio
         guard let collectionCell = cell as? RecipeCollectionViewCell else {
             return cell
         }
-        collectionCell.nameLabel.text = allRecipes[indexPath.item].name
-        collectionCell.recipeImage.image = allRecipes[indexPath.item].image
-        collectionCell.timeLabel.text = "\(Int(allRecipes[indexPath.item].time)) minutes"
-        collectionCell.ingredientLabel.text = "\(allRecipes[indexPath.item].ingredientsOwned.count)/\(allRecipes[indexPath.item].ingredientsNeeded.count) ingredients"
-        collectionCell.difficultyLabel.text = allRecipes[indexPath.item].difficulty
+        collectionCell.nameLabel.text = serverRecipes[indexPath.item].recipe.name
+        
+        #warning("Change picture")
+        collectionCell.recipeImage.image = UIImage(named: "beefnoodles")
+        
+        let cookTime = serverRecipes[indexPath.item].recipe.time.cook
+        collectionCell.timeLabel.text = "\(cookTime) minutes"
+        
+        collectionCell.ingredientLabel.text = "Temp"
+        collectionCell.difficultyLabel.text = "\(serverRecipes[indexPath.item].recipe.servings) servings"
         
         return collectionCell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let newVC = RecipeDetailedViewController()
         
-        newVC.model = allRecipes[indexPath.item]
+        newVC.model = serverRecipes[indexPath.item]
         navigationController?.pushViewController(newVC, animated: true)
     }
     

@@ -61,32 +61,34 @@ class RecipeInfoCell: UIView {
 
 
 class RecipeDetailedView: UIView {
-    var viewModel: Recipe! {
+    var viewModel: RecipeModel! {
         didSet {
-            recipeImage.image = viewModel.image
-            bottomView.recipeLabel.text = viewModel.name
+            #warning("Change picture")
+            recipeImage.image = UIImage(named: "beefnoodles")
+            bottomView.recipeLabel.text = viewModel.recipe.name
             
-            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "timer"), size: 16, title: "\(Int(viewModel.time.rounded())) minutes"))
-            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "circle"), size: 16, title: viewModel.difficulty))
+            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "timer"), size: 16, title: "\(Int(viewModel.recipe.time.cook)) minutes"))
+            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "circle"), size: 16, title: "\(viewModel.recipe.servings) servings"))
             bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "person.3"), size: 16, title: "2 People"))
             
-            var ingredOwned: String = ""
-            
-            for i in viewModel.ingredientsOwned {
-                ingredOwned.append(i.name)
-                ingredOwned.append("\n")
-            }
-            
-            bottomView.ingredientsOwnedLabel.text = ingredOwned
-            
-            var ingredNotOwned: String = ""
-            
-            for i in viewModel.ingredientsNeeded {
-                ingredNotOwned.append(i.name)
-                ingredNotOwned.append("\n")
-            }
-            
-            bottomView.ingredientsMissingLabel.text = ingredNotOwned
+            // MARK: NEED TO FIND NEW WAY TO FIGURE OUT INGREDIENTS MISSING
+//            var ingredOwned: String = ""
+//
+//            for i in viewModel.ingredientsOwned {
+//                ingredOwned.append(i.name)
+//                ingredOwned.append("\n")
+//            }
+//
+//            bottomView.ingredientsOwnedLabel.text = ingredOwned
+//
+//            var ingredNotOwned: String = ""
+//
+//            for i in viewModel.ingredientsNeeded {
+//                ingredNotOwned.append(i.name)
+//                ingredNotOwned.append("\n")
+//            }
+//
+//            bottomView.ingredientsMissingLabel.text = ingredNotOwned
         }
     }
     
