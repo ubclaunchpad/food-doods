@@ -1,11 +1,12 @@
 import bcrypt from 'bcrypt';
 import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import { Document } from 'mongoose';
-import { AVAILABLE_FIELDS, createUser, findUser, getUserAttributes, getUserToken } from '../../src/controllers/user';
 import { connect } from '../../src/db';
 import { LocationModel } from '../../src/models/location';
 import { UserModel } from '../../src/models/user';
 import { AuthorizationError } from '../../src/util/errors/AuthorizationError';
+import { getUserToken } from '../../src/util/token';
+import { AVAILABLE_FIELDS, createUser, findUser, getUserAttributes } from '../../src/util/user';
 
 // NOTE: these tests assume the existence of specific users in the db
 describe('GET /user/:username', () => {
@@ -90,11 +91,11 @@ describe('GET /user/:username', () => {
             return getUserAttributes(testUser.username)
                 .then((attributes: any) => {
                     const expectedFields: string[] = AVAILABLE_FIELDS;
-                    const expectedValues: string[] = ['John Smith', 'test', '5e765ab44e7aa5d210c2fda5'];
+                    const expectedValues: string[] = ['John Smith', 'test', '5e7d5b4b3ea52245ea87faed'];
                     const actualFields: string[] = Object.keys(attributes);
                     const actualValues: string[] = Object.values(attributes);
-                    expect(expectedFields).toEqual(actualFields);
-                    expect(expectedValues).toEqual(actualValues);
+                    expect(actualFields).toEqual(expectedFields);
+                    expect(actualValues).toEqual(expectedValues);
                 })
                 .catch((error: Error) => {
                     fail('should not have failed: ' + error.message);

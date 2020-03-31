@@ -3,6 +3,7 @@ import * as express from 'express';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { suggestRecipes } from '../controller/suggestRecipe';
+import { getRecipes, hashRecipes } from '../util/recipe';
 
 const router = express.Router();
 
@@ -26,10 +27,13 @@ router.post('/', (req, res) => {
 });
 
 // POST /suggestion/:userId
-router.post('/:userId', async (req, res) => {
+router.post('/:userId', async (req: Request, res: Response) => {
+    // get all ingredients
+    // const ingredients = GET Ingredients of a User by User Id; currently mocked
     const { ingredients } = await axios.get(`localhost:${process.env.INGREDIENT_PORT}/user/${req.params.userId}`);
-    // const recipes = GET All the Recipes; currently mocked
-    const recipes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString());
+
+    const setOfRecipes: Set<object> = await getRecipes();
+    const recipes: string[] = hashRecipes(setOfRecipes, object.ingredients);
     const recipeNumber = 0.3;
     // return recipe id's
     // the suggestRecipes controller is currently  has a TODO ticket that's
