@@ -81,3 +81,106 @@ class RootTabBarController: UITabBarController {
     }
 
 }
+
+
+
+class CustomTabViewController: UITabBarController {
+    var ourTabBar: CustomTabBar!
+    var items: [TabBarButton]!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tabBar.isHidden = true
+        setupView()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        for item in ourTabBar.tabItems {
+            item.userDefinedConstraintDict["width"]?.constant = (self.view.frame.width-40)/4
+        }
+    }
+
+    func setupView() {}
+    
+    func setTabBar(items: [TabBarButton]) {
+        self.items = items
+        ourTabBar = CustomTabBar(items: items)
+        guard let bar = ourTabBar else { return }
+        
+        #warning("SHADOW")
+        bar.backgroundColor = UIColor(hex: 0xE5E5E5)
+        bar.setSuperview(self.view as Any).addBottom().addTrailing().addLeading().addTop(anchor: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80).addCorners(radius: 15, corners: [.layerMaxXMinYCorner, .layerMinXMinYCorner]).done()
+            
+        for i in 0 ..< items.count {
+            items[i].tag = i
+            items[i].addTarget(self, action: #selector(switchTab), for: .touchUpInside)
+        }
+    }
+
+    @objc func switchTab(button: UIButton) {
+        print("clicked")
+        selectedIndex = button.tag
+        switch button.tag {
+        case 0:
+            button.tintColor = UIColor(hex: 0xF87026)
+        case 1:
+            button.tintColor = UIColor(hex: 0x48C57C)
+        case 2:
+            button.tintColor = UIColor(hex: 0xDD56FF)
+        case 3:
+            button.tintColor = UIColor(hex: 0xDD56FF)
+        default:
+            fatalError()
+        }
+    }
+}
+
+class TabBarViewController: CustomTabViewController {
+    lazy var button: UIButton = {
+        let button = UIButton()
+        button.clipsToBounds = true
+        button.layer.masksToBounds = false
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 30
+        button.backgroundColor = .white
+        button.layer.shadowColor = UIColor.gray.cgColor
+        button.layer.shadowOffset = .zero
+        button.layer.shadowOpacity = 1
+        button.layer.shadowRadius = 7
+        button.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 60, height: 60), cornerRadius: 30).cgPath
+        button.layer.shouldRasterize = true
+        button.layer.rasterizationScale = UIScreen.main.scale
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        
+        return button
+    }()
+    override func setupView() {
+        let home = TabBarButton(title: "Pantry", image: UIImage(systemName: "checkmark"))
+        let doctors = TabBarButton(title: "Recipes", image: UIImage(systemName: "checkmark"))
+        let portfolio = TabBarButton(title: "Shopping List", image: UIImage(systemName: "checkmark"))
+        let settings = TabBarButton(title: "Settings", image: UIImage(systemName: "checkmark"))
+
+
+        let firstViewController = NavigationController(rootViewController: PantryViewController())
+        
+        let secondViewController = NavigationController(rootViewController: RecipesViewController())
+
+
+        
+        let thirdViewController = NavigationController(rootViewController: ShoppingListViewController())
+
+
+        
+        let fourthViewController = NavigationController(rootViewController: SettingsViewController())
+
+  
+
+        setTabBar(items: [home, doctors, portfolio, settings])
+        viewControllers = [firstViewController, secondViewController, thirdViewController, fourthViewController]
+        
+        self.view.addSubview(button)
+        button.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+    }
+}
