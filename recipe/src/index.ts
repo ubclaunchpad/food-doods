@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import { initializeRecipeRoutes } from './routes/routes';
 
 const PORT = process.env.RECIPE_PORT || 8090;
-const DB_CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://localhost:27017/test';
+const DB_CONNECTION_STRING = process.env.RECIPE_DB_CONNECTION || 'mongodb://localhost:27017/test';
 const app = express();
 
 // middle wares
