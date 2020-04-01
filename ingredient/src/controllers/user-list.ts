@@ -1,22 +1,27 @@
 import { Request, Response } from 'express';
 import { db } from '../db/connection';
 
-export const getIngredients = (req: Request, res: Response): Promise<Response> => {
-    const { id: userId } = req.params;
+export const getIngredients = async (req: Request, res: Response): Promise<any> => {
+    const { id } = req.params;
 
     return db
-        .any(
-            'SELECT * \
-            FROM user_ingredient \
-            INNER JOIN ingredient ON user_ingredient.ingredient_id=ingredient.id \
-            WHERE user_id = $1',
-            [userId]
-        )
-        .then((ingredients: any[]) => res.status(200).json({ userId, ingredients }))
-        .catch((error: Error) => res.status(404).json({ error }));
+        .one('SELECT * FROM user_map WHERE external_id = $1', [id])
+        .then(async (user: any) => {
+            return db
+                .any(
+                    'SELECT I.id as id, I.name as name, UI.quantity as quantity, U.name as unit \
+                        FROM user_ingredient UI \
+                        INNER JOIN ingredient I ON UI.ingredient_id=I.id \
+                        INNER JOIN unit_category U ON I.unit_category=U.id \
+                        WHERE UI.user_id = $1',
+                    [user.id]
+                )
+                .then((ingredients: any[]) => res.status(200).json({ id, ingredients }));
+        })
+        .catch(() => res.status(404).json({ error: `No users found with the id: ${id}` }));
 };
 
-export const addIngredient = (req: Request, res: Response): Promise<Response> => {
+export const addIngredient = async (req: Request, res: Response): Promise<Response> => {
     const { id: userId } = req.params;
     const { id, quantity } = req.body;
 
@@ -26,7 +31,7 @@ export const addIngredient = (req: Request, res: Response): Promise<Response> =>
         .catch((error: Error) => res.status(500).json({ error }));
 };
 
-export const updateIngredient = (req: Request, res: Response): Promise<Response> => {
+export const updateIngredient = async (req: Request, res: Response): Promise<Response> => {
     const { id: userId } = req.params;
     const { id, quantity } = req.body;
 
@@ -41,7 +46,7 @@ export const updateIngredient = (req: Request, res: Response): Promise<Response>
         .catch((error: Error) => res.status(500).json({ error }));
 };
 
-export const deleteIngredient = (req: Request, res: Response): Promise<Response> => {
+export const deleteIngredient = async (req: Request, res: Response): Promise<Response> => {
     const { id: userId } = req.params;
     const { id } = req.body;
 

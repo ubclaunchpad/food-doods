@@ -13,7 +13,7 @@ const userListRouter = Router();
 /*
  * GET /user/ingredient/:id
  *
- * retrieves the list of ingredients owned by a user
+ * retrieves the list of ingredients owned by a user given the user's MongoDB ID
  */
 userListRouter.get('/:id', controller.getIngredients);
 
