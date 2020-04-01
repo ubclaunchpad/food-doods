@@ -9,7 +9,7 @@
 import UIKit
 
 class EditItemViewController: UIViewController {
-    var item: Item?
+    var item: IngredientModel?
     var itemIndex: Int?
     
     override func viewDidLoad() {
@@ -19,17 +19,17 @@ class EditItemViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Edit Item"
         
-        itemView.itemIcon.image = item?.image
+//        itemView.itemIcon.image = item?.image
         itemView.itemName.text = item?.name
         itemView.itemIndex = self.itemIndex
         
-        if let amount = item?.amount {
+        if let amount = item?.quantity {
             itemView.itemQuantity.text = "\(amount)g"
         }
-        
-        if let expiry = item?.expiresIn {
-            itemView.expiryDate.text = "\(expiry) days"
-        }
+  
+//        if let expiry = item?.expiresIn {
+//            itemView.expiryDate.text = "\(expiry) days"
+//        }
         
         
         

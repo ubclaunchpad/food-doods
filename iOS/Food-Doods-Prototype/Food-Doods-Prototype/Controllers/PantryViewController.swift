@@ -17,6 +17,14 @@ var itemArray: [Item] = []
 class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
     var tableView: UITableView!
     
+    var ingredients: UserIngredientsModel? {
+        didSet {
+            print("didSet...")
+            print(ingredients)
+            tableView.reloadData()
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "CircularStd-Bold", size: 36)!]
@@ -51,6 +59,13 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         
         itemArray = allItemArray
         
+        // MARK: - Real API Setup
+        IngredientAPIUtil.shared.getUserIngredientList(userID: "11", completionHandler: apiCompletion)
+    }
+    
+    lazy var apiCompletion: (UserIngredientsModel) -> Void = {
+        ingredients in
+        self.ingredients = ingredients
     }
     
     
@@ -64,6 +79,7 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         default:
             print("Fatal error")
         }
+        
         itemArray = []
         for item in allItemArray {
             if item.location == foodSection || foodSection == .all {
@@ -83,8 +99,11 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemArray.count
-
+        if let apiData = ingredients {
+            return apiData.ingredients.count
+        }
+        
+        return 0
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80 + 16
@@ -98,20 +117,25 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         }
         pantryCell.selectionStyle = .none
         //MARK: - Cell Population
-        let item = itemArray[indexPath.row]
+        guard let item = ingredients?.ingredients[indexPath.row] else { return cell }
+
         pantryCell.mainText.text = item.name
-        pantryCell.foodImage.image = item.image
-        pantryCell.expiringText.text = "expiring in \(item.expiresIn) days"
-        pantryCell.sectionText.text = "\(item.location)"
-        var percentage: Float = 1.0
-        if item.expiresIn < 6 {
-             let expires = Float (item.expiresIn)
-             percentage = expires / 7.0
-         }
+        pantryCell.foodImage.image = UIImage(named: "chocolate")
+        pantryCell.expiringText.text = "expiring in *x* days"
+        // pantryCell.sectionText.text = "\(item.location)"
         
-        let color = calcColor(expiryPercentage: percentage, item: item)
-        pantryCell.expiryBar.setProgress(percentage, animated: true)
-        pantryCell.expiryBar.tintColor = color
+        pantryCell.amountText.text = "\(item.quantity) g"
+        
+        
+//        var percentage: Float = 1.0
+//        if item.expiresIn < 6 {
+//             let expires = Float (item.expiresIn)
+//             percentage = expires / 7.0
+//         }
+//
+//        let color = calcColor(expiryPercentage: percentage, item: item)
+//        pantryCell.expiryBar.setProgress(percentage, animated: true)
+//        pantryCell.expiryBar.tintColor = color
 
 
         
@@ -148,7 +172,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let pushVC = ItemViewController()
-        pushVC.item = itemArray[indexPath.row]
+        pushVC.item = ingredients?.ingredients[indexPath.row]
         pushVC.itemIndex = indexPath.row
         
         navigationController?.pushViewController(pushVC, animated: true)

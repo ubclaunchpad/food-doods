@@ -115,8 +115,7 @@ class TestViewController: UIViewController {
         LocalHostTest.shared.postIngredientUser()
     }
     @objc func getIngredientsAction() {
-        print("Calling Get User List id = 1 Endpoint")
-        LocalHostTest.shared.getIngredientsList()
+        // IngredientAPIUtil.shared.getUserIngredientList(userID: "11")
     }
     
     @objc func createUserAction() {

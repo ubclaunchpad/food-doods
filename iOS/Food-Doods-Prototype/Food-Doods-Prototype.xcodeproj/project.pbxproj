@@ -51,6 +51,8 @@
 		6CDE9DEE2356396300142FCC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CDE9DED2356396300142FCC /* NavigationController.swift */; };
 		6CE6E3DF24327A6700E58A25 /* RecipeAPIUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE6E3DE24327A6700E58A25 /* RecipeAPIUtil.swift */; };
 		6CE6E3E224327A9700E58A25 /* UserAPIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE6E3E124327A9700E58A25 /* UserAPIModels.swift */; };
+		6CEC76152435178B005130A9 /* IngredientAPIUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEC76142435178B005130A9 /* IngredientAPIUtil.swift */; };
+		6CEC761724351F6B005130A9 /* IngredientAPIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEC761624351F6B005130A9 /* IngredientAPIModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -112,6 +114,8 @@
 		6CDE9DED2356396300142FCC /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		6CE6E3DE24327A6700E58A25 /* RecipeAPIUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeAPIUtil.swift; sourceTree = "<group>"; };
 		6CE6E3E124327A9700E58A25 /* UserAPIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIModels.swift; sourceTree = "<group>"; };
+		6CEC76142435178B005130A9 /* IngredientAPIUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientAPIUtil.swift; sourceTree = "<group>"; };
+		6CEC761624351F6B005130A9 /* IngredientAPIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientAPIModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +173,7 @@
 		6C2E77D723EF62A800BC35EB /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				6CEC761324351771005130A9 /* Ingredient API */,
 				6CE6E3E324327ACF00E58A25 /* Recipe API */,
 				6CE6E3E024327A6F00E58A25 /* User API */,
 				6C2E77DA23EF63D000BC35EB /* LocalHostTest.swift */,
@@ -246,6 +251,15 @@
 				6C28B3A82432869700203C10 /* RecipeAPIModels.swift */,
 			);
 			path = "Recipe API";
+			sourceTree = "<group>";
+		};
+		6CEC761324351771005130A9 /* Ingredient API */ = {
+			isa = PBXGroup;
+			children = (
+				6CEC76142435178B005130A9 /* IngredientAPIUtil.swift */,
+				6CEC761624351F6B005130A9 /* IngredientAPIModels.swift */,
+			);
+			path = "Ingredient API";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,12 +353,14 @@
 				6C836498236B859A00ADDCFE /* Item.swift in Sources */,
 				6C7796F72355882200052EEB /* PantryViewController.swift in Sources */,
 				6C2E77DB23EF63D000BC35EB /* LocalHostTest.swift in Sources */,
+				6CEC76152435178B005130A9 /* IngredientAPIUtil.swift in Sources */,
 				6C91D250235BCA49003F9DB2 /* RecipeView.swift in Sources */,
 				25178B13235C06DF00808C62 /* PantryTableViewCell.swift in Sources */,
 				6C91D252235BCA52003F9DB2 /* ItemView.swift in Sources */,
 				6C7796E02355871E00052EEB /* AppDelegate.swift in Sources */,
 				25288EB5236E2B92001BA957 /* RecipeCollectionViewCell.swift in Sources */,
 				25CDA5F8240AF42000C148CF /* FilterViewController.swift in Sources */,
+				6CEC761724351F6B005130A9 /* IngredientAPIModels.swift in Sources */,
 				6C7796EA2355871F00052EEB /* Food_Doods_Prototype.xcdatamodeld in Sources */,
 				6C91D24E235BCA3B003F9DB2 /* PantryView.swift in Sources */,
 				6C28B3A92432869700203C10 /* RecipeAPIModels.swift in Sources */,
