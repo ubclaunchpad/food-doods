@@ -50,7 +50,7 @@ export const initializeRecipeRoutes = (app: Application) => {
     /* updates saved list of recipes for user with user_id */
     recipeRouter.patch('/user/:user_id', async (req: Request, res: Response) => {
         try {
-            await UserRecipesModel.updateOne({ _id: req.params.user_id }, { recipe_ids: req.body.recipes });
+            await UserRecipesModel.updateOne({ user_name: req.params.user_id }, { recipe_ids: req.body.recipes });
             return res.status(204).send();
         } catch (e) {
             console.error(e);
