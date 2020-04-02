@@ -18,6 +18,8 @@
         "test": "jest --watch"
     },
     "dependencies": {
+        "@types/axios": "^0.14.0",
+        "axios": "^0.19.2",
         "dependencies": "0.0.1",
         "express": "^4.17.1",
         "request": "^2.88.0"
@@ -25,6 +27,7 @@
     "devDependencies": {
         "@types/jest": "^24.0.23",
         "@types/node": "^12.7.4",
+        "axios": "^0.19.2",
         "env-cmd": "^10.0.1",
         "jest": "^24.9.0",
         "prettier": "^1.18.2",

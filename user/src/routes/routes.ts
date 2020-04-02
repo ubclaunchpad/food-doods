@@ -7,14 +7,12 @@ export const initializeUserRoutes = (app: Application) => {
     const userRouter = Router();
     app.use('/user', userRouter);
 
-    /* gets a user */
     userRouter.get('/:username', userController.getUser);
-
-    /* posts a user */
     userRouter.post('/', userController.postUser);
 
     /* deletes a user */
     userRouter.delete('/', async (req, res) => {
+        // TODO: deleteUserIngredient(userId)
         res.status(200).send('Working user delete route');
     });
 
@@ -23,9 +21,7 @@ export const initializeUserRoutes = (app: Application) => {
         res.status(200).send('Working user patch route');
     });
 
-    /* user login */
     userRouter.post('/login', postUserLogin);
 
-    /* retrieves recipe suggestion for user */
     userRouter.post('/suggestion', postUserSuggestion);
 };

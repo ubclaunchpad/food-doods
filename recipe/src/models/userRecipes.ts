@@ -1,12 +1,12 @@
 import * as mongoose from 'mongoose';
 
 export interface IUserRecipes extends mongoose.Document {
-    user_name: string,
+    user_id: string;
     recipe_ids: string[];
 }
 
 export const UserRecipes = new mongoose.Schema({
-    user_name: {
+    user_id: {
         type: String,
         required: true,
     },

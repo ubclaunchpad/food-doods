@@ -1,9 +1,5 @@
-import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import jwt, { TokenExpiredError } from 'jsonwebtoken';
-import { Document } from 'mongoose';
-import { assignNewToken, findUser } from '../controllers/user';
-import { AuthenticationError } from '../util/errors/AuthenticationError';
+import { verifyUser } from '../util/user';
 
 const postUserLogin = async (req: Request, res: Response): Promise<Response> => {
     const { username, password } = req.body;
@@ -24,24 +20,4 @@ const postUserLogin = async (req: Request, res: Response): Promise<Response> => 
         });
 };
 
-async function verifyUser(username: string, password: string, token: string): Promise<string> {
-    const user: Document = await findUser(username);
-    const match: boolean = await bcrypt.compare(password, user.get('password'));
-
-    try {
-        const decoded: any = jwt.verify(token, process.env.JWT_SECRET_KEY as string, { maxAge: '168h' });
-        if (decoded.username === username && match) {
-            return assignNewToken(user);
-        }
-    } catch (error) {
-        if (error instanceof TokenExpiredError) {
-            if (match) {
-                return assignNewToken(user);
-            }
-        }
-        throw error;
-    }
-    throw new AuthenticationError('User could not be authenticated.');
-}
-
-export { postUserLogin, verifyUser };
+export { postUserLogin };
