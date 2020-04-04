@@ -47,6 +47,17 @@ export const initializeRecipeRoutes = (app: Application) => {
         }
     });
 
+    /* updates saved list of recipes for user with user_id */
+    recipeRouter.patch('/user/:user_id', async (req: Request, res: Response) => {
+        try {
+            await UserRecipesModel.updateOne({ user_name: req.params.user_id }, { recipe_ids: req.body.recipes });
+            return res.status(204).send();
+        } catch (e) {
+            console.error(e);
+            res.status(500).send('Could not fetch the recipes for the user');
+        }
+    });
+
     /* create a user */
     recipeRouter.post('/user', async (req: Request, res: Response) => {
         const user = new UserRecipesModel(req.body);
