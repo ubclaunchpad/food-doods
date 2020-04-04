@@ -14,8 +14,11 @@ export const postIngredient = async (req: Request, res: Response) => {
     const { name, unitCategory } = req.body;
 
     return db
-        .none('INSERT INTO ingredient (name, test_data, unit_category) VALUES ($1, false, $2)', [name, unitCategory])
-        .then(() => res.status(201).json({ message: 'Successfully created ingredient!' }))
+        .one('INSERT INTO ingredient (name, test_data, unit_category) VALUES ($1, false, $2) RETURNING id', [
+            name,
+            unitCategory,
+        ])
+        .then(({ id }: { id: number }) => res.status(201).json({ message: 'Successfully created ingredient!', id }))
         .catch((error: Error) => res.status(400).json({ error }));
 };
 

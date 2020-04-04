@@ -22,7 +22,7 @@ userListRouter.get('/:id', controller.getIngredients);
  *
  * add an ingredient to a user's list
  */
-userListRouter.post('/', controller.addIngredient);
+userListRouter.post('/:id', controller.addIngredient);
 
 /*
  * PATCH /user/ingredient/:id

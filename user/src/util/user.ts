@@ -5,7 +5,9 @@ import { connect } from '../db/index';
 import { UserModel } from '../models/user';
 import { AuthenticationError } from './errors/AuthenticationError';
 import { AuthorizationError } from './errors/AuthorizationError';
+import { addUserIngredient } from './ingredient';
 import { createLocation } from './location';
+import { addUserRecipe } from './recipe';
 import { assignNewToken } from './token';
 
 const AVAILABLE_FIELDS: string[] = ['fullName', 'username', '_id'];
@@ -81,9 +83,11 @@ async function removeUser(username: string): Promise<Document> {
 }
 
 async function registerUser(user: Document): Promise<string> {
-    // const username: string = user.get('username');
-    // return Promise.all([addUserIngredient(username), addUserRecipe(username)]);
     return connect()
+        .then(() => {
+            const userId: string = user.get('_id');
+            return Promise.all([addUserIngredient(userId), addUserRecipe(userId)]);
+        })
         .then(() => assignNewToken(user))
         .catch((error: Error) => {
             throw error;
