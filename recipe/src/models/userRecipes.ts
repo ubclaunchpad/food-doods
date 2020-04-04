@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export interface IUserRecipes extends mongoose.Document {
-    user_name: string,
+    user_name: string;
     recipe_ids: string[];
 }
 
@@ -12,6 +12,7 @@ export const UserRecipes = new mongoose.Schema({
     },
     recipe_ids: {
         type: Array,
+        default: [],
     },
 });
 
