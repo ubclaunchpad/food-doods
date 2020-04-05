@@ -21,16 +21,22 @@ const PER_PAGE = 25;
  */
 
 const suggestRecipes = (ingredientIds: number[], threshold: number, source: string[] = hashes): number[] => {
-    const hashIngredients = parseInt(hashIngredientList(ingredientIds), 2);
     const retRecipes = [];
     let pageCount = 0;
     while (retRecipes.length < NUM_OF_RECIPES) {
-        const recipes = fetchRecipes(source, PER_PAGE, PER_PAGE * pageCount).map((str) => parseInt(str, 2));
+        const recipes = fetchRecipes(source, PER_PAGE, PER_PAGE * pageCount).map((recipe: string) =>
+            parseInt(recipe, 2)
+        );
         if (recipes.length === 0) {
             break;
         }
 
         for (const recipe of recipes) {
+            const recipeBitArray = recipe
+                .toString()
+                .split('')
+                .map((num) => (num ? 1 : 0));
+            const hashIngredients = parseInt(hashIngredientList(recipeBitArray, ingredientIds), 2);
             if (compareHash(recipe, hashIngredients) >= threshold) {
                 retRecipes.push(recipe);
             }
