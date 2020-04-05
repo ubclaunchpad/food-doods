@@ -71,24 +71,23 @@ class RecipeDetailedView: UIView {
             bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "circle"), size: 16, title: "\(viewModel.recipe.servings) servings"))
             bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "person.3"), size: 16, title: "2 People"))
             
-            // MARK: NEED TO FIND NEW WAY TO FIGURE OUT INGREDIENTS MISSING
-//            var ingredOwned: String = ""
-//
-//            for i in viewModel.ingredientsOwned {
-//                ingredOwned.append(i.name)
-//                ingredOwned.append("\n")
-//            }
-//
-//            bottomView.ingredientsOwnedLabel.text = ingredOwned
-//
-//            var ingredNotOwned: String = ""
-//
-//            for i in viewModel.ingredientsNeeded {
-//                ingredNotOwned.append(i.name)
-//                ingredNotOwned.append("\n")
-//            }
-//
-//            bottomView.ingredientsMissingLabel.text = ingredNotOwned
+            var string = ""
+            for (i, ins) in viewModel.recipe.instructions.enumerated() {
+                string.append("\(i+1)) ")
+                string.append("\(ins)\n\n")
+            }
+            bottomView.preparationLabel.text = string
+            
+            var ingredientList = ""
+            for ing in viewModel.recipe.ingredients {
+                if let unit  = ing.unit {
+                    ingredientList.append("\(ing.quantity) \(unit)s of \(ing.name)\n")
+                } else {
+                    ingredientList.append("\(ing.quantity) units of \(ing.name)\n")
+                }
+            }
+            
+            bottomView.ingredientsMissingLabel.text = ingredientList
         }
     }
     
@@ -108,6 +107,12 @@ class RecipeDetailedView: UIView {
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         return label
     }()
+    
+    var segmentedValue: SegmentedRecipeState = .instructions {
+        didSet {
+            updateUIOfDescription()
+        }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -126,6 +131,8 @@ class RecipeDetailedView: UIView {
    
     //MARK: - Constraints Setup
     private func setupConstraints() {
+        backgroundColor = .white
+
         recipeImage.topAnchor.constraint(equalTo: topAnchor).isActive = true
         recipeImage.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         recipeImage.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -134,9 +141,38 @@ class RecipeDetailedView: UIView {
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         bottomView.topAnchor.constraint(equalTo: recipeImage.bottomAnchor, constant: -20).isActive = true
         bottomView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        bottomView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        bottomView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -80).isActive = true
         
         
+    }
+    
+    private func updateUIOfDescription() {
+        bottomView.ingredientsOwnedLabel.isHidden = true
+        bottomView.ingredientsMissingLabel.isHidden = true
+        bottomView.youHaveLabel.isHidden = true
+        bottomView.youNeedLabel.isHidden = true
+        bottomView.preparationLabel.isHidden = true
+        switch segmentedValue {
+        case .instructions:
+            bottomView.headerLabel.text = "Instructions"
+            bottomView.ingredientsOwnedLabel.isHidden = false
+            bottomView.ingredientsMissingLabel.isHidden = false
+            bottomView.youHaveLabel.isHidden = false
+            bottomView.youNeedLabel.isHidden = false
+        case .preperation:
+            bottomView.headerLabel.text = "Preparation"
+            bottomView.preparationLabel.isHidden = false
+        case .reviews:
+            bottomView.headerLabel.text = "Leave a review?"
+        }
+        
+        
+    }
+    
+    enum SegmentedRecipeState {
+        case instructions
+        case preperation
+        case reviews
     }
 }
 
@@ -167,7 +203,7 @@ class RecipeScrollDescriptionView: UIScrollView {
         return stackView
     }()
     
-    var ingredientLabel: UILabel = {
+    var headerLabel: UILabel = {
         let label = UILabel()
         label.text = "Ingredients"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -213,6 +249,16 @@ class RecipeScrollDescriptionView: UIScrollView {
         label.font = UIFont(name: "CircularStd-Book", size: 18)
         return label
     }()
+    
+    var preparationLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.text = "2 tablespoons butter, divided \n1 cup cream (240 mL) \n1/3 cup brandy or cognac (80 mL) \n1 tablespoon dijon mustard"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.font = UIFont(name: "CircularStd-Book", size: 18)
+        return label
+    }()
     override init(frame: CGRect) {
          super.init(frame: frame)
          setupView()
@@ -237,15 +283,18 @@ class RecipeScrollDescriptionView: UIScrollView {
         
         selectionSegmentedControl.setSuperview(self).addTop(anchor: stackView.bottomAnchor, constant: 53).addLeft().addRight().addWidth(withConstant: UIScreen.main.bounds.width).done()
 
-        ingredientLabel.setSuperview(self).addLeft(constant: 20).addTop(anchor: selectionSegmentedControl.bottomAnchor, constant: 22).done()
+        headerLabel.setSuperview(self).addLeft(constant: 20).addTop(anchor: selectionSegmentedControl.bottomAnchor, constant: 22).done()
         
-        youHaveLabel.setSuperview(self).addLeft(constant: 20).addTop(anchor: ingredientLabel.bottomAnchor, constant: 16).done()
+//        youHaveLabel.setSuperview(self).addLeft(constant: 20).addTop(anchor: headerLabel.bottomAnchor, constant: 16).done()
+//
+//        ingredientsOwnedLabel.setSuperview(self).addLeft(constant: 37).addTop(anchor: youHaveLabel.bottomAnchor, constant: 17).addRight(constant: -37).done()
+//
+//        youNeedLabel.setSuperview(self).addLeft(constant: 20).addTop(anchor: ingredientsOwnedLabel.bottomAnchor, constant: 16).done()
         
-        ingredientsOwnedLabel.setSuperview(self).addLeft(constant: 37).addTop(anchor: youHaveLabel.bottomAnchor, constant: 17).addRight(constant: -37).done()
+        ingredientsMissingLabel.setSuperview(self).addLeft(constant: 37).addTop(anchor: headerLabel.bottomAnchor, constant: 17).addRight(constant: -37).done()
         
-        youNeedLabel.setSuperview(self).addLeft(constant: 20).addTop(anchor: ingredientsOwnedLabel.bottomAnchor, constant: 16).done()
-        
-        ingredientsMissingLabel.setSuperview(self).addLeft(constant: 37).addTop(anchor: youNeedLabel.bottomAnchor, constant: 17).addRight(constant: -37).addBottom().done()
+        preparationLabel.setSuperview(self).addLeft(constant: 20).addTop(anchor: headerLabel.bottomAnchor, constant: 16).addRight(constant: -20).addBottom().done()
+        preparationLabel.isHidden = true
      }
 }
 

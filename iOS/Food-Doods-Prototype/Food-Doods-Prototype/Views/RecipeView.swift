@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AlanYanHelpers
+
 class SearchBarView: UIView {
     var backView: UIView = {
         let view = UIView()
@@ -55,6 +57,8 @@ class SearchBarView: UIView {
     }
     
     func setupConstraints() {
+        
+
         backView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         backView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         backView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -114,6 +118,8 @@ class RecipeView: UIView {
     }
     func setupConstraints() {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
         searchBar.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
@@ -127,7 +133,7 @@ class RecipeView: UIView {
         collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 5).isActive = true
         collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -80).isActive = true
         
     }
 }

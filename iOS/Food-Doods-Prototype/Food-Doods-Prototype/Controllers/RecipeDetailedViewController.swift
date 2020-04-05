@@ -8,14 +8,15 @@
 
 import UIKit
 
-class RecipeDetailedViewController: UIViewController {
+class RecipeDetailedViewController: UIViewController, CustomSegmentedControlDelegate {
     var model: RecipeModel!
     var favourited = false
+    var newView: RecipeDetailedView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        let newView = RecipeDetailedView()
+        newView = RecipeDetailedView()
         newView.viewModel = model
-        
+        newView.bottomView.selectionSegmentedControl.delegate = self
         self.view = newView
         
         navigationItem.title = ""
@@ -39,7 +40,16 @@ class RecipeDetailedViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = nil
     }
     
-    
+    func changeToIndex(index: Int) {
+        print("changing index")
+        if(index == 0) {
+            newView.segmentedValue = .instructions
+        } else if (index == 1) {
+            newView.segmentedValue = .preperation
+        } else {
+            newView.segmentedValue = .reviews
+        }
+    }
     @objc func handleHeartTap() {
         if(!favourited) {
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
