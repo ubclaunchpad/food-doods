@@ -13,7 +13,7 @@ const userListRouter = Router();
 /*
  * GET /user/ingredient/:id
  *
- * retrieves the list of ingredients owned by a user
+ * retrieves a user's list of ingredients
  */
 userListRouter.get('/:id', controller.getIngredients);
 
@@ -22,7 +22,7 @@ userListRouter.get('/:id', controller.getIngredients);
  *
  * add an ingredient to a user's list
  */
-userListRouter.post('/', controller.addIngredient);
+userListRouter.post('/:id', controller.addIngredient);
 
 /*
  * PATCH /user/ingredient/:id

@@ -1,33 +1,20 @@
-const INGREDIENT_URL: string | undefined = process.env.INGREDIENT_URL || '';
+import axios from 'axios';
 
-const addUserIngredient = async (username: string): Promise<any> => {
-    return fetch(INGREDIENT_URL + username, { method: 'POST' })
-        .then((res: any) => {
-            return res;
-        })
-        .catch((error: any) => {
-            return error;
-        });
+const INGREDIENT_PORT: string = process.env.INGREDIENT_PORT || '9000';
+const INGREDIENT_URL: string = `http://localhost:${INGREDIENT_PORT}`;
+
+const addUserIngredient = async (userId: string): Promise<any> => {
+    return axios
+        .post(`${INGREDIENT_URL}/user`, { externalId: userId })
+        .then((res: any) => res)
+        .catch((error: Error) => error);
 };
 
-const deleteUserIngredient = async (username: string): Promise<any> => {
-    return fetch(INGREDIENT_URL + username, { method: 'DELETE' })
-        .then((res: any) => {
-            return res;
-        })
-        .catch((error: any) => {
-            return error;
-        });
+const deleteUserIngredient = async (userId: string): Promise<any> => {
+    return axios
+        .delete(`${INGREDIENT_URL}/${userId}`)
+        .then((res: any) => res)
+        .catch((error: Error) => error);
 };
 
-const getUserIngredients = async (username: string): Promise<any> => {
-    return fetch(`${INGREDIENT_URL}user/` + username, { method: 'GET' })
-        .then((res: any) => {
-            return res;
-        })
-        .catch((error: any) => {
-            return error;
-        });
-};
-
-export { addUserIngredient, deleteUserIngredient, getUserIngredients };
+export { addUserIngredient, deleteUserIngredient };

@@ -9,7 +9,14 @@ export const initializeUserRoutes = (app: Application) => {
 
     userRouter.get('/:username', userController.getUser);
     userRouter.post('/', userController.postUser);
-    userRouter.delete('/:username', userController.deleteUser);
+
+    /* deletes a user */
+    userRouter.delete('/', async (req, res) => {
+        // TODO: deleteUserIngredient(userId)
+        res.status(200).send('Working user delete route');
+    });
+
+    /* patches a user */
     userRouter.patch('/', async (req, res) => {
         res.status(200).send('Working user patch route');
     });

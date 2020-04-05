@@ -12,14 +12,8 @@ export const addUser = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     return db
-        .any('SELECT * FROM user_map WHERE id = $1', [id])
-        .then((user) => {
-            if (user.length > 0) {
-                return db.none('DELETE FROM user_map WHERE id = $1', [id]);
-            } else {
-                throw new Error('User does not exist in database');
-            }
-        })
+        .one('SELECT * FROM user_map WHERE external_id = $1', [id])
+        .then(() => db.none('DELETE FROM user_map WHERE id = $1', [id]))
         .then(() => res.status(200).json({ message: 'Successfully deleted user!' }))
         .catch((error: Error) => res.status(404).json({ error: error.message }));
 };
