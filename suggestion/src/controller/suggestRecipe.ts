@@ -30,19 +30,15 @@ const suggestRecipes = (
     const retRecipes = [];
     let pageCount = 0;
     while (retRecipes.length < NUM_OF_RECIPES) {
-        const recipes = fetchRecipes(source, PER_PAGE, PER_PAGE * pageCount);
+        const recipes: string[] = fetchRecipes(source, PER_PAGE, PER_PAGE * pageCount);
         if (!recipes.length) {
             break;
         }
 
         const hashIngredients: string = hashIngredientList(ingredientIds, allIngredientIds);
-        for (const recipe of recipes) {
-            const recipeBitString: string = recipe
-                .split('')
-                .map((bit: string) => (bit === '1' ? 1 : 0))
-                .join('');
+        for (const recipeBitString of recipes) {
             if (compareHash(recipeBitString, hashIngredients) >= threshold) {
-                retRecipes.push(recipe);
+                retRecipes.push(recipeBitString);
             }
             if (retRecipes.length === NUM_OF_RECIPES) {
                 // TODO: return recipes instead of Hashes
