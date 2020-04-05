@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as express from 'express';
+import express, { Request, Response } from 'express';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { suggestRecipes } from '../controller/suggestRecipe';
@@ -8,7 +8,7 @@ import { getRecipes, hashRecipes } from '../util/recipe';
 const router = express.Router();
 
 // POST /suggestion?ingredients=xyz
-router.post('/', (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
     const httpBody = req.body;
     const numIngredients = httpBody.queryIngredients.length;
 
@@ -20,26 +20,38 @@ router.post('/', (req, res) => {
         IDs.push(httpBody.queryIngredients[i].databaseID);
     }
 
-    const recipeHashes = suggestRecipes(IDs, testThreshold);
+    const {
+        data: { ingredients: allIngredients },
+    } = await axios.get(`http://localhost:${process.env.INGREDIENT_PORT}/ingredient`);
 
-    // return as a json object with key "hashes"
-    res.status(200).json({ hashes: recipeHashes });
+    const recipeHashes = suggestRecipes(IDs, allIngredients, testThreshold);
+    return res.status(200).json({ hashes: recipeHashes });
 });
 
 // POST /suggestion/:userId
-router.post('/:userId', async (req: express.Request, res: express.Response) => {
-    const {
-        data: { ingredients },
-    } = await axios.get(`http://localhost:${process.env.INGREDIENT_PORT}/user/ingredient/${req.params.userId}`);
+router.post('/:userId', async (req: Request, res: Response) => {
+    const allIngredientsResponse = axios.get(`http://localhost:${process.env.INGREDIENT_PORT}/ingredient`);
+    const userIngredientsResponse = axios.get(
+        `http://localhost:${process.env.INGREDIENT_PORT}/user/ingredient/${req.params.userId}`
+    );
+    const [
+        {
+            data: { ingredients: allIngredients },
+        },
+        {
+            data: { ingredients: userIngredients },
+        },
+    ] = await Promise.all([allIngredientsResponse, userIngredientsResponse]);
+
+    const allIngredientIds: number[] = allIngredients.map(({ id }) => id);
+    const ingredientIds: number[] = userIngredients.map(({ id }) => id);
 
     const setOfRecipes: Set<object> = await getRecipes();
-    const recipes: string[] = hashRecipes(setOfRecipes, ingredients);
-    const recipeNumber = 0.3;
-    // return recipe id's
-    // the suggestRecipes controller is currently  has a TODO ticket that's
-    // meant to return the recipes instead of the hashes
-    const suggestions = suggestRecipes(ingredients, recipeNumber, recipes);
-    res.status(200).json({ recipes: suggestions });
+    const recipes: string[] = hashRecipes(setOfRecipes, allIngredients);
+    const suggestions = suggestRecipes(ingredientIds, allIngredientIds, 0.1, recipes);
+
+    // TODO: return recipeIds instead of hashes
+    return res.status(200).json({ recipes: suggestions });
 });
 
 module.exports = router;

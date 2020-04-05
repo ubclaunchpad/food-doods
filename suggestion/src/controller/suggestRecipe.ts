@@ -15,33 +15,37 @@ const PER_PAGE = 25;
  * Tries to find 5 recipes that exceeds the threshold
  * Repeats the above process until it finds 5 recipes above the threshold
  * @param ingredientIds - An array of ingredientIds of the user
+ * @param allIngredientIds - An array of all ingredientIds in the database
  * @param threshold - A threshold that determines which recipes to return
  * @param source - Search space to look for recipes, defaults to hashes.json
  * @returns - First 5 recipes (or less than 5 recipes) from the DB that exceeds the threshold
  */
 
-const suggestRecipes = (ingredientIds: number[], threshold: number, source: string[] = hashes): number[] => {
+const suggestRecipes = (
+    ingredientIds: number[],
+    allIngredientIds: number[],
+    threshold: number,
+    source: string[] = hashes
+): number[] => {
     const retRecipes = [];
     let pageCount = 0;
     while (retRecipes.length < NUM_OF_RECIPES) {
-        const recipes = fetchRecipes(source, PER_PAGE, PER_PAGE * pageCount).map((recipe: string) =>
-            parseInt(recipe, 2)
-        );
-        if (recipes.length === 0) {
+        const recipes = fetchRecipes(source, PER_PAGE, PER_PAGE * pageCount);
+        if (!recipes.length) {
             break;
         }
 
+        const hashIngredients: string = hashIngredientList(ingredientIds, allIngredientIds);
         for (const recipe of recipes) {
-            const recipeBitArray = recipe
-                .toString()
+            const recipeBitString: string = recipe
                 .split('')
-                .map((num) => (num ? 1 : 0));
-            const hashIngredients = parseInt(hashIngredientList(recipeBitArray, ingredientIds), 2);
-            if (compareHash(recipe, hashIngredients) >= threshold) {
+                .map((bit: string) => (bit === '1' ? 1 : 0))
+                .join('');
+            if (compareHash(recipeBitString, hashIngredients) >= threshold) {
                 retRecipes.push(recipe);
             }
             if (retRecipes.length === NUM_OF_RECIPES) {
-                // TODO return recipes instead of Hashes
+                // TODO: return recipes instead of Hashes
                 return retRecipes;
             }
         }
