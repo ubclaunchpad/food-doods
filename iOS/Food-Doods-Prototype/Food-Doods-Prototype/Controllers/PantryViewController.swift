@@ -40,7 +40,9 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
                 let shelfLife = Int.random(in: 2...14)
                 let expiresInDays = Int.random(in: 1..<shelfLife)
                 
-                allItemArray.append(Item(name: ingred.name, image: nil, location: location, amount: Double(ingred.quantity) ?? 10.0, expires: expiresInDays, shelfLife: shelfLife))
+                let imageName = ingred.name.lowercased()
+                
+                allItemArray.append(Item(name: ingred.name, image: UIImage(named: imageName), location: location, amount: Double(ingred.quantity) ?? 10.0, expires: expiresInDays, shelfLife: shelfLife))
             }
             
             itemArray = allItemArray
