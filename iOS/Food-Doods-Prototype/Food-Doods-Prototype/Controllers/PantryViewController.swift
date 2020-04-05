@@ -21,6 +21,29 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         didSet {
             print("didSet...")
             print(ingredients)
+            for ingred in ingredients!.ingredients {
+                
+                // MARK: RANDOM LOCATION GENERATION (TEMP FOR DEMO)
+                var locIndex = Int.random(in: 0...2)
+                var location = FoodLocation.all
+                switch (locIndex) {
+                case 0:
+                    location = FoodLocation.dry
+                case 1:
+                    location = FoodLocation.fridge
+                case 2:
+                    location = FoodLocation.pantry
+                default:
+                    print("Error: out of index range")
+                }
+                
+                let shelfLife = Int.random(in: 2...14)
+                let expiresInDays = Int.random(in: 1..<shelfLife)
+                
+                allItemArray.append(Item(name: ingred.name, image: nil, location: location, amount: Double(ingred.quantity) ?? 10.0, expires: expiresInDays, shelfLife: shelfLife))
+            }
+            
+            itemArray = allItemArray
             tableView.reloadData()
         }
     }
@@ -42,25 +65,30 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
         tableView.separatorStyle = .none
         
-        //Array Population
-        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 500, expires: 2, shelfLife: 3))
-        allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge, amount: 300, expires: 5, shelfLife: 8))
-        allItemArray.append(Item(name: "Broccoli", image: UIImage(named: "broccoli"), location: FoodLocation.fridge, amount: 150, expires: 4, shelfLife: 7))
-        allItemArray.append(Item(name: "Chicken Breast", image: UIImage(named: "chickenbreast"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 5))
-        
-
-        //Pantry
-        allItemArray.append(Item(name: "Chocolate", image: UIImage(named: "chocolate"), location: FoodLocation.pantry, amount: 50, expires: 20, shelfLife: 31))
-        allItemArray.append(Item(name: "Peanut Butter", image: UIImage(named: "peanutbutter"), location: FoodLocation.pantry, amount: 350, expires: 80, shelfLife: 100))
-        
-        //Dry
-        allItemArray.append(Item(name: "Rice", image: UIImage(named: "rice"), location: FoodLocation.dry, amount: 1000, expires: 365, shelfLife: 500))
-        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.dry, amount: 300, expires: 60, shelfLife: 90))
-        
-        itemArray = allItemArray
+//        //Array Population
+//        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 500, expires: 2, shelfLife: 3))
+//        allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge, amount: 300, expires: 5, shelfLife: 8))
+//        allItemArray.append(Item(name: "Broccoli", image: UIImage(named: "broccoli"), location: FoodLocation.fridge, amount: 150, expires: 4, shelfLife: 7))
+//        allItemArray.append(Item(name: "Chicken Breast", image: UIImage(named: "chickenbreast"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 5))
+//
+//
+//        //Pantry
+//        allItemArray.append(Item(name: "Chocolate", image: UIImage(named: "chocolate"), location: FoodLocation.pantry, amount: 50, expires: 20, shelfLife: 31))
+//        allItemArray.append(Item(name: "Peanut Butter", image: UIImage(named: "peanutbutter"), location: FoodLocation.pantry, amount: 350, expires: 80, shelfLife: 100))
+//
+//        //Dry
+//        allItemArray.append(Item(name: "Rice", image: UIImage(named: "rice"), location: FoodLocation.dry, amount: 1000, expires: 365, shelfLife: 500))
+//        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.dry, amount: 300, expires: 60, shelfLife: 90))
+//
+//        itemArray = allItemArray
         
         // MARK: - Real API Setup
-        IngredientAPIUtil.shared.getUserIngredientList(userID: "11", completionHandler: apiCompletion)
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        
+        present(loginVC, animated: false, completion: {
+            IngredientAPIUtil.shared.getUserIngredientList(userID: "5e7d58ecba49051abeb5e097", completionHandler: self.apiCompletion)
+        })
     }
     
     lazy var apiCompletion: (UserIngredientsModel) -> Void = {
@@ -99,11 +127,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let apiData = ingredients {
-            return apiData.ingredients.count
-        }
-        
-        return 0
+        return itemArray.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80 + 16
@@ -117,25 +141,27 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         }
         pantryCell.selectionStyle = .none
         //MARK: - Cell Population
-        guard let item = ingredients?.ingredients[indexPath.row] else { return cell }
+        let item = itemArray[indexPath.row]
 
         pantryCell.mainText.text = item.name
-        pantryCell.foodImage.image = UIImage(named: "chocolate")
-        pantryCell.expiringText.text = "expiring in *x* days"
-        // pantryCell.sectionText.text = "\(item.location)"
-        
-        pantryCell.amountText.text = "\(item.quantity) g"
+        pantryCell.foodImage.image = item.image
         
         
-//        var percentage: Float = 1.0
-//        if item.expiresIn < 6 {
-//             let expires = Float (item.expiresIn)
-//             percentage = expires / 7.0
-//         }
-//
-//        let color = calcColor(expiryPercentage: percentage, item: item)
-//        pantryCell.expiryBar.setProgress(percentage, animated: true)
-//        pantryCell.expiryBar.tintColor = color
+        pantryCell.expiringText.text = "expiring in \(item.expiresIn) days"
+        pantryCell.sectionText.text = "\(item.location)"
+        
+        pantryCell.amountText.text = "\(item.amount) g"
+        
+        
+        var percentage: Float = 1.0
+        if item.expiresIn < 6 {
+             let expires = Float (item.expiresIn)
+             percentage = expires / 7.0
+         }
+
+        let color = calcColor(expiryPercentage: percentage, item: item)
+        pantryCell.expiryBar.setProgress(percentage, animated: true)
+        pantryCell.expiryBar.tintColor = color
 
 
         
@@ -172,7 +198,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let pushVC = ItemViewController()
-        pushVC.item = ingredients?.ingredients[indexPath.row]
+        pushVC.item = itemArray[indexPath.row]
         pushVC.itemIndex = indexPath.row
         
         navigationController?.pushViewController(pushVC, animated: true)
