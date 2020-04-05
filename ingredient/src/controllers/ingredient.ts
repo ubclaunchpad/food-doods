@@ -4,10 +4,17 @@ import { db } from '../db/connection';
 export const getIngredients = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    return db
-        .any('SELECT * FROM ingredient WHERE id = $1', [id])
-        .then((ingredients: any[]) => res.status(200).json({ ingredients }))
-        .catch((error: Error) => res.status(404).json({ error }));
+    if (id) {
+        return db
+            .any('SELECT * FROM ingredient WHERE id = $1', [id])
+            .then((ingredients: any[]) => res.status(200).json({ ingredients }))
+            .catch((error: Error) => res.status(404).json({ error }));
+    } else {
+        return db
+            .any('SELECT id FROM ingredient')
+            .then((ingredients: any[]) => res.status(200).json({ ingredients }))
+            .catch((error: Error) => res.status(404).json({ error }));
+    }
 };
 
 export const postIngredient = async (req: Request, res: Response) => {
