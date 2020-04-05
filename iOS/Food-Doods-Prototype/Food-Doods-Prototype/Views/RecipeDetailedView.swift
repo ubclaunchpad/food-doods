@@ -67,7 +67,7 @@ class RecipeDetailedView: UIView {
             recipeImage.image = UIImage(named: "beefnoodles")
             bottomView.recipeLabel.text = viewModel.recipe.name
             
-            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "timer"), size: 16, title: "\(Int(viewModel.recipe.time.cook)) minutes"))
+            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "timer"), size: 16, title: "\(viewModel.recipe.time.cook)"))
             bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "circle"), size: 16, title: "\(viewModel.recipe.servings) servings"))
             bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "person.3"), size: 16, title: "2 People"))
             
