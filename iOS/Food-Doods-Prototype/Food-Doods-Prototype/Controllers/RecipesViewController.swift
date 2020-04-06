@@ -100,7 +100,18 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
     }
     
     func changeToIndex(index: Int) {
-        recipeFilter = (index == 0) ? .favourites : .suggested
+        if(recipeFilter == .search) {
+            guard var text = textField.text else {
+                return
+            }
+            if(index == 0) {
+                searchRecipes = favouriteRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
+            } else {
+                searchRecipes = serverRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
+            }
+        } else {
+            recipeFilter = (index == 0) ? .favourites : .suggested
+        }
         collectionView.reloadData()
     }
     func addFavourite(recipe: RecipeModel) {
@@ -193,8 +204,10 @@ extension RecipesViewController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if(textField.text?.count == 1 && string == "") {
+            print("done editing")
             recipeFilter = (newView.segmentControl.selectedIndex == 0) ? .favourites : .suggested
             collectionView.reloadData()
+            return true
         } else {
             guard var text = textField.text else {
                 return true
@@ -204,7 +217,7 @@ extension RecipesViewController: UITextFieldDelegate {
             } else {
                 text.append(string)
             }
-            if(recipeFilter == .favourites) {
+            if(newView.segmentControl.selectedIndex == 0) {
                 searchRecipes = favouriteRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
             } else {
                 searchRecipes = serverRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
