@@ -76,6 +76,7 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
     }
     
     func fetchRecipes() {
+        successCounter = 0
         for id in suggestionIDs {
             RecipeAPIUtil.shared.getRecipeBy(recipeID: id, completionHandler: recipeCompletion)
         }
