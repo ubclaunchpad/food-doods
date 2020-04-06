@@ -17,11 +17,15 @@ const getRecipes = async (): Promise<Set<object>> => {
         });
 };
 
-const hashRecipes = (recipes: Set<object>, allIngredientIds: number[]): string[] => {
-    const recipeHashes: string[] = Array.from(recipes).map((recipe: any): string => {
+const hashRecipes = (recipes: Set<object>, allIngredientIds: number[]): object => {
+    const recipeHashes: object = Array.from(recipes).map((recipe: any): object => {
         const recipeIngredientIds: number[] = recipe.ingredients.map(({ id }) => id);
-        return hashIngredientList(recipeIngredientIds, allIngredientIds);
+        return {
+            id: recipe._id,
+            ingredients: hashIngredientList(recipeIngredientIds, allIngredientIds),
+        };
     });
+
     return recipeHashes;
 };
 

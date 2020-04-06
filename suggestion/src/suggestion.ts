@@ -1,5 +1,5 @@
 import * as express from 'express';
-import * as suggestionRouter from './routes/suggestion';
+import { router as suggestionRouter } from './routes/suggestion';
 
 const suggestionService = express();
 const PORT = 8585;

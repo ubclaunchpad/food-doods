@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import { compareHash } from '../util/compareHash';
 import { fetchRecipes } from '../util/fetchRecipes';
 import { hashIngredientList } from '../util/hashIngredientList';
+import { hashRecipes } from '../util/recipe';
 
 const hashes = JSON.parse(readFileSync(resolve('mocks/hashes.json')).toString());
 
@@ -25,24 +26,29 @@ const suggestRecipes = (
     ingredientIds: number[],
     allIngredientIds: number[],
     threshold: number,
-    source: string[] = hashes
+    source: Set<object> = hashes
 ): number[] => {
     const retRecipes = [];
     let pageCount = 0;
+    const recipeObject: object = hashRecipes(source, allIngredientIds);
+    const recipeHashes: string[] = [];
+    for (const object of Object.keys(recipeObject)) {
+        recipeHashes.push(recipeObject[object].ingredients);
+    }
     while (retRecipes.length < NUM_OF_RECIPES) {
-        const recipes = fetchRecipes(source, PER_PAGE, PER_PAGE * pageCount);
+        const recipes: string[] = fetchRecipes(recipeHashes, PER_PAGE, PER_PAGE * pageCount);
         if (!recipes.length) {
             break;
         }
 
         const hashIngredients: string = hashIngredientList(ingredientIds, allIngredientIds);
-        for (const recipe of recipes) {
-            const recipeBitString: string = recipe
-                .split('')
-                .map((bit: string) => (bit === '1' ? 1 : 0))
-                .join('');
+        for (const recipeBitString of recipes) {
             if (compareHash(recipeBitString, hashIngredients) >= threshold) {
-                retRecipes.push(recipe);
+                for (const object of Object.keys(recipeObject)) {
+                    if (recipeBitString === recipeObject[object].ingredients) {
+                        retRecipes.push(recipeObject[object].id);
+                    }
+                }
             }
             if (retRecipes.length === NUM_OF_RECIPES) {
                 // TODO: return recipes instead of Hashes
@@ -51,6 +57,7 @@ const suggestRecipes = (
         }
         pageCount++;
     }
+
     // TODO return recipes instead of Hashes
     return retRecipes;
 };
