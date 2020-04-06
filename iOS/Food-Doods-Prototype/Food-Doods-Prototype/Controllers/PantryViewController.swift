@@ -88,7 +88,7 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         loginVC.modalPresentationStyle = .fullScreen
         
         present(loginVC, animated: false, completion: {
-            IngredientAPIUtil.shared.getUserIngredientList(userID: "5e7d58ecba49051abeb5e097", completionHandler: self.apiCompletion)
+            IngredientAPIUtil.shared.getUserIngredientList(userID: "5e8a72243b4ffe3a0afb5f26", completionHandler: self.apiCompletion)
         })
     }
     
