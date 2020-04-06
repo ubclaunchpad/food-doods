@@ -66,6 +66,8 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
         tableView.separatorStyle = .none
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = .black
 //        //Array Population
 //        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 500, expires: 2, shelfLife: 3))
 //        allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge, amount: 300, expires: 5, shelfLife: 8))

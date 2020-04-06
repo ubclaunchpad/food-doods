@@ -28,7 +28,7 @@ struct Item {
 }
 
 
-enum FoodLocation {
+enum FoodLocation: String {
     case all
     case pantry
     case fridge
