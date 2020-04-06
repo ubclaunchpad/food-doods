@@ -51,14 +51,12 @@ const suggestRecipes = (
                 }
             }
             if (retRecipes.length === NUM_OF_RECIPES) {
-                // TODO: return recipes instead of Hashes
                 return retRecipes;
             }
         }
         pageCount++;
     }
 
-    // TODO return recipes instead of Hashes
     return retRecipes;
 };
 

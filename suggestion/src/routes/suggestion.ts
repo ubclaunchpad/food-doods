@@ -52,7 +52,6 @@ router.post('/:userId', async (req: Request, res: Response) => {
         const setOfRecipes: Set<object> = await getRecipes();
         const suggestions = suggestRecipes(ingredientIds, allIngredientIds, 0.1, setOfRecipes);
 
-        // TODO: return recipeIds instead of hashes
         return res.status(200).json({ recipes: suggestions });
     } catch (error) {
         return res.status(500).json({ error });
