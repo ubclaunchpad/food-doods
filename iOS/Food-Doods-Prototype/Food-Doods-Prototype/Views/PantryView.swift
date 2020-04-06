@@ -14,7 +14,7 @@ class PantryView: UIView {
     
     var segmentControl: CustomSegmentedControl = {
         let control = CustomSegmentedControl(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
-        control.setButtonTitles(buttonTitles: ["All", "Pantry", "Fridge", "Dry"])
+        control.setButtonTitles(buttonTitles: ["All", "Pantry", "Fridge", "Freeze"])
         control.selectorViewColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
         control.selectorTextColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
         return control
