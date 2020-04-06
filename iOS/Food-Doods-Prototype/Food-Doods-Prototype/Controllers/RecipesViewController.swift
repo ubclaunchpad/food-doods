@@ -130,6 +130,11 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
         case suggested
         case search
     }
+    
+    
+    func findAPicture(recipeName: String) -> UIImage {
+        return UIImage(named: "beefnoodles")!
+    }
 }
 
 
@@ -168,8 +173,9 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout, UICollectio
         
         collectionCell.nameLabel.text = filterArr[indexPath.item].recipe.name
         
-        #warning("Change picture")
-        collectionCell.recipeImage.image = UIImage(named: "beefnoodles")
+        let recipeImage = findAPicture(recipeName: filterArr[indexPath.item].recipe.name)
+        
+        collectionCell.recipeImage.image = recipeImage
         
         let timeToCook = filterArr[indexPath.item].recipe.time.cook
         let arr = timeToCook.split(separator: " ")

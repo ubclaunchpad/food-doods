@@ -67,7 +67,7 @@ class LoginViewController: UIViewController {
             delegate.fetchIngredients()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.25, execute: {
             self.dismissView()
         })
     }

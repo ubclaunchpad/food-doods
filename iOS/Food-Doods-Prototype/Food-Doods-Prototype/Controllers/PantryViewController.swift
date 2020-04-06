@@ -41,7 +41,13 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
                 
                 let imageName = ingred.name.lowercased()
                 
-                allItemArray.append(Item(name: ingred.name, image: UIImage(named: imageName), location: location, amount: Double(ingred.quantity) ?? 10.0, expires: expiresInDays, shelfLife: shelfLife))
+                var image = UIImage(named: imageName)
+                
+                if image == nil {
+                    image = UIImage(named: "groceries")
+                }
+                
+                allItemArray.append(Item(name: ingred.name, image: image, location: location, amount: Double(ingred.quantity) ?? 10.0, expires: expiresInDays, shelfLife: shelfLife))
             }
             
             itemArray = allItemArray
@@ -65,23 +71,6 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         tableView.delegate = self
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")
         tableView.separatorStyle = .none
-        
-//        //Array Population
-//        allItemArray.append(Item(name: "Beef", image: UIImage(named: "steak"), location: FoodLocation.fridge, amount: 500, expires: 2, shelfLife: 3))
-//        allItemArray.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: FoodLocation.fridge, amount: 300, expires: 5, shelfLife: 8))
-//        allItemArray.append(Item(name: "Broccoli", image: UIImage(named: "broccoli"), location: FoodLocation.fridge, amount: 150, expires: 4, shelfLife: 7))
-//        allItemArray.append(Item(name: "Chicken Breast", image: UIImage(named: "chickenbreast"), location: FoodLocation.fridge, amount: 300, expires: 1, shelfLife: 5))
-//
-//
-//        //Pantry
-//        allItemArray.append(Item(name: "Chocolate", image: UIImage(named: "chocolate"), location: FoodLocation.pantry, amount: 50, expires: 20, shelfLife: 31))
-//        allItemArray.append(Item(name: "Peanut Butter", image: UIImage(named: "peanutbutter"), location: FoodLocation.pantry, amount: 350, expires: 80, shelfLife: 100))
-//
-//        //Dry
-//        allItemArray.append(Item(name: "Rice", image: UIImage(named: "rice"), location: FoodLocation.dry, amount: 1000, expires: 365, shelfLife: 500))
-//        allItemArray.append(Item(name: "Spaghetti", image: UIImage(named: "spaghetti"), location: FoodLocation.dry, amount: 300, expires: 60, shelfLife: 90))
-//
-//        itemArray = allItemArray
         
         // MARK: - Real API Setup
         let loginVC = LoginViewController()
