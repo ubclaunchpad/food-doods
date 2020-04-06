@@ -92,7 +92,7 @@ class RecipeView: UIView {
         control.layer.shouldRasterize = true
         control.layer.rasterizationScale = UIScreen.main.scale
         control.translatesAutoresizingMaskIntoConstraints = false
-        control.setButtonTitles(buttonTitles: ["Favorites", "Suggested"])
+        control.setButtonTitles(buttonTitles: ["Suggested", "Favourites"])
         control.selectorViewColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
         control.selectorTextColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
         return control

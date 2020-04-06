@@ -15,6 +15,7 @@ class ItemView: UIView {
             itemIcon.image = UIImage(named: viewModel.name.lowercased())
             expiryDate.text = "\(viewModel.expiresIn) days"
             itemQuantity.text = "\(viewModel.amount) g"
+            locationLabel.text = "in \(viewModel.location.rawValue.uppercased())"
         }
     }
     
@@ -25,7 +26,7 @@ class ItemView: UIView {
         label.font = UIFont(name: "CircularStd-Book", size: 16)
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         
         return label
     }()
@@ -37,7 +38,7 @@ class ItemView: UIView {
         label.font = UIFont(name: "CircularStd-Bold", size: 18)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         
         return label
     }()
@@ -49,7 +50,7 @@ class ItemView: UIView {
         label.font = UIFont(name: "CircularStd-Book", size: 16)
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         
         return label
     }()
@@ -61,7 +62,20 @@ class ItemView: UIView {
         label.font = UIFont(name: "CircularStd-Bold", size: 18)
         label.textColor = .red
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
+        
+        return label
+    }()
+    
+    
+    var locationLabel: UILabel = {
+        let label = UILabel()
+
+        label.text = "in LOCATION"
+        label.font = UIFont(name: "CircularStd-Bold", size: 14)
+        label.textColor = UIColor(red: 88/255, green: 214/255, blue: 38/255, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
         
         return label
     }()
@@ -74,12 +88,9 @@ class ItemView: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Input Name"
         textField.text = ""
-        
         textField.borderStyle = UITextField.BorderStyle.bezel
-
-        
-        textField.textAlignment = .center
-        
+        textField.textAlignment = .left
+    
         return textField
     }()
     
@@ -94,6 +105,7 @@ class ItemView: UIView {
         return button
     }()
        
+    var topSection = UIView()
     override class var requiresConstraintBasedLayout: Bool {
       return true
     }
@@ -110,15 +122,22 @@ class ItemView: UIView {
     func setupView() {
         self.backgroundColor = .white
         
-        itemIcon.setSuperview(self).addLeft(constant: 10).addTopSafe(constant: 10).addWidth(withConstant: 40).addHeight(withConstant: 40).done()
+        topSection.backgroundColor = .white
+        let shadowView = ShadowUIView(colour: UIColor(hex: 0xD8D8D8), offSet: CGSize(width: 0, height: 5), radius: 3,subLayer: topSection)
+        shadowView.setSuperview(self).addTop().addLeft().addRight().done()
+        itemIcon.setSuperview(self).addLeft(constant: 20).addTopSafe(constant: 20).addWidth(withConstant: 40).addHeight(withConstant: 40).done()
         
-        expiringText.setSuperview(self).addLeft(constant: 10).addTop(anchor: itemIcon.bottomAnchor, constant: 10).addWidth(withConstant: 100).done()
+        expiringText.setSuperview(self).addLeft(constant: 20).addTop(anchor: itemIcon.bottomAnchor, constant: 25).addWidth(withConstant: 100).done()
         
-        expiryDate.setSuperview(self).addTop(anchor: expiringText.bottomAnchor, constant: 10).addLeft(constant: 10).addWidth(withConstant: 100).done()
+        expiryDate.setSuperview(self).addTop(anchor: expiringText.bottomAnchor, constant: 10).addLeft(constant: 20).addWidth(withConstant: 100).done()
         
-        amountText.setSuperview(self).addLeft(anchor: expiringText.rightAnchor, constant: 10).addTop(anchor: itemIcon.bottomAnchor, constant: 10).addWidth(withConstant: 100).done()
+        amountText.setSuperview(self).addLeft(anchor: expiringText.rightAnchor, constant: 10).addTop(anchor: itemIcon.bottomAnchor, constant: 25).addWidth(withConstant: 100).done()
         
         itemQuantity.setSuperview(self).addTop(anchor: amountText.bottomAnchor, constant: 10).addLeft(anchor: expiryDate.rightAnchor, constant: 10).done()
+        
+        locationLabel.setSuperview(self).addLeft(anchor: itemIcon.rightAnchor, constant: 10).addCenterY(anchor: itemIcon.centerYAnchor, constant: 0).done()
+        
+        shadowView.addBottom(anchor: itemQuantity.bottomAnchor, constant: 30).done()
     }
     
     //MARK: Constraints Setup

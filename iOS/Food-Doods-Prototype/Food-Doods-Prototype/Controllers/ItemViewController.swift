@@ -22,18 +22,29 @@ class ItemViewController: UIViewController {
         itemView.viewModel = item
         
         self.view = itemView
-    }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil")?.withTintColor(.black, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(editButtonPressed))
+        }
+    
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(true)
+            
+            // Make the navigation bar background clear
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navigationController?.navigationBar.backgroundColor = .clear
+            navigationController?.navigationBar.shadowImage = UIImage()
+            navigationController?.navigationBar.isTranslucent = true
+        }
+        override func viewWillDisappear(_ animated: Bool) {
+            super.viewWillDisappear(animated)
+
+            // Restore the navigation bar to default
+            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+            navigationController?.navigationBar.shadowImage = nil
+        }
     
     @objc
     private func editButtonPressed(sender: UIBarButtonItem) {
-        let pushVC = EditItemViewController()
-        pushVC.item = self.item
-        pushVC.itemIndex = self.itemIndex
-        
-        //can turn off animation to "pretend" we're on the same view, but different
-        //bottom half of screen
-        //OR, we can just do a proper segue to the new VC and have a new UI
-        navigationController?.pushViewController(pushVC, animated: false)
+
     }
     
 }
