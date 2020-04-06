@@ -8,6 +8,25 @@ export const initializeRecipeRoutes = (app: Application) => {
     const recipeRouter = Router();
     app.use('/recipe', recipeRouter);
 
+    /* gets 'count' number of recipes starting at position 'index'*/
+    recipeRouter.get('/', async (req: Request, res: Response) => {
+        try {
+            let { count, index } = req.query;
+            count = parseInt(count, 10);
+            index = index <= 0 ? 0 : parseInt(index, 10) - 1;
+            const recipes = await RecipesModel.find({})
+                .skip(index)
+                .limit(count);
+            recipes.forEach((recipe: Document) => recipe.toObject());
+            if (recipes && recipes.length) {
+                return res.status(200).json({ recipes });
+            }
+            return res.status(404).send(`No such recipes found with query ${req.query}`);
+        } catch (e) {
+            return res.status(500).send(`Could not get the recipes with query ${req.query} for ${e.message}`);
+        }
+    });
+
     /* create a recipe */
     recipeRouter.post('/', async (req: Request, res: Response) => {
         const recipe = new RecipesModel(req.body);
@@ -96,26 +115,6 @@ export const initializeRecipeRoutes = (app: Application) => {
             }
         } catch (e) {
             res.status(500).send(`Could not get the recipe with id ${req.params.id} for ${e.message}`);
-        }
-    });
-
-    /* gets 'count' number of recipes starting at position 'index'*/
-    recipeRouter.get('/recipe', async (req: Request, res: Response) => {
-        try {
-            let { count, index } = req.query;
-            count = parseInt(count, 10);
-            index = parseInt(index, 10) - 1;
-            const recipes = await RecipesModel.find()
-                .skip(index)
-                .limit(count);
-            recipes.forEach((recipe: Document) => recipe.toObject());
-            if (recipes === null || recipes.length === 0) {
-                res.status(404).send(`No such recipes found with query ${req.query}`);
-            } else {
-                res.status(200).json({ recipes });
-            }
-        } catch (e) {
-            res.status(500).send(`Could not get the recipes with query ${req.query} for ${e.message}`);
         }
     });
 
