@@ -36,7 +36,6 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
                 default:
                     print("Error: out of index range")
                 }
-                
                 let shelfLife = Int.random(in: 2...14)
                 let expiresInDays = Int.random(in: 1..<shelfLife)
                 
