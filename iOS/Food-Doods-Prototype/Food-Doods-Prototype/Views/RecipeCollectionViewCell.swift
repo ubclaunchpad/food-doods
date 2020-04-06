@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import AlanYanHelpers
 class RecipeCollectionViewCell: UICollectionViewCell {
     var recipeImage: UIImageView = {
         let imageView = UIImageView()
@@ -27,32 +27,12 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         label.font = UIFont(name: "CircularStd-Bold", size: 12)
         return label
     }()
-    var timeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "30 Minutes"
-        label.font = UIFont(name: "CircularStd-Book", size: 10)
-        label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    var difficultyLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Easy"
-        label.font = UIFont(name: "CircularStd-Book", size: 10)
-        label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    var ingredientLabel: UILabel = {
-        let label = UILabel()
-        label.text = "4/15 Ingredients"
-        label.font = UIFont(name: "CircularStd-Book", size: 10)
-        label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
+    var stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .leading
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        return stack
     }()
     var roundedView: UIView = {
         let view = UIView()
@@ -62,6 +42,7 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         view.backgroundColor = .red
         return view
     }()
+    var heartImage = ContentFitImageView()
     override class var requiresConstraintBasedLayout: Bool {
         return true
     }
@@ -82,9 +63,6 @@ class RecipeCollectionViewCell: UICollectionViewCell {
     func setupView() {
         contentView.addSubview(recipeImage)
         contentView.addSubview(nameLabel)
-        contentView.addSubview(timeLabel)
-        contentView.addSubview(difficultyLabel)
-        contentView.addSubview(ingredientLabel)
         contentView.addSubview(roundedView)
         
         setupConstraints()
@@ -119,24 +97,13 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         nameLabel.heightAnchor.constraint(equalToConstant: 14).isActive = true
         
-        timeLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
-        timeLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
-        timeLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        timeLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        stackView.setSuperview(contentView).addTop(anchor: nameLabel.bottomAnchor, constant: 2).addLeft(constant: 6).addRight().addHeight(withConstant: 45).done()
         
-        difficultyLabel.topAnchor.constraint(equalTo: timeLabel.bottomAnchor).isActive = true
-        difficultyLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
-        difficultyLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        difficultyLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "timer")?.withTintColor(.gray, renderingMode: .alwaysOriginal), size: 10, title:  ""))
+        stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "circle")?.withTintColor(.gray, renderingMode: .alwaysOriginal), size: 10, title: ""))
+        stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "person.3")?.withTintColor(.gray, renderingMode: .alwaysOriginal), size: 10, title: ""))
         
-        ingredientLabel.topAnchor.constraint(equalTo: difficultyLabel.bottomAnchor).isActive = true
-        ingredientLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
-        ingredientLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        ingredientLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        
-        
-        
-        
+        heartImage.setSuperview(contentView).addTop(constant: 5).addRight(constant: -5).addWidth(withConstant: 25).addHeight(withConstant: 25).done()
     }
     
 }

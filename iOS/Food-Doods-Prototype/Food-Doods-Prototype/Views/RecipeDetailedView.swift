@@ -67,9 +67,17 @@ class RecipeDetailedView: UIView {
             recipeImage.image = UIImage(named: "beefnoodles")
             bottomView.recipeLabel.text = viewModel.recipe.name
             
-            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "timer"), size: 16, title: "\(viewModel.recipe.time.cook)"))
-            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "circle"), size: 16, title: "\(viewModel.recipe.servings) servings"))
-            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "person.3"), size: 16, title: "2 People"))
+            let timeToCook = viewModel.recipe.time.cook
+            let arr = timeToCook.split(separator: " ")
+            var finalString = timeToCook
+            if(arr.last == "m") {
+                finalString = "\(arr.first ?? "0") minutes"
+            } else if(arr.last == "h") {
+                finalString = "\(arr.first ?? "0") hours"
+            }
+            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "timer")?.withTintColor(.gray, renderingMode: .alwaysOriginal), size: 16, title: finalString))
+            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "circle")?.withTintColor(.gray, renderingMode: .alwaysOriginal), size: 16, title: "\(viewModel.recipe.servings) servings"))
+            bottomView.stackView.addArrangedSubview(RecipeImageTextView(image: UIImage(systemName: "person.3")?.withTintColor(.gray, renderingMode: .alwaysOriginal), size: 16, title: "2 People"))
             
             var string = ""
             for (i, ins) in viewModel.recipe.instructions.enumerated() {
@@ -289,7 +297,7 @@ class RecipeScrollDescriptionView: UIScrollView {
         
         recipeLabel.setSuperview(self).addTop(constant: 25).addLeft(constant: 20).addRight(constant: -20).done()
                 
-        stackView.setSuperview(self).addLeft().addRight().addTop(anchor: recipeLabel.bottomAnchor, constant: 23).addHeight(withConstant: 30).done()
+        stackView.setSuperview(self).addLeft(constant: 20).addRight(constant: -20).addTop(anchor: recipeLabel.bottomAnchor, constant: 23).addHeight(withConstant: 30).done()
         
         selectionSegmentedControl.setSuperview(self).addTop(anchor: stackView.bottomAnchor, constant: 53).addLeft().addRight().addWidth(withConstant: UIScreen.main.bounds.width).done()
 
@@ -317,13 +325,12 @@ class RecipeImageTextView: UIView {
         label.textAlignment = .left
         return label
     }()
-    let view = UIView()
-    convenience init(image: UIImage?, size: CGFloat, title: String) {
+    convenience init(image: UIImage?, size: CGFloat, title: String, color: UIColor = .gray) {
         self.init()
         imageView.image = image
         label.font = UIFont(name: "CircularStd-Book", size: size)
         label.text = title
-        view.addWidth(withConstant: CGFloat(label.text!.count * 10)).done()
+        label.textColor = .gray
         setupView()
     }
     
@@ -341,8 +348,7 @@ class RecipeImageTextView: UIView {
     
     func setupView() {
 
-        view.setSuperview(self).addCenterX().addTop().addBottom().done()
-        imageView.setSuperview(view).addLeft(constant: 0).addTop().addBottom().addWidth(anchor: heightAnchor).done()
-        label.setSuperview(view).addLeft(anchor: imageView.rightAnchor, constant: 4).addCenterY().done()
+        imageView.setSuperview(self).addLeft(constant: 0).addTop().addBottom().addWidth(anchor: heightAnchor).done()
+        label.setSuperview(self).addLeft(anchor: imageView.rightAnchor, constant: 4).addCenterY().done()
      }
 }

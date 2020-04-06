@@ -9,10 +9,12 @@
 import UIKit
 
 
-class RecipesViewController: UIViewController {
+class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, FavouritedDelegate {
+    
     var allRecipes: [Recipe] = []
     var serverRecipes: [RecipeModel] = []
-    
+    var favouriteRecipes: [RecipeModel] = []
+    var searchRecipes: [RecipeModel] = []
     var newView: RecipeView!
     
     // MARK: - Testing
@@ -35,17 +37,31 @@ class RecipesViewController: UIViewController {
         }
     }
     
+    private var recipeFilter: SegmentedChoice = .favourites
+    var collectionView: UICollectionView!
+    var textField: UITextField!
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        navigationController?.navigationBar.backgroundColor = .clear
         navigationController?.navigationBar.isHidden = false
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        collectionView.reloadData()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         newView = RecipeView()
+        collectionView = newView.collectionView
         newView.collectionView.delegate = self
         newView.collectionView.dataSource = self
         newView.collectionView.register(RecipeCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        newView.segmentControl.delegate = self
+        textField = newView.searchBar.searchField
+        textField.delegate = self
+        
         self.view = newView
+        navigationController?.navigationBar.backgroundColor = .clear
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(openFilter))
         navigationController?.navigationBar.backgroundColor = UIColor(named: "menuColor")
@@ -82,37 +98,23 @@ class RecipesViewController: UIViewController {
         let newVC =  FilterViewController()
         navigationController?.pushViewController(newVC, animated: true)
     }
-//    func setupMockData()  {
-//        var mockIngredients: [Item] = []
-//        var ingredOwned: [Item] = []
-//        for _ in 0...15 {
-//            mockIngredients.append(Item(name: "Carrot", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
-//        }
-//        for _ in 0...4 {
-//            ingredOwned.append(Item(name: "Carrot Owned Edition", image: UIImage(named: "carrot"), location: .all, amount: 1, expires: 1, shelfLife: 1))
-//        }
-//
-//        var recipe = Recipe(name: "Canadian Poutine", image: UIImage(named: "poutine"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 30, difficulty: "Medium")
-//        allRecipes.append(recipe)
-//
-//        ingredOwned.remove(at: 0)
-//        recipe = Recipe(name: "Chinese Beef Noodles", image: UIImage(named: "beefnoodles"), ingredientsNeeded: ingredOwned, ingredientsOwned: ingredOwned, time: 35, difficulty: "Medium")
-//        allRecipes.append(recipe)
-//
-//        recipe = Recipe(name: "Carbonara", image: UIImage(named: "carbonara"), ingredientsNeeded: ingredOwned, ingredientsOwned: ingredOwned, time: 20, difficulty: "Easy")
-//        allRecipes.append(recipe)
-//
-//        mockIngredients.remove(at: 0)
-//        recipe = Recipe(name: "French Pepper Steak", image: UIImage(named: "frenchpepper"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 15, difficulty: "Easy")
-//        allRecipes.append(recipe)
-//
-//        recipe = Recipe(name: "Maple Salmon", image: UIImage(named: "maplesalmon"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 40, difficulty: "Medium")
-//        allRecipes.append(recipe)
-//
-//        recipe = Recipe(name: "Risotto", image: UIImage(named: "risotto"), ingredientsNeeded: mockIngredients, ingredientsOwned: ingredOwned, time: 50, difficulty: "Hard")
-//        allRecipes.append(recipe)
-//
-//    }
+    
+    func changeToIndex(index: Int) {
+        recipeFilter = (index == 0) ? .favourites : .suggested
+        collectionView.reloadData()
+    }
+    func addFavourite(recipe: RecipeModel) {
+        favouriteRecipes.append(recipe)
+    }
+    
+    func removeFavourite(recipe: RecipeModel) {
+        favouriteRecipes.removeAll { $0.recipe.id == recipe.recipe.id }
+    }
+    enum SegmentedChoice {
+        case favourites
+        case suggested
+        case search
+    }
 }
 
 
@@ -121,7 +123,12 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout, UICollectio
         return CGSize(width: collectionView.frame.width, height: 304)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return serverRecipes.count
+        if (recipeFilter == .favourites) {
+            return favouriteRecipes.count
+        } else if (recipeFilter == .suggested){
+            return serverRecipes.count
+        }
+        return searchRecipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -129,25 +136,86 @@ extension RecipesViewController: UICollectionViewDelegateFlowLayout, UICollectio
         guard let collectionCell = cell as? RecipeCollectionViewCell else {
             return cell
         }
-        collectionCell.nameLabel.text = serverRecipes[indexPath.item].recipe.name
+        
+        var filterArr = serverRecipes
+        if(recipeFilter == .search) {
+            filterArr = searchRecipes
+        }
+        if(recipeFilter == .favourites) {
+            filterArr = favouriteRecipes
+        }
+        
+        if(favouriteRecipes.contains(where: {$0.recipe.id == filterArr[indexPath.item].recipe.id})) {
+            collectionCell.heartImage.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
+        } else {
+            collectionCell.heartImage.image = nil
+        }
+        
+        collectionCell.nameLabel.text = filterArr[indexPath.item].recipe.name
         
         #warning("Change picture")
         collectionCell.recipeImage.image = UIImage(named: "beefnoodles")
         
-        let cookTime = serverRecipes[indexPath.item].recipe.time.cook
-        collectionCell.timeLabel.text = "\(cookTime) minutes"
-        
-        collectionCell.ingredientLabel.text = "Temp"
-        collectionCell.difficultyLabel.text = "\(serverRecipes[indexPath.item].recipe.servings) servings"
+        let timeToCook = filterArr[indexPath.item].recipe.time.cook
+        let arr = timeToCook.split(separator: " ")
+        var finalString = timeToCook
+        if(arr.last == "m") {
+            finalString = "\(arr.first ?? "0") minutes"
+        } else if(arr.last == "h") {
+            finalString = "\(arr.first ?? "0") hours"
+        }
+        (collectionCell.stackView.arrangedSubviews[0] as! RecipeImageTextView).label.text = finalString
+        (collectionCell.stackView.arrangedSubviews[1] as! RecipeImageTextView).label.text = "\(filterArr[indexPath.item].recipe.servings) servings"
+        (collectionCell.stackView.arrangedSubviews[2] as! RecipeImageTextView).label.text = "2 people"
         
         return collectionCell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let newVC = RecipeDetailedViewController()
-        
-        newVC.model = serverRecipes[indexPath.item]
+        newVC.favouriteDelegate = self
+        var filterArr = serverRecipes
+        if(recipeFilter == .search) {
+            filterArr = searchRecipes
+        }
+        if(recipeFilter == .favourites) {
+            filterArr = favouriteRecipes
+        }
+        if(favouriteRecipes.contains(where: {$0.recipe.id == filterArr[indexPath.item].recipe.id})) {
+            newVC.favourited = true
+            newVC.navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
+        }
+        newVC.model = filterArr[indexPath.item]
         navigationController?.pushViewController(newVC, animated: true)
     }
+}
+
+extension RecipesViewController: UITextFieldDelegate {
     
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if(textField.text?.count == 1 && string == "") {
+            recipeFilter = (newView.segmentControl.selectedIndex == 0) ? .favourites : .suggested
+            collectionView.reloadData()
+        } else {
+            guard var text = textField.text else {
+                return true
+            }
+            if(string == "") {
+                text.removeLast()
+            } else {
+                text.append(string)
+            }
+            if(recipeFilter == .favourites) {
+                searchRecipes = favouriteRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
+            } else {
+                searchRecipes = serverRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
+            }
+            recipeFilter = .search
+            collectionView.reloadData()
+        }
+        return true
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
 }

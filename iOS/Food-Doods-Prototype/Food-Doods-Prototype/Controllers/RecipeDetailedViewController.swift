@@ -12,6 +12,7 @@ class RecipeDetailedViewController: UIViewController, CustomSegmentedControlDele
     var model: RecipeModel!
     var favourited = false
     var newView: RecipeDetailedView!
+    var favouriteDelegate: FavouritedDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
         newView = RecipeDetailedView()
@@ -20,7 +21,7 @@ class RecipeDetailedViewController: UIViewController, CustomSegmentedControlDele
         self.view = newView
         
         navigationItem.title = ""
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart")?.withTintColor(.red, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleHeartTap))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: favourited ? UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal) : UIImage(systemName: "heart")?.withTintColor(.red, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleHeartTap))
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -36,7 +37,6 @@ class RecipeDetailedViewController: UIViewController, CustomSegmentedControlDele
 
         // Restore the navigation bar to default
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        navigationController?.navigationBar.backgroundColor = UIColor(named: "menuColor")
         navigationController?.navigationBar.shadowImage = nil
     }
     
@@ -54,9 +54,16 @@ class RecipeDetailedViewController: UIViewController, CustomSegmentedControlDele
         if(!favourited) {
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
             #warning("Set favourite to update the real model")
+            favouriteDelegate.addFavourite(recipe: model)
         } else {
             navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")?.withTintColor(.red, renderingMode: .alwaysOriginal)
+            favouriteDelegate.removeFavourite(recipe: model)
         }
         favourited = !favourited
     }
+}
+
+protocol FavouritedDelegate {
+    func addFavourite(recipe: RecipeModel)
+    func removeFavourite(recipe: RecipeModel)
 }

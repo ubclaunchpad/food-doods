@@ -32,8 +32,8 @@ class SearchBarView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
-        button.backgroundColor = UIColor(hex: 0x23E103)
-        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.backgroundColor = UIColor(red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        button.setImage(UIImage(systemName: "magnifyingglass")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
         return button
     }()
     override init(frame: CGRect) {
@@ -129,11 +129,8 @@ class RecipeView: UIView {
     func setupConstraints() {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         
-        
-        searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        searchBar.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        searchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        ShadowUIView(colour: UIColor(hex: 0xE8E8E8),radius: 6,subLayer: searchBar).setSuperview(self).addLeft(constant: 10).addRight(constant: -10).addHeight(withConstant: 40).addTopSafe(constant: 10).done()
+        searchBar.addCorners(20).done()
         
         segmentControl.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10).isActive = true
         segmentControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
