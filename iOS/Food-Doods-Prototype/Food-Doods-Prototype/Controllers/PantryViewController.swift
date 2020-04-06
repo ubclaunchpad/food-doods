@@ -28,7 +28,7 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
                 var location = FoodLocation.all
                 switch (locIndex) {
                 case 0:
-                    location = FoodLocation.dry
+                    location = FoodLocation.freeze
                 case 1:
                     location = FoodLocation.fridge
                 case 2:
@@ -88,7 +88,7 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         loginVC.modalPresentationStyle = .fullScreen
         
         present(loginVC, animated: false, completion: {
-            IngredientAPIUtil.shared.getUserIngredientList(userID: "5e7d58ecba49051abeb5e097", completionHandler: self.apiCompletion)
+            IngredientAPIUtil.shared.getUserIngredientList(userID: "5e8a72243b4ffe3a0afb5f26", completionHandler: self.apiCompletion)
         })
     }
     
@@ -104,7 +104,7 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         case 0: foodSection = .all
         case 1: foodSection = .pantry
         case 2: foodSection = .fridge
-        case 3: foodSection = .dry
+        case 3: foodSection = .freeze
         default:
             print("Fatal error")
         }

@@ -32,5 +32,5 @@ enum FoodLocation {
     case all
     case pantry
     case fridge
-    case dry
+    case freeze
 }

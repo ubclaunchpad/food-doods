@@ -11,7 +11,7 @@ import AlanYanHelpers
 
 class PantryView: UIView {
     //instance of tableView instantiated lazily
-    
+
     var segmentControl: CustomSegmentedControl = {
         let control = CustomSegmentedControl(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
         control.backgroundColor = .white
@@ -24,37 +24,37 @@ class PantryView: UIView {
         control.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 10, width: UIScreen.main.bounds.width, height: 30), cornerRadius: 0).cgPath
         control.layer.shouldRasterize = true
         control.layer.rasterizationScale = UIScreen.main.scale
-        control.setButtonTitles(buttonTitles: ["All", "Pantry", "Fridge", "Dry"])
+        control.setButtonTitles(buttonTitles: ["All", "Pantry", "Fridge", "Freeze"])
         control.selectorViewColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
         control.selectorTextColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
         return control
     }()
-    
+
     lazy var tableView: UITableView = {
         var table = UITableView()
         table.tableHeaderView = self.segmentControl
         table.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return table
     }()
-    
+
     //default false -> setting to true to allow contstraint based layout
     override class var requiresConstraintBasedLayout: Bool {
       return true
     }
-    
+
     //Initializes the view
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
     }
-    
+
     //fallback if view doesn't initialize
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     //custom view setup
     func setupView() {
         backgroundColor = .white
@@ -62,10 +62,10 @@ class PantryView: UIView {
 
         setupConstraints()
     }
-    
+
     //MARK: Constraints Setup
     private func setupConstraints() {
-        
+
         segmentControl.addTop(constant: 10).done()
         segmentControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         segmentControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
