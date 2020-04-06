@@ -96,7 +96,7 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         contentView.layer.shadowOpacity = 0.2
         contentView.layer.shadowOffset = .zero
         contentView.layer.shadowRadius = 2
-        contentView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-40, height: 310), cornerRadius: 8).cgPath
+        contentView.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-40, height: 304), cornerRadius: 8).cgPath
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
     }

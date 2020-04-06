@@ -81,6 +81,16 @@ class RecipeView: UIView {
     var searchBar = SearchBarView()
     var segmentControl: CustomSegmentedControl = {
         let control = CustomSegmentedControl()
+        control.backgroundColor = .white
+        control.layer.masksToBounds = false
+        control.clipsToBounds = false
+        control.layer.shadowColor = UIColor.gray.cgColor
+        control.layer.shadowOpacity = 0.2
+        control.layer.shadowOffset = .zero
+        control.layer.shadowRadius = 5
+        control.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 10, width: UIScreen.main.bounds.width, height: 30), cornerRadius: 0).cgPath
+        control.layer.shouldRasterize = true
+        control.layer.rasterizationScale = UIScreen.main.scale
         control.translatesAutoresizingMaskIntoConstraints = false
         control.setButtonTitles(buttonTitles: ["Favorites", "Suggested"])
         control.selectorViewColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
@@ -92,8 +102,8 @@ class RecipeView: UIView {
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.allowsSelection = true
+        collection.backgroundColor = .clear
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.backgroundColor = .white
         return collection
     }()
     
@@ -130,7 +140,7 @@ class RecipeView: UIView {
         segmentControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         segmentControl.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 5).isActive = true
+        collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 15).isActive = true
         collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -80).isActive = true

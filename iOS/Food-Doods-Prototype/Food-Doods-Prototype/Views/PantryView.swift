@@ -14,6 +14,16 @@ class PantryView: UIView {
     
     var segmentControl: CustomSegmentedControl = {
         let control = CustomSegmentedControl(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+        control.backgroundColor = .white
+        control.layer.masksToBounds = false
+        control.clipsToBounds = false
+        control.layer.shadowColor = UIColor.gray.cgColor
+        control.layer.shadowOpacity = 0.2
+        control.layer.shadowOffset = .zero
+        control.layer.shadowRadius = 5
+        control.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 10, width: UIScreen.main.bounds.width, height: 30), cornerRadius: 0).cgPath
+        control.layer.shouldRasterize = true
+        control.layer.rasterizationScale = UIScreen.main.scale
         control.setButtonTitles(buttonTitles: ["All", "Pantry", "Fridge", "Dry"])
         control.selectorViewColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
         control.selectorTextColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
