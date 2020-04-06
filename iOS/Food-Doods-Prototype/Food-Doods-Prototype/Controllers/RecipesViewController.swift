@@ -60,7 +60,7 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
         self.view = newView
         navigationController?.navigationBar.backgroundColor = .clear
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(openFilter))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise")?.withTintColor(.black, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(refreshAPI))
         navigationController?.navigationBar.backgroundColor = UIColor(named: "menuColor")
         navigationItem.title = "Recipes"
         
@@ -97,10 +97,8 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
         self.successCounter += 1
     }
     
-    @objc func openFilter() {
-        //MARK: TODO
-        let newVC =  FilterViewController()
-        navigationController?.pushViewController(newVC, animated: true)
+    @objc func refreshAPI() {
+        getSuggestions()
     }
     
     func changeToIndex(index: Int) {
