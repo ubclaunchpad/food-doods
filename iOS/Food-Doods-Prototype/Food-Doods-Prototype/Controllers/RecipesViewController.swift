@@ -34,7 +34,7 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
         }
     }
     
-    private var recipeFilter: SegmentedChoice = .favourites
+    private var recipeFilter: SegmentedChoice = .suggested
     var collectionView: UICollectionView!
     var textField: UITextField!
     override func viewDidAppear(_ animated: Bool) {
@@ -108,13 +108,13 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
             guard var text = textField.text else {
                 return
             }
-            if(index == 0) {
+            if(index == 1) {
                 searchRecipes = favouriteRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
             } else {
                 searchRecipes = serverRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
             }
         } else {
-            recipeFilter = (index == 0) ? .favourites : .suggested
+            recipeFilter = (index == 1) ? .favourites : .suggested
         }
         collectionView.reloadData()
     }
@@ -209,7 +209,7 @@ extension RecipesViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if(textField.text?.count == 1 && string == "") {
             print("done editing")
-            recipeFilter = (newView.segmentControl.selectedIndex == 0) ? .favourites : .suggested
+            recipeFilter = (newView.segmentControl.selectedIndex == 1) ? .favourites : .suggested
             collectionView.reloadData()
             return true
         } else {
@@ -221,7 +221,7 @@ extension RecipesViewController: UITextFieldDelegate {
             } else {
                 text.append(string)
             }
-            if(newView.segmentControl.selectedIndex == 0) {
+            if(newView.segmentControl.selectedIndex == 1) {
                 searchRecipes = favouriteRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
             } else {
                 searchRecipes = serverRecipes.filter({ $0.recipe.name.lowercased().contains(text.lowercased())})
