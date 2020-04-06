@@ -11,15 +11,23 @@ function fetchRecipes(source: string[], limit: number, startIndex: number = 0): 
 
     if (limit >= source.length) {
         return source;
+    } else if (source.length - startIndex <= limit) {
+        return source.slice(startIndex);
     }
 
     if (startIndex >= source.length) {
         return [];
     }
 
-    while (recipes.size < limit) {
+    let iteration = 0;
+    // the number '2' here is arbitrary
+    // the second condition means to stop the while loop after
+    // going through the source[min, max] 2x because this probably means
+    // that you added all the recipes in this range already
+    while (recipes.size < limit && iteration < limit * 2) {
         const index = getRandomIndex(startIndex, source.length - 1);
         recipes.add(source[index]);
+        iteration++;
     }
 
     return Array.from(recipes);

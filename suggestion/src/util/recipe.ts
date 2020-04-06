@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { hashIngredientList } from './hashIngredientList';
 
 const RECIPE_URL = 'http://localhost:8080';
 
@@ -10,22 +11,21 @@ const getRecipes = async (): Promise<Set<object>> => {
             const data: object[] = response.status === 200 ? response.data.recipes : [];
             return new Set(data);
         })
-        .catch(() => new Set());
+        .catch((error: Error) => {
+            console.log(error);
+            return new Set();
+        });
 };
 
-const hashRecipes = (recipes: Set<object>, ingredients: any[]): string[] => {
-    const ingredientIds: number[] = ingredients.map(({ id }: { id: number }) => id);
-    const max: number = Math.max(...ingredientIds);
-    const recipeHashes = Array(recipes).map((recipe: any): string => {
-        const hashArray = Array(max + 1).fill(0);
-
-        const recipeIngredients = recipe.ingredients;
-        for (const ingredient of recipeIngredients) {
-            hashArray[hashArray.length - ingredient.id - 1] = 1;
-        }
-
-        return hashArray.toString();
+const hashRecipes = (recipes: Set<object>, allIngredientIds: number[]): object => {
+    const recipeHashes: object = Array.from(recipes).map((recipe: any): object => {
+        const recipeIngredientIds: number[] = recipe.ingredients.map(({ id }) => id);
+        return {
+            id: recipe._id,
+            ingredients: hashIngredientList(recipeIngredientIds, allIngredientIds),
+        };
     });
+
     return recipeHashes;
 };
 
