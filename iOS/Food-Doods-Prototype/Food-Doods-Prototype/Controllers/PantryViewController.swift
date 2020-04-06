@@ -60,7 +60,7 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         newView.segmentControl.delegate = self
         self.view = newView
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Pantry"
+        navigationItem.title = "Your Ingredients"
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PantryTableViewCell.self, forCellReuseIdentifier: "PantryCell")

@@ -137,7 +137,7 @@ class TabBarViewController: CustomTabViewController {
         return button
     }()
     override func setupView() {
-        let pantryButton = TabBarButton(title: "Pantry", image: UIImage(named: "fridge")?.withTintColor(.black, renderingMode: .alwaysOriginal))
+        let pantryButton = TabBarButton(title: "Ingredients", image: UIImage(named: "fridge")?.withTintColor(.black, renderingMode: .alwaysOriginal))
         let color = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
         pantryButton.headerImage.image = pantryButton.headerImage.image?.withTintColor(color, renderingMode: .alwaysOriginal)
         pantryButton.headerLabel.textColor = color
