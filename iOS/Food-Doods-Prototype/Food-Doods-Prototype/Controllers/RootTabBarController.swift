@@ -131,22 +131,9 @@ class CustomTabViewController: UITabBarController {
 }
 
 class TabBarViewController: CustomTabViewController {
-    lazy var button: UIButton = {
+    lazy var addButton: UIButton = {
         let button = UIButton()
-        button.clipsToBounds = true
-        button.layer.masksToBounds = false
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 30
-        button.backgroundColor = .white
-        button.layer.shadowColor = UIColor.gray.cgColor
-        button.layer.shadowOffset = .zero
-        button.layer.shadowOpacity = 1
-        button.layer.shadowRadius = 7
-        button.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 60, height: 60), cornerRadius: 30).cgPath
-        button.layer.shouldRasterize = true
-        button.layer.rasterizationScale = UIScreen.main.scale
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        
+        button.setImage(UIImage(systemName: "plus")?.withTintColor(.gray, renderingMode: .alwaysOriginal), for: .normal)
         return button
     }()
     override func setupView() {
@@ -167,10 +154,9 @@ class TabBarViewController: CustomTabViewController {
         setTabBar(items: [pantryButton, recipeButton, shoppingButton, settingsButton])
         viewControllers = [firstViewController, secondViewController, thirdViewController, fourthViewController]
         
-        self.view.addSubview(button)
-        button.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        
+        addButton.addCorners(30).done()
+        addButton.backgroundColor = .white
+        ShadowUIView(colour: UIColor(hex: 0xD8D8D8),radius: 7, subLayer: addButton).setSuperview(self.view).addBottom(constant: -70).addWidth(withConstant: 60).addHeight(withConstant: 60).addCenterX().done()
     }
 }
