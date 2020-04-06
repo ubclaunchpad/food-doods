@@ -7,27 +7,23 @@
 //
 
 import UIKit
+import AlanYanHelpers
 
 class EditItemView: UIView {
-    var itemIndex: Int?
-    
-    var itemName: UILabel = {
-        let label = UILabel()
-        
-        label.text = "Name"
-        label.font = UIFont.boldSystemFont(ofSize: 25)
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
-        
-        return label
-    }()
+    var viewModel: Item! {
+        didSet {
+            itemIcon.image = UIImage(named: viewModel.name)
+            expiryDate.text = "\(viewModel.expiresIn) days"
+            itemQuantity.text = "\(viewModel.amount) g"
+        }
+    }
     
     var amountText: UILabel = {
         let label = UILabel()
         
         label.text = "Amount"
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont(name: "CircularStd-Book", size: 16)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
@@ -38,7 +34,8 @@ class EditItemView: UIView {
         let label = UILabel()
 
         label.text = "#"
-        label.textColor = UIColor.gray
+        label.font = UIFont(name: "CircularStd-Bold", size: 18)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
@@ -49,7 +46,8 @@ class EditItemView: UIView {
         let label = UILabel()
         
         label.text = "Expiring in"
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont(name: "CircularStd-Book", size: 16)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
@@ -60,25 +58,15 @@ class EditItemView: UIView {
         let label = UILabel()
 
         label.text = "# days"
-        label.textColor = UIColor.gray
+        label.font = UIFont(name: "CircularStd-Bold", size: 18)
+        label.textColor = .red
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         
         return label
     }()
     
-    var itemIcon: UIImageView = {
-        let image = UIImageView()
-        image.layer.masksToBounds = true
-        image.layer.borderWidth = 2.0
-        
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        
-        image.translatesAutoresizingMaskIntoConstraints = false
-        
-        return image
-    }()
+    var itemIcon = ContentFitImageView()
     
     var nameInput: UITextField = {
         let textField = UITextField()
@@ -102,22 +90,9 @@ class EditItemView: UIView {
         button.setTitle("Save!", for: .normal)
         button.backgroundColor = UIColor.black
         button.setTitleColor(UIColor.white, for: .normal)
-        
-        button.addTarget(self, action: #selector(savePressed(sender:)), for: .touchUpInside)
-        
+                
         return button
     }()
-    
-    @objc
-    private func savePressed(sender: UIButton) {
-        if let inputText = nameInput.text, let index = itemIndex {
-            if (!inputText.isEmpty) {
-                allItemArray[index].name = inputText
-                itemName.text = inputText
-            }
-        }
-        
-   }
        
     override class var requiresConstraintBasedLayout: Bool {
       return true
@@ -135,59 +110,19 @@ class EditItemView: UIView {
     func setupView() {
         self.backgroundColor = .white
         
-        self.addSubview(itemName)
-        self.addSubview(amountText)
-        self.addSubview(itemQuantity)
+        itemIcon.setSuperview(self).addLeft(constant: 10).addTopSafe(constant: 10).addWidth(withConstant: 40).addHeight(withConstant: 40).done()
         
-        self.addSubview(expiringText)
-        self.addSubview(expiryDate)
+        expiringText.setSuperview(self).addLeft(constant: 10).addTop(anchor: itemIcon.bottomAnchor, constant: 10).addWidth(withConstant: 100).done()
         
-        self.addSubview(itemIcon)
+        expiryDate.setSuperview(self).addTop(anchor: expiringText.bottomAnchor, constant: 10).addLeft(constant: 10).addWidth(withConstant: 100).done()
         
-        self.addSubview(nameInput)
-        self.addSubview(saveButton)
+        amountText.setSuperview(self).addLeft(anchor: expiringText.leftAnchor, constant: 10).addTop(anchor: itemIcon.bottomAnchor, constant: 10).addWidth(withConstant: 100).done()
         
-        setupConstraints()
+        itemQuantity.setSuperview(self).addTop(anchor: amountText.bottomAnchor, constant: 10).addLeft(anchor: expiryDate.leftAnchor, constant: 10).done()
     }
     
     //MARK: Constraints Setup
     private func setupConstraints() {
-        //--- itemName Constraints ---//
-        itemName.leftAnchor.constraint(equalTo: itemIcon.rightAnchor, constant: 21).isActive = true
-        itemName.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        
-        //--- amountText Constraints ---//
-        amountText.leftAnchor.constraint(equalTo: itemIcon.rightAnchor, constant: 21).isActive = true
-        amountText.bottomAnchor.constraint(equalTo: itemQuantity.topAnchor, constant: -10).isActive = true
-        
-        //--- itemQuantity Constraints ---//
-        itemQuantity.leftAnchor.constraint(equalTo: itemIcon.rightAnchor, constant: 21).isActive = true
-        itemQuantity.bottomAnchor.constraint(equalTo: itemIcon.bottomAnchor, constant: 0).isActive = true
-        
-        //--- expiringText Constraints ---//
-        expiringText.leftAnchor.constraint(equalTo: amountText.rightAnchor, constant: 21).isActive = true
-        expiringText.bottomAnchor.constraint(equalTo: expiryDate.topAnchor, constant: -10).isActive = true
-        
-        //--- expiryDate Constraints ---//
-        expiryDate.leftAnchor.constraint(equalTo: amountText.rightAnchor, constant: 21).isActive = true
-        expiryDate.bottomAnchor.constraint(equalTo: itemIcon.bottomAnchor, constant: 0).isActive = true
-        
-        //--- itemIcon Constraints ---//
-        itemIcon.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        itemIcon.leftAnchor.constraint(equalTo: leftAnchor, constant: 21).isActive = true
-        itemIcon.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        itemIcon.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        
-        
-        //--- nameInput Constraints ---//
-        nameInput.topAnchor.constraint(equalTo: itemIcon.bottomAnchor, constant: 100).isActive = true
-        nameInput.leftAnchor.constraint(equalTo: leftAnchor, constant: 50).isActive = true
-        nameInput.rightAnchor.constraint(equalTo: rightAnchor, constant: -50).isActive = true
-        
-        //--- saveButton Constraints ---//
-        saveButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
-        saveButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        saveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        saveButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+
     }
 }

@@ -17,22 +17,9 @@ class EditItemViewController: UIViewController {
         let itemView = EditItemView()
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Edit Item"
+        navigationItem.title = item?.name
         
-        itemView.itemIcon.image = item?.image
-        itemView.itemName.text = item?.name
-        itemView.itemIndex = self.itemIndex
-        
-        if let amount = item?.amount {
-            itemView.itemQuantity.text = "\(amount)g"
-        }
-  
-        if let expiry = item?.expiresIn {
-            itemView.expiryDate.text = "\(expiry) days"
-        }
-        
-        
-        
+        itemView.viewModel = item
         self.view = itemView
     }
     
