@@ -50,6 +50,12 @@ class SuggestionAPIUtil {
                     print ("--- Data ---")
                     let str = String(decoding: data, as: UTF8.self)
                     print(str)
+                    
+                    DispatchQueue.main.async {
+                        let decodedData = try? JSONDecoder().decode(SuggestionModel.self, from: data)
+                        
+                        
+                    }
                 }
             }
             
