@@ -120,10 +120,13 @@ class TestViewController: UIViewController {
     
     @objc func createUserAction() {
         print("Calling User Endpoint: POST CREATE")
-        let email = "wrenTest@gmail.com"
-        let username = "wrenTest"
+        
+        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVhdEhlYWx0aHkiLCJpYXQiOjE1ODYxMzE0OTM3NDYsImV4cCI6MTU4NjEzMjA5ODU0Nn0.Fze36YFphsx-c91_luK1_ybJxxr6c_KoCbXq-yr7kTM"
+        
+        let email = "foodDoods@gmail.com"
+        let username = "eatHealthy"
         let password = "swiftyboi"
-        let fullName = "Wren Test"
+        let fullName = "Food Doods"
         UserAPIUtil.shared.createNewUser(email: email, username: username, password: password, fullName: fullName)
     }
     
