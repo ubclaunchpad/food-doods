@@ -109,7 +109,7 @@ class UserAPIUtil {
         return json
     }
     
-    public func loginUser(username: String, password: String, token: String) {
+    public func loginUser(username: String, password: String, token: String, completion: @escaping (Bool) -> Void) {
         do {
             let requestURL = try assembleURL(for: UserFunction.POSTloginUser)
             
@@ -125,6 +125,9 @@ class UserAPIUtil {
                 if let error = error {
                     print("--- Error ---")
                     print(error)
+                    
+                    completion(false)
+                    
                     return
                 }
                 if let response = response {
@@ -135,6 +138,22 @@ class UserAPIUtil {
                     print ("--- Data ---")
                     let str = String(decoding: data, as: UTF8.self)
                     print(str)
+                    
+                    DispatchQueue.main.async {
+                        do {
+                            let decodedData = try JSONDecoder().decode(LoginResponse.self, from: data)
+                            
+                            if decodedData.message == "Successfully logged in." {
+                                completion(true)
+                            } else {
+                                completion(false)
+                            }
+                            
+                        } catch {
+                            print(error)
+                            completion(false)
+                        }
+                    }
                 }
             }
             

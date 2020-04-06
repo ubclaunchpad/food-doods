@@ -86,10 +86,9 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         // MARK: - Real API Setup
         let loginVC = LoginViewController()
         loginVC.modalPresentationStyle = .fullScreen
-        
-        present(loginVC, animated: false, completion: {
-            IngredientAPIUtil.shared.getUserIngredientList(userID: "5e8a72243b4ffe3a0afb5f26", completionHandler: self.apiCompletion)
-        })
+        loginVC.loginDelegate = self
+
+        present(loginVC, animated: false, completion: {})
     }
     
     lazy var apiCompletion: (UserIngredientsModel) -> Void = {
@@ -116,6 +115,16 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
             }
         }
         self.tableView.reloadData()
+    }
+}
+
+
+protocol LoginDelegate {
+    func fetchIngredients()
+}
+extension PantryViewController: LoginDelegate {
+    func fetchIngredients() {
+        IngredientAPIUtil.shared.getUserIngredientList(userID: "5e8a72243b4ffe3a0afb5f26", completionHandler: self.apiCompletion)
     }
 }
 

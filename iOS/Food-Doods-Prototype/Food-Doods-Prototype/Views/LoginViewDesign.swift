@@ -41,6 +41,7 @@ class LoginViewDesign: UIView {
         field.translatesAutoresizingMaskIntoConstraints = false
         field.autocorrectionType = .no
         field.autocapitalizationType = .none
+        field.isSecureTextEntry = true
         field.clipsToBounds = true
         field.font = UIFont(name: "CircularStd-Book", size: 20)
         field.addBottomBorderWithColor(color: UIColor(hex: 0xB7B7B7), width: 1)
@@ -74,6 +75,21 @@ class LoginViewDesign: UIView {
         return button
     }()
     
+    var statusLabel: UILabel = {
+        let label = UILabel()
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 5
+        label.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        label.text = "Status: "
+        label.textAlignment = .center
+        label.font = UIFont(name: "CircularStd-Book", size: 20)
+        label.textColor = .white
+        
+        return label
+    }()
+    
     
     
     override class var requiresConstraintBasedLayout: Bool {
@@ -90,7 +106,10 @@ class LoginViewDesign: UIView {
     }
     
     func setupView() {
+        self.backgroundColor = .white
+        
         topImage.setSuperview(self).addTop().addLeft().addRight().addHeight(withConstant: 200).done()
+        topImage.layer.opacity = 0.5
         
         logoImage.setSuperview(self).addTop(anchor: topImage.bottomAnchor, constant: 10).addCenterX().addHeight(withConstant: 70).addWidth(withConstant: 100).done()
         headerLabel.setSuperview(self).addTop(anchor: logoImage.bottomAnchor, constant: 10).addCenterX().done()
@@ -98,7 +117,19 @@ class LoginViewDesign: UIView {
         passwordTextField.setSuperview(self).addTop(anchor: usernameTextField.bottomAnchor, constant: 10).addLeading(constant: 40).addTrailing(constant: -40).addHeight(withConstant: 50).done()
         
         loginButton.setSuperview(self).addCenterX().addTop(anchor: passwordTextField.bottomAnchor, constant: 50).addWidth(withConstant: 200).addHeight(withConstant: 50).done()
+        
+        // MARK: Debugging Purposes
+        dismissButton.setSuperview(self).addCenterX().addTop(anchor: loginButton.bottomAnchor, constant: 50).addWidth(withConstant: 200).addHeight(withConstant: 50).done()
+        // MARK: - Debugging end
+        
+        
         bottomImage.setSuperview(self).addBottom().addLeft().addRight().addHeight(withConstant: 180).done()
+        bottomImage.layer.opacity = 0.5
+        
+        
+        statusLabel.setSuperview(self).addCenterX().addBottom(anchor: bottomAnchor, constant: 0).addWidth(anchor: widthAnchor, constant: 0).addHeight(withConstant: 50).done()
+        
+        statusLabel.isHidden = true
     }
 }
 
@@ -131,6 +162,10 @@ extension UIView {
         self.layer.addSublayer(border)
     }
 }
+
+
+
+
 
 class MainController: UIViewController {
     override func viewDidLoad() {

@@ -17,3 +17,8 @@ struct CreateNewUserModel: Codable {
 struct LoginUserModel: Codable {
     let username, password: String
 }
+
+// MARK: - LoginResponse
+struct LoginResponse: Codable {
+    let message: String
+}

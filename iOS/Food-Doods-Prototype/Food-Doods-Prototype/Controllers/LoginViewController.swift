@@ -12,12 +12,15 @@ import UIKit
 class LoginViewController: UIViewController {
     var usernameTextField: UITextField!
     var passwordTextField: UITextField!
+    var loginView: LoginViewDesign!
+    
+    var loginDelegate: LoginDelegate?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let loginView = LoginView()
+        loginView = LoginViewDesign()
         // set up this view
         usernameTextField = loginView.usernameTextField
         passwordTextField = loginView.passwordTextField
@@ -35,8 +38,38 @@ class LoginViewController: UIViewController {
         let lastToken = UserDefaults.standard.string(forKey: "token")
         
         if let user = username, let pass = password, let token = lastToken {
-            UserAPIUtil.shared.loginUser(username: user, password: pass, token: token)
+            UserAPIUtil.shared.loginUser(username: user, password: pass, token: token, completion: handleResult)
         }
+    }
+    
+    lazy var handleResult: (Bool) -> Void = {
+        success in
+        
+        if (success) {
+            self.loginView.statusLabel.text = "Authentication Successful!"
+            self.loginView.statusLabel.backgroundColor = UIColor(hex: 0x58D626)
+            self.loginView.statusLabel.isHidden = false
+
+            self.logTheUserIn()
+            
+        } else {
+            self.loginView.statusLabel.text = "Authentication Failed :("
+            self.loginView.statusLabel.backgroundColor = UIColor(hex: 0xFF3730)
+            self.loginView.statusLabel.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+                self.loginView.statusLabel.isHidden = true
+            })
+        }
+    }
+    
+    func logTheUserIn() {
+        if let delegate = self.loginDelegate {
+            delegate.fetchIngredients()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+            self.dismissView()
+        })
     }
     
     @objc func dismissView() {
