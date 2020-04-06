@@ -27,9 +27,9 @@ class SuggestionAPIUtil {
         self.hostURL = baseURL
     }
     
-    public func suggestRecipesBy(userID: String) {
+    public func suggestRecipesBy(userID: String, completion: @escaping (SuggestionModel?) -> Void) {
         do {
-            let requestURL = try assembleURL(for: SuggestionFunction.POSTfetchByUserID)
+            let requestURL = try assembleURL(for: SuggestionFunction.POSTfetchByUserID, userID: userID)
             
             var request = URLRequest(url: URL(string: requestURL)!)
             
@@ -53,8 +53,7 @@ class SuggestionAPIUtil {
                     
                     DispatchQueue.main.async {
                         let decodedData = try? JSONDecoder().decode(SuggestionModel.self, from: data)
-                        
-                        
+                        completion(decodedData)
                     }
                 }
             }
