@@ -18,18 +18,15 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
     var newView: RecipeView!
     
     // MARK: - Testing
-    let testIDs =
-        [
-            "5e7ecf3bd7ab9fa3fec1e045",
-            "5e7ecfedd7ab9fa3fec1e04b",
-            "5e7ed024d7ab9fa3fec1e051",
-            "5e7ed01cd7ab9fa3fec1e050",
-            "5e7ed075d7ab9fa3fec1e054"
-        ]
+    var suggestionIDs: [String] = [] {
+        didSet {
+            fetchRecipes()
+        }
+    }
     
     var successCounter: Int = 0 {
         didSet {
-            if successCounter == testIDs.count {
+            if successCounter == suggestionIDs.count {
                 print("Ready!")
                 newView.collectionView.reloadData()
                 //MARK: DO WORK HERE TO LOAD DATA INTO VIEW
@@ -71,22 +68,29 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
         navigationItem.backBarButtonItem?.tintColor = .white
         
         // setupMockData()
-        getRecipeData()
+        getSuggestions()
     }
     
-    func getRecipeData() {
-        
-        for id in testIDs {
-            RecipeAPIUtil.shared.getRecipeBy(recipeID: id, completionHandler: apiCompletionHandler)
+    func getSuggestions() {
+        SuggestionAPIUtil.shared.suggestRecipesBy(userID: "5e8a72243b4ffe3a0afb5f26", completion: suggestionCompletion)
+    }
+    
+    func fetchRecipes() {
+        for id in suggestionIDs {
+            RecipeAPIUtil.shared.getRecipeBy(recipeID: id, completionHandler: recipeCompletion)
         }
-        
-        // MARK: Debug
-        let _ = Timer.scheduledTimer(withTimeInterval: TimeInterval(2), repeats: false, block: {_ in 
-            print(self.serverRecipes)
-        })
     }
     
-    lazy var apiCompletionHandler: (RecipeModel) -> Void = {
+    lazy var suggestionCompletion: (SuggestionModel?) -> Void = {
+        suggestion in
+        
+        if let suggestion = suggestion {
+            self.suggestionIDs = suggestion.recipes
+            print("Suggested Recipe IDs: \(suggestion.recipes)")
+        }
+    }
+    
+    lazy var recipeCompletion: (RecipeModel) -> Void = {
         recipe in
         print("Got here!")
         self.serverRecipes.append(recipe)
