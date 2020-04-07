@@ -80,6 +80,8 @@ class RootTabBarController: UITabBarController {
         button.widthAnchor.constraint(equalToConstant: 60).isActive = true
         button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
+    
+    
 
 }
 
@@ -136,6 +138,9 @@ class TabBarViewController: CustomTabViewController {
         button.setImage(UIImage(systemName: "plus")?.withTintColor(.gray, renderingMode: .alwaysOriginal), for: .normal)
         return button
     }()
+    
+    var pantryController: PantryViewController!
+    
     override func setupView() {
         let pantryButton = TabBarButton(title: "Ingredients", image: UIImage(named: "fridge")?.withTintColor(.black, renderingMode: .alwaysOriginal))
         let color = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
@@ -145,8 +150,9 @@ class TabBarViewController: CustomTabViewController {
         let shoppingButton = TabBarButton(title: "Shopping List", image: UIImage(named: "shopping")?.withTintColor(.black, renderingMode: .alwaysOriginal))
         let settingsButton = TabBarButton(title: "Settings", image: UIImage(named: "settings")?.withTintColor(.black, renderingMode: .alwaysOriginal))
 
+        let pantry = PantryViewController()
 
-        let firstViewController = NavigationController(rootViewController: PantryViewController())
+        let firstViewController = NavigationController(rootViewController: pantry)
         let secondViewController = NavigationController(rootViewController: RecipesViewController())
         let thirdViewController = NavigationController(rootViewController: ShoppingListViewController())
         let fourthViewController = NavigationController(rootViewController: SettingsViewController())
@@ -158,5 +164,17 @@ class TabBarViewController: CustomTabViewController {
         addButton.addCorners(30).done()
         addButton.backgroundColor = .white
         ShadowUIView(colour: UIColor(hex: 0xD8D8D8),radius: 7, subLayer: addButton).setSuperview(self.view).addBottom(constant: -70).addWidth(withConstant: 60).addHeight(withConstant: 60).addCenterX().done()
+        addButton.addTarget(self, action: #selector(addPressed), for: .touchUpInside)
+        
+        pantryController = pantry
+    }
+    
+    
+    @objc func addPressed() {
+        let pushVC = AddIngredientViewController()
+        pushVC.modalPresentationStyle = .popover
+        pushVC.addDelegate = pantryController
+        
+        present(pushVC, animated: true, completion: {})
     }
 }

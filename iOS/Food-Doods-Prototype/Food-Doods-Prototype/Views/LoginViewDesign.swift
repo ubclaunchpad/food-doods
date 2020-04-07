@@ -118,9 +118,9 @@ class LoginViewDesign: UIView {
         
         loginButton.setSuperview(self).addCenterX().addTop(anchor: passwordTextField.bottomAnchor, constant: 50).addWidth(withConstant: 200).addHeight(withConstant: 50).done()
         
-//        // MARK: Debugging Purposes
-//        dismissButton.setSuperview(self).addCenterX().addTop(anchor: loginButton.bottomAnchor, constant: 50).addWidth(withConstant: 200).addHeight(withConstant: 50).done()
-//        // MARK: - Debugging end
+        // MARK: Debugging Purposes
+        dismissButton.setSuperview(self).addCenterX().addTop(anchor: loginButton.bottomAnchor, constant: 50).addWidth(withConstant: 200).addHeight(withConstant: 50).done()
+        // MARK: - Debugging end
         
         
         bottomImage.setSuperview(self).addBottom().addLeft().addRight().addHeight(withConstant: 180).done()

@@ -14,7 +14,7 @@ var itemArray: [Item] = []
 
 
 
-class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
+class PantryViewController: UIViewController, CustomSegmentedControlDelegate, AddIngredientDelegate {
     var tableView: UITableView!
     
     var ingredients: UserIngredientsModel? {
@@ -54,6 +54,14 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
             tableView.reloadData()
         }
     }
+    
+    func addNewLocalIngredient(item: Item) {
+        allItemArray.append(item)
+        itemArray.append(item) // THIS WILL PUT IT IN THE WRONG PLACE UNTIL YOU RESELECT INDEX IF YOU'RE IN WRONG TAB CURRENTLY
+        print("Expires in: \(item.expiresIn), Shelf Life: \(item.shelfLife)")
+        tableView.reloadData()
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -110,6 +118,11 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
     }
 }
 
+protocol AddIngredientDelegate {
+    func addNewLocalIngredient(item: Item)
+}
+
+
 
 protocol LoginDelegate {
     func fetchIngredients()
@@ -158,7 +171,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         var percentage: Float = 1.0
         if item.expiresIn < 6 {
              let expires = Float (item.expiresIn)
-             percentage = expires / 7.0
+             percentage = expires / Float(min(7.0, Double(item.shelfLife)))
          }
 
         let color = calcColor(expiryPercentage: percentage, item: item)
@@ -179,7 +192,7 @@ extension PantryViewController: UITableViewDelegate, UITableViewDataSource {
         
         if item.expiresIn < 6 {
             let expires = Float (item.expiresIn)
-            percentage = expires / 7.0
+            percentage = expires / Float(min(7.0, Double(item.shelfLife)))
             
             if percentage > 0.5 {
                 green = 1.0

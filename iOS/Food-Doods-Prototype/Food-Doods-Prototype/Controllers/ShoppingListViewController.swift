@@ -13,9 +13,9 @@ var shoppingListItems: [ShoppingItem] =
     [
         ShoppingItem(name: "Carrots", image: UIImage(named: "carrot"), price: 7.99, amount: 500, selected: false),
         ShoppingItem(name: "Cheese", image: UIImage(named: "cheese"), price: 5.99, amount: 75, selected: false),
-        ShoppingItem(name: "Steak", image: UIImage(named: "steak"), price: 29.99, amount: 450, selected: false),
+        ShoppingItem(name: "Steak", image: UIImage(named: "beef"), price: 29.99, amount: 450, selected: false),
         ShoppingItem(name: "Broccoli", image: UIImage(named: "broccoli"), price: 4.99, amount: 300, selected: false),
-        ShoppingItem(name: "Granola Bars", image: UIImage(named: "granola-bars"), price: 12.95, amount: 1300, selected: false)
+        ShoppingItem(name: "Doughnuts", image: UIImage(named: "doughnut"), price: 12.95, amount: 1300, selected: false)
     ]
 
 class ShoppingListViewController: UIViewController {
