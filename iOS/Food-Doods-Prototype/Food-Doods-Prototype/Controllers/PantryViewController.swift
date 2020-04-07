@@ -78,6 +78,9 @@ class PantryViewController: UIViewController, CustomSegmentedControlDelegate {
         loginVC.loginDelegate = self
 
         present(loginVC, animated: false, completion: {})
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.tintColor = .black
     }
     
     lazy var apiCompletion: (UserIngredientsModel) -> Void = {
