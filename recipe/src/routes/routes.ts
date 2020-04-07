@@ -66,6 +66,20 @@ export const initializeRecipeRoutes = (app: Application) => {
         }
     });
 
+    recipeRouter.post('/user/:user_id', async (req: Request, res: Response) => {
+        const user = await UserRecipesModel.findById(req.params.user_id);
+        if (!user) {
+            return res.status(404).send(`No user exists with id ${req.params.user_id}`);
+        }
+        const { recipes } = req.body;
+        if (!Array.isArray(recipes)) {
+            return res.status(400).send('Recipes must be an array');
+        }
+        const newRecipes = new Set(user.recipe_ids.concat(recipes));
+        await user.updateOne({ recipe_ids: [...newRecipes] });
+        return res.status(204).json({ recipes: [...newRecipes] });
+    };
+                      
     /* updates saved list of recipes for user with user_id */
     recipeRouter.patch('/user/:user_id', async (req: Request, res: Response) => {
         try {
