@@ -64,7 +64,7 @@ class RecipeDetailedView: UIView {
     var viewModel: RecipeModel! {
         didSet {
             #warning("Change picture")
-            recipeImage.image = UIImage(named: "beefnoodles")
+            recipeImage.image = UIImage(named: "default-recipe")
             bottomView.recipeLabel.text = viewModel.recipe.name
             
             let timeToCook = viewModel.recipe.time.cook
@@ -103,7 +103,7 @@ class RecipeDetailedView: UIView {
     var recipeImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()

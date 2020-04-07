@@ -17,7 +17,7 @@ class RecipeCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 5
         imageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         imageView.layer.masksToBounds = true
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     var nameLabel: UILabel = {

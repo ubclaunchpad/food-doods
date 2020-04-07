@@ -134,7 +134,7 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
     
     
     func findAPicture(recipeName: String) -> UIImage {
-        return UIImage(named: "beefnoodles")!
+        return UIImage(named: "default-recipe")!
     }
 }
 
