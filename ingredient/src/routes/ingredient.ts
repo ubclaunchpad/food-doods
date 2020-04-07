@@ -6,6 +6,8 @@ import * as controller from '../controllers/ingredient';
  */
 const ingredientRouter = Router();
 
+ingredientRouter.get('/', controller.getIngredients);
+
 ingredientRouter.get('/:id', controller.getIngredients);
 
 ingredientRouter.post('/', controller.postIngredient);
