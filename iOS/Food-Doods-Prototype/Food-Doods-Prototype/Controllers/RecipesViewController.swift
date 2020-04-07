@@ -99,6 +99,8 @@ class RecipesViewController: UIViewController, CustomSegmentedControlDelegate, F
     }
     
     @objc func refreshAPI() {
+        self.serverRecipes.removeAll()
+        self.collectionView.reloadData()
         getSuggestions()
     }
     
