@@ -24,8 +24,24 @@ class AddIngredientViewController: UIViewController {
     var addDelegate: AddIngredientDelegate?
     
     // MARK: Pls use this Alan
-    func scheduleNotification(for seconds: Int) {
+    func scheduleNotification(for seconds: Int, item: Item) {
+        let content = UNMutableNotificationContent()
         
+        content.title = "\(item.name) is expiring today!"
+        content.body = "Be sure to cook your \(Int(item.amount))grams of \(item.name)s today!"
+        content.sound = UNNotificationSound.default
+        content.badge = 1
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(seconds), repeats: false)
+        
+        let identifier = "Local Notification"
+        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if let error = error {
+                print("Error \(error.localizedDescription)")
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -107,7 +123,7 @@ class AddIngredientViewController: UIViewController {
         
         if let delegate = addDelegate {
             delegate.addNewLocalIngredient(item: newItem)
-            scheduleNotification(for: expiryVal * expiryMultiple)
+            scheduleNotification(for: expiryVal * expiryMultiple, item: newItem)
             dismiss(animated: true, completion: {})
         }
     }
