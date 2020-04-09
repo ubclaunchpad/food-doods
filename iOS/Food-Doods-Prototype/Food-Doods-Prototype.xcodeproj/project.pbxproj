@@ -99,7 +99,7 @@
 		6C2E77DC23EF77E600BC35EB /* TestQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestQuery.swift; sourceTree = SOURCE_ROOT; };
 		6C5726742376923C006BE5E5 /* ShoppingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListView.swift; sourceTree = "<group>"; };
 		6C6BCA342363BDF400C61748 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
-		6C7796DC2355871E00052EEB /* Food-Doods-Prototype.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food-Doods-Prototype.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C7796DC2355871E00052EEB /* keepfresh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = keepfresh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C7796DF2355871E00052EEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6C7796E92355871F00052EEB /* Food_Doods_Prototype.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Food_Doods_Prototype.xcdatamodel; sourceTree = "<group>"; };
 		6C7796EB2355872200052EEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 		6C7796DD2355871E00052EEB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6C7796DC2355871E00052EEB /* Food-Doods-Prototype.app */,
+				6C7796DC2355871E00052EEB /* keepfresh.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -300,7 +300,7 @@
 				253FB2E72432BAD4008BD653 /* AlanYanHelpers */,
 			);
 			productName = "Food-Doods-Prototype";
-			productReference = 6C7796DC2355871E00052EEB /* Food-Doods-Prototype.app */;
+			productReference = 6C7796DC2355871E00052EEB /* keepfresh.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -545,7 +545,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Wren.Food-Doods-Prototype";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = keepfresh;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -564,7 +564,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "Wren.Food-Doods-Prototype";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = keepfresh;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
