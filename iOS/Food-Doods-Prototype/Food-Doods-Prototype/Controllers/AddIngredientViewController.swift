@@ -28,7 +28,7 @@ class AddIngredientViewController: UIViewController {
         let content = UNMutableNotificationContent()
         
         content.title = "\(item.name) is expiring today!"
-        content.body = "Be sure to cook your \(Int(item.amount))grams of \(item.name)s today!"
+        content.body = "Be sure to eat your \(Int(item.amount))g of \(item.name) today!"
         content.sound = UNNotificationSound.default
         content.badge = 1
         

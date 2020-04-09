@@ -105,7 +105,7 @@ class AddIngredientView: UIView {
     
     var amountTextField: UITextField = {
         let field = UITextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width-80, height: 50))
-        field.placeholder = "Amount"
+        field.placeholder = "Amount (g)"
         field.translatesAutoresizingMaskIntoConstraints = false
         field.autocorrectionType = .no
         field.autocapitalizationType = .none

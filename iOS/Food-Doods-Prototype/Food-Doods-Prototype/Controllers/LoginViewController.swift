@@ -56,7 +56,7 @@ class LoginViewController: UIViewController {
             self.loginView.statusLabel.text = "Authentication Failed :("
             self.loginView.statusLabel.backgroundColor = UIColor(hex: 0xFF3730)
             self.loginView.statusLabel.isHidden = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
                 self.loginView.statusLabel.isHidden = true
             })
         }
@@ -67,7 +67,7 @@ class LoginViewController: UIViewController {
             delegate.fetchIngredients()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.25, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.00, execute: {
             self.dismissView()
         })
     }
