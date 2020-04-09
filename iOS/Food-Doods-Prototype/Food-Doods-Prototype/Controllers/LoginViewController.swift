@@ -30,6 +30,10 @@ class LoginViewController: UIViewController {
         self.view = loginView
     }
     
+    @objc func insertToken() {
+        UserDefaults.standard.set("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVhdEhlYWx0aHkiLCJpYXQiOjE1ODY0NTQ3OTAxNDgsImV4cCI6MTU4NjQ1NTM5NDk0OH0.fOLcqSyLZtfRrwcEWIGfW18igMGGaBhdQ6TXfze7C6g", forKey: "token")
+    }
+    
     @objc func callLoginAPI() {
         //grab text from text fields
         let username = usernameTextField.text
