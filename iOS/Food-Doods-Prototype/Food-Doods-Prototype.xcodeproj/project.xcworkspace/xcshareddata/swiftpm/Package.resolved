@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AlanYanHelpers",
+        "repositoryURL": "https://github.com/yan-alan/UIKit-Toolbox.git",
+        "state": {
+          "branch": null,
+          "revision": "5c1fc3db39d2d1ab8dd7bb32fe1a5fdbef6f37a0",
+          "version": "0.0.7"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

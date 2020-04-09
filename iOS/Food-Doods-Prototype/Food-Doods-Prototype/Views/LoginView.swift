@@ -27,7 +27,7 @@ class LoginView: UIView {
         field.autocapitalizationType = .none
         field.clipsToBounds = true
         field.layer.cornerRadius = 20
-        field.backgroundColor = .gray
+        field.backgroundColor = .lightGray
 
         return field
     }()
@@ -39,7 +39,7 @@ class LoginView: UIView {
         field.autocapitalizationType = .none
         field.clipsToBounds = true
         field.layer.cornerRadius = 20
-        field.backgroundColor = .gray
+        field.backgroundColor = .lightGray
 
         return field
     }()
@@ -52,6 +52,17 @@ class LoginView: UIView {
         button.backgroundColor = .blue
         button.setTitle("Login", for: .normal)
       
+        return button
+    }()
+    
+    var dismissButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 25
+        button.backgroundColor = .blue
+        button.setTitle("Dismiss", for: .normal)
+        
         return button
     }()
     
@@ -73,6 +84,7 @@ class LoginView: UIView {
         addSubview(usernameTextField)
         addSubview(passwordTextField)
         addSubview(loginButton)
+        addSubview(dismissButton)
       
         setupConstraints()
     }
@@ -96,6 +108,11 @@ class LoginView: UIView {
         loginButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
         loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20).isActive = true
+        
+        dismissButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        dismissButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        dismissButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        dismissButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20).isActive = true
     }
     
     

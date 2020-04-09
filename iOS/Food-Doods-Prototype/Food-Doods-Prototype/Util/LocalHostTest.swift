@@ -24,14 +24,19 @@ class LocalHostTest {
         baseURL = hostName
     }
     
-    public func getIngredientsList() {
-        guard let requestURL = createEndpointURL(for: Service.Ingredient, url: baseURL) else { return }
+    public func postIngredientUser() {
+        guard let requestURL = URL(string: "http://localhost:9000/user") else {
+            return
+        }
         
         var request = URLRequest(url: requestURL)
         
-        request.httpMethod = "GET"
+        request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+        let body = IngredientUserMode(externalId: "1")
+               
+        let encoded = try? JSONEncoder().encode(body)
+        request.httpBody = encoded
         let dataTask = URLSession.shared.dataTask(with: request) {
                     (data, response, error) in
                     if let error = error {
@@ -54,48 +59,128 @@ class LocalHostTest {
         dataTask.resume()
     }
     
-    public func createUser() {
-        guard let requestURL = createEndpointURL(for: Service.User, url: baseURL) else { return }
+    
+    public func getIngredientsList() {
+        guard let requestURL = createEndpointURL(for: Service.Ingredient, url: "http://localhost:9000") else { return }
         
         var request = URLRequest(url: requestURL)
         
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        request.httpBody = createUserHelper()
-        
+   
         let dataTask = URLSession.shared.dataTask(with: request) {
-            (data, response, error) in
-            
-            if let error = error {
-                print("--- Error ---")
-                print(error)
-                return
-            }
-            
-            if let response = response {
-                print("--- Response ---")
-                print(response)
-            }
-            
-            if let data = data {
-                print ("--- Data ---")
-                let str = String(decoding: data, as: UTF8.self)
-                print(str)
-            }
+                    (data, response, error) in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    
+                    if let response = response {
+                        print("--- Response ---")
+                        print(response)
+                    }
+                    
+                    if let data = data {
+                        print ("--- Data ---")
+                        let str = String(decoding: data, as: UTF8.self)
+                        print(str)
+                    }
         }
-        
+                
         dataTask.resume()
     }
     
-    private func createUserHelper() -> Data? {
-        let body = CreateUserModel(email: "wrennyboy@gmail.com", username: "joemama", password: "letmein", fullName: "Joe Mama")
-        
-        let encoded = try? JSONEncoder().encode(body)
-        
-        return encoded
-    }
-    
+//    public func createUser() {
+//        guard let requestURL = createEndpointURL(for: Service.User, url: baseURL) else { return }
+//        
+//        var request = URLRequest(url: requestURL)
+//        
+//        request.httpMethod = "POST"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        
+//        request.httpBody = createUserHelper()
+//        
+//        let dataTask = URLSession.shared.dataTask(with: request) {
+//            (data, response, error) in
+//            
+//            if let error = error {
+//                print("--- Error ---")
+//                print(error)
+//                return
+//            }
+//            
+//            if let response = response as? HTTPURLResponse {
+//                print("--- Response ---")
+//                print(response)
+//                
+//                let token = response.allHeaderFields["token"] as? String
+//                
+//                UserDefaults.standard.set(token, forKey: "token")
+//            }
+//            
+//            if let data = data {
+//                print ("--- Data ---")
+//                let str = String(decoding: data, as: UTF8.self)
+//                print(str)
+//            }
+//        }
+//        
+//        dataTask.resume()
+//    }
+//    
+//    private func createUserHelper() -> Data? {
+//        let body = CreateUserModel(email: "testLogin@gmail.com", username: "foodDoods", password: "password", fullName: "Food Dood")
+//        
+//        let encoded = try? JSONEncoder().encode(body)
+//        
+//        return encoded
+//    }
+//    
+//    public func loginUser(username: String, password: String, token: String) {
+//        guard let requestURL = createEndpointURL(for: Service.User, url: baseURL) else { return }
+//        
+//        var request = URLRequest(url: requestURL)
+//        
+//        let myToken = token
+//        
+//        let login = LoginModel(username: username, password: password)
+//        
+//        request.httpMethod = "POST"
+//        request.addValue(myToken, forHTTPHeaderField: "token")
+//        
+//        request.httpBody = try? JSONEncoder().encode(login)
+//        
+//        let dataTask = URLSession.shared.dataTask(with: request) {
+//            (data, response, error) in
+//            if let error = error {
+//                print(error)
+//                return
+//            }
+//            
+//            if let response = response {
+//                print("--- Response ---")
+//                print(response)
+//            }
+//            
+//            if let data = data {
+//                print ("--- Data ---")
+//                let str = String(decoding: data, as: UTF8.self)
+//                print(str)
+//
+//            }
+//        }
+//        
+//        dataTask.resume()
+//    }
+//    
+//    public func loginUser() {
+//        let defaultUser = "workworkwork"
+//        let password = "1234567"
+//        let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Indvcmt3b3Jrd29yayIsImlhdCI6MTU4NDgxODM0MjgwMSwiZXhwIjoxNTg0ODE4OTQ3NjAxfQ.5VZv0y78xweR4r769zfm0kOP99GQIYymeazyaPcdcAE"
+//        
+//        loginUser(username: defaultUser, password: password, token: token)
+//    }
+
     public func getUser() {
         guard let requestURL = createEndpointURL(for: Service.User, url: baseURL) else { return }
         
@@ -199,7 +284,7 @@ class LocalHostTest {
             returnURL.append("/suggestion")
             break
         case Service.User:
-            returnURL.append("/user/abcabc")
+            returnURL.append("/user")
             break
             
         case Service.Ingredient:

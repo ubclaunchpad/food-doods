@@ -13,9 +13,9 @@ var shoppingListItems: [ShoppingItem] =
     [
         ShoppingItem(name: "Carrots", image: UIImage(named: "carrot"), price: 7.99, amount: 500, selected: false),
         ShoppingItem(name: "Cheese", image: UIImage(named: "cheese"), price: 5.99, amount: 75, selected: false),
-        ShoppingItem(name: "Steak", image: UIImage(named: "steak"), price: 29.99, amount: 450, selected: false),
+        ShoppingItem(name: "Steak", image: UIImage(named: "beef"), price: 29.99, amount: 450, selected: false),
         ShoppingItem(name: "Broccoli", image: UIImage(named: "broccoli"), price: 4.99, amount: 300, selected: false),
-        ShoppingItem(name: "Granola Bars", image: UIImage(named: "granola-bars"), price: 12.95, amount: 1300, selected: false)
+        ShoppingItem(name: "Doughnuts", image: UIImage(named: "doughnut"), price: 12.95, amount: 1300, selected: false)
     ]
 
 class ShoppingListViewController: UIViewController {
@@ -29,7 +29,9 @@ class ShoppingListViewController: UIViewController {
         tableView.delegate = self
         tableView.register(ShoppingListTableViewCell.self, forCellReuseIdentifier: "ShoppingCell")
         tableView.separatorStyle = .none
-        
+        tableView.allowsSelectionDuringEditing = false
+        tableView.allowsMultipleSelectionDuringEditing = false
+
         
         self.view = newView
         
@@ -46,7 +48,7 @@ extension ShoppingListViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 66 + 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,12 +62,11 @@ extension ShoppingListViewController: UITableViewDelegate, UITableViewDataSource
         shoppingCell.foodImage.image = shoppingListItems[indexPath.row].image
         shoppingCell.nameLabel.text = shoppingListItems[indexPath.row].name
         shoppingCell.amountLabel.text = "\(shoppingListItems[indexPath.row].amount) g"
-        shoppingCell.priceLabel.text = "$\(shoppingListItems[indexPath.row].price)"
         
         if shoppingListItems[indexPath.row].selected {
-            shoppingCell.selectedIcon.isHidden = false
+            shoppingCell.selectedIcon.image = UIImage(systemName: "checkmark.square")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         } else {
-            shoppingCell.selectedIcon.isHidden = true
+            shoppingCell.selectedIcon.image = UIImage(systemName: "square")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         }
 
         return shoppingCell

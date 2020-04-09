@@ -21,12 +21,10 @@ struct QueryIngredient: Codable {
     let commonName, databaseID: String
 }
 
-//MARK: TestCreateUserModel
-struct CreateUserModel: Codable {
-    let email, username, password, fullName: String
+// MARK: IngredientUser
+struct IngredientUserMode: Codable {
+    let externalId: String
 }
-
-
 
 // MARK: - RESPONSE DATA STRUCTURES
 struct ResponseHashes: Codable {

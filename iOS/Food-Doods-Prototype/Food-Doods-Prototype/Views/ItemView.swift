@@ -7,27 +7,26 @@
 //
 
 import UIKit
+import AlanYanHelpers
 
 class ItemView: UIView {
-    var itemName: UILabel = {
-        let label = UILabel()
-        
-        label.text = "Name"
-        label.font = UIFont.boldSystemFont(ofSize: 25)
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
-        
-        return label
-    }()
+    var viewModel: Item! {
+        didSet {
+            itemIcon.image = UIImage(named: viewModel.name.lowercased())
+            expiryDate.text = "\(viewModel.expiresIn) days"
+            itemQuantity.text = "\(viewModel.amount) g"
+            locationLabel.text = "in \(viewModel.location.rawValue.uppercased())"
+        }
+    }
     
     var amountText: UILabel = {
         let label = UILabel()
         
         label.text = "Amount"
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont(name: "CircularStd-Book", size: 16)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         
         return label
     }()
@@ -36,9 +35,10 @@ class ItemView: UIView {
         let label = UILabel()
 
         label.text = "#"
-        label.textColor = UIColor.gray
+        label.font = UIFont(name: "CircularStd-Bold", size: 18)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         
         return label
     }()
@@ -47,9 +47,10 @@ class ItemView: UIView {
         let label = UILabel()
         
         label.text = "Expiring in"
-        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.font = UIFont(name: "CircularStd-Book", size: 16)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         
         return label
     }()
@@ -58,89 +59,90 @@ class ItemView: UIView {
         let label = UILabel()
 
         label.text = "# days"
-        label.textColor = UIColor.gray
+        label.font = UIFont(name: "CircularStd-Bold", size: 18)
+        label.textColor = .red
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         
         return label
     }()
     
-    var itemIcon: UIImageView = {
-        let image = UIImageView()
-        image.layer.masksToBounds = true
-        image.layer.borderWidth = 2.0
+    
+    var locationLabel: UILabel = {
+        let label = UILabel()
+
+        label.text = "in LOCATION"
+        label.font = UIFont(name: "CircularStd-Bold", size: 14)
+        label.textColor = UIColor(red: 88/255, green: 214/255, blue: 38/255, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
         
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        
-        image.translatesAutoresizingMaskIntoConstraints = false
-        
-        return image
+        return label
     }()
- 
     
+    var itemIcon = ContentFitImageView()
     
+    var nameInput: UITextField = {
+        let textField = UITextField()
+        
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "Input Name"
+        textField.text = ""
+        textField.borderStyle = UITextField.BorderStyle.bezel
+        textField.textAlignment = .left
     
+        return textField
+    }()
+    
+    var saveButton: UIButton = {
+        let button = UIButton(type: .system)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Save!", for: .normal)
+        button.backgroundColor = UIColor.black
+        button.setTitleColor(UIColor.white, for: .normal)
+                
+        return button
+    }()
+       
+    var topSection = UIView()
+    override class var requiresConstraintBasedLayout: Bool {
+      return true
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupView()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    private func setupView() {
-        backgroundColor = .white
+    func setupView() {
+        self.backgroundColor = .white
         
-        self.addSubview(itemName)
-        self.addSubview(amountText)
-        self.addSubview(itemQuantity)
+        topSection.backgroundColor = .white
+        let shadowView = ShadowUIView(colour: UIColor(hex: 0xD8D8D8), offSet: CGSize(width: 0, height: 5), radius: 3,subLayer: topSection)
+        shadowView.setSuperview(self).addTop().addLeft().addRight().done()
+        itemIcon.setSuperview(self).addLeft(constant: 20).addTopSafe(constant: 20).addWidth(withConstant: 40).addHeight(withConstant: 40).done()
         
-        self.addSubview(expiringText)
-        self.addSubview(expiryDate)
+        expiringText.setSuperview(self).addLeft(constant: 20).addTop(anchor: itemIcon.bottomAnchor, constant: 25).addWidth(withConstant: 100).done()
         
-        self.addSubview(itemIcon)
+        expiryDate.setSuperview(self).addTop(anchor: expiringText.bottomAnchor, constant: 10).addLeft(constant: 20).addWidth(withConstant: 100).done()
         
+        amountText.setSuperview(self).addLeft(anchor: expiringText.rightAnchor, constant: 10).addTop(anchor: itemIcon.bottomAnchor, constant: 25).addWidth(withConstant: 100).done()
         
+        itemQuantity.setSuperview(self).addTop(anchor: amountText.bottomAnchor, constant: 10).addLeft(anchor: expiryDate.rightAnchor, constant: 10).done()
         
-        setupConstraints()
+        locationLabel.setSuperview(self).addLeft(anchor: itemIcon.rightAnchor, constant: 10).addCenterY(anchor: itemIcon.centerYAnchor, constant: 0).done()
+        
+        shadowView.addBottom(anchor: itemQuantity.bottomAnchor, constant: 30).done()
     }
     
-    //MARK: - Constraints Setup
+    //MARK: Constraints Setup
     private func setupConstraints() {
-        //--- itemName Constraints ---//
-        itemName.leftAnchor.constraint(equalTo: itemIcon.rightAnchor, constant: 21).isActive = true
-        itemName.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        
-        //--- amountText Constraints ---//
-        amountText.leftAnchor.constraint(equalTo: itemIcon.rightAnchor, constant: 21).isActive = true
-        amountText.bottomAnchor.constraint(equalTo: itemQuantity.topAnchor, constant: -10).isActive = true
-        
-        //--- itemQuantity Constraints ---//
-        itemQuantity.leftAnchor.constraint(equalTo: itemIcon.rightAnchor, constant: 21).isActive = true
-        itemQuantity.bottomAnchor.constraint(equalTo: itemIcon.bottomAnchor, constant: 0).isActive = true
-        
-        //--- expiringText Constraints ---//
-        expiringText.leftAnchor.constraint(equalTo: amountText.rightAnchor, constant: 21).isActive = true
-        expiringText.bottomAnchor.constraint(equalTo: expiryDate.topAnchor, constant: -10).isActive = true
-        
-        //--- expiryDate Constraints ---//
-        expiryDate.leftAnchor.constraint(equalTo: amountText.rightAnchor, constant: 21).isActive = true
-        expiryDate.bottomAnchor.constraint(equalTo: itemIcon.bottomAnchor, constant: 0).isActive = true
-        
-        //--- itemIcon Constraints ---//
-        itemIcon.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        itemIcon.leftAnchor.constraint(equalTo: leftAnchor, constant: 21).isActive = true
-        itemIcon.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        itemIcon.heightAnchor.constraint(equalToConstant: 150).isActive = true
 
-        
     }
-    
-    
 }
+

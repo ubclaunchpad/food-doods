@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AlanYanHelpers
+
 class SearchBarView: UIView {
     var backView: UIView = {
         let view = UIView()
@@ -30,8 +32,8 @@ class SearchBarView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
-        button.backgroundColor = UIColor(hex: 0x23E103)
-        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.backgroundColor = UIColor(red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        button.setImage(UIImage(systemName: "magnifyingglass")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
         return button
     }()
     override init(frame: CGRect) {
@@ -55,6 +57,8 @@ class SearchBarView: UIView {
     }
     
     func setupConstraints() {
+        
+
         backView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         backView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         backView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
@@ -75,19 +79,31 @@ class SearchBarView: UIView {
 
 class RecipeView: UIView {
     var searchBar = SearchBarView()
-    var segmentControl: UISegmentedControl = {
-        let segments = ["Favorites", "Suggested"]
-        let segmentControl = UISegmentedControl(items: segments)
-        segmentControl.translatesAutoresizingMaskIntoConstraints = false
-        return segmentControl
+    var segmentControl: CustomSegmentedControl = {
+        let control = CustomSegmentedControl()
+        control.backgroundColor = .white
+        control.layer.masksToBounds = false
+        control.clipsToBounds = false
+        control.layer.shadowColor = UIColor.gray.cgColor
+        control.layer.shadowOpacity = 0.2
+        control.layer.shadowOffset = .zero
+        control.layer.shadowRadius = 5
+        control.layer.shadowPath = UIBezierPath(roundedRect: CGRect(x: 0, y: 10, width: UIScreen.main.bounds.width, height: 30), cornerRadius: 0).cgPath
+        control.layer.shouldRasterize = true
+        control.layer.rasterizationScale = UIScreen.main.scale
+        control.translatesAutoresizingMaskIntoConstraints = false
+        control.setButtonTitles(buttonTitles: ["Suggested", "Favourites"])
+        control.selectorViewColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        control.selectorTextColor = UIColor(displayP3Red: 27/255, green: 191/255, blue: 0, alpha: 1)
+        return control
     }()
     var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.allowsSelection = true
+        collection.backgroundColor = .clear
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.backgroundColor = .white
         return collection
     }()
     
@@ -112,20 +128,19 @@ class RecipeView: UIView {
     }
     func setupConstraints() {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-        searchBar.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        searchBar.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        searchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        ShadowUIView(colour: UIColor(hex: 0xE8E8E8),radius: 6,subLayer: searchBar).setSuperview(self).addLeft(constant: 10).addRight(constant: -10).addHeight(withConstant: 40).addTopSafe(constant: 10).done()
+        searchBar.addCorners(20).done()
         
         segmentControl.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10).isActive = true
         segmentControl.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         segmentControl.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        segmentControl.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        segmentControl.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 5).isActive = true
+        collectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 15).isActive = true
         collectionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         collectionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -80).isActive = true
         
     }
 }
