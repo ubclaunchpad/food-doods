@@ -10,7 +10,7 @@
 
 ### Timeline
 **Minimum viable product:** 4 months<br>
-**Full finished product:** 8 months
+**Full finished product:** 8 months</br>
 
 ### Technology
 **Languages:** Swift, Typescript</br>
