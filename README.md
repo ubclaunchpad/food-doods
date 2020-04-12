@@ -10,13 +10,13 @@
 
 ### Timeline
 **Minimum viable product:** 4 months<br>
-**Full finished product:** 8 months</br>
+**Full finished product:** 8 months
 
 ### Technology
 **Languages:** Swift, Typescript</br>
 **Databases:** Mongo, Postgres </br>
-**Design Tools:** Figma, Sketch, InVision</br>
- </br>
+**Design Tools:** Figma, Sketch, InVision
+
 ---
 
 ## Background
