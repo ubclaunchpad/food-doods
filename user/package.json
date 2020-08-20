@@ -20,7 +20,7 @@
         "@types/mongodb": "^3.3.6",
         "@types/mongoose": "^5.5.23",
         "axios": "^0.19.2",
-        "bcrypt": "^3.0.6",
+        "bcrypt": "^5.0.0",
         "body-parser": "^1.19.0",
         "cookie-parser": "~1.4.4",
         "dotenv": "^8.2.0",
